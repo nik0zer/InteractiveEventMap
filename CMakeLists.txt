@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE STRING "Vcpkg toolchain file")
 project("interactive_event_map")
+SET(MYCOMPILE_FLAGS "-pthread")
+
+SET(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} ${MYCOMPILE_FLAGS}")
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${MYCOMPILE_FLAGS}")
 
 file(GLOB SERVER_SRC "server_code/src/*.cpp")
 file(GLOB CLIENT_SRC "client_code/src/*.cpp")
