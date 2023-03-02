@@ -1,0 +1,9 @@
+Package: boost-ratio
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-core, boost-integer, boost-mpl, boost-rational, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 81cf761ef14e52e5ea31d00f9371e2b07380bb9c32a1f457f50b5d0144a53aa4
+Description: Boost ratio module
+Status: install ok half-installed

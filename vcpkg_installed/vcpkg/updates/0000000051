@@ -1,0 +1,9 @@
+Package: boost-container-hash
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-describe, boost-mp11, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: fec7861bdc6e590af87c8ad7f6cb0a6242c6b4f6f77c2db343b6b15d100fa28a
+Description: Boost container_hash module
+Status: install ok installed

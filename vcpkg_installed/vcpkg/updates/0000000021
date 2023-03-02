@@ -1,0 +1,9 @@
+Package: boost-utility
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-core, boost-io, boost-preprocessor, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 39946a4121e60af5a76dd1197b6e4dba5347516101ee51771d1d635c3b997bc9
+Description: Boost utility module
+Status: install ok installed
