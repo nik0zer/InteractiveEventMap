@@ -4,3 +4,4 @@ server_build
 server_build/*
 build
 build/*
+vcpkg_installed/*

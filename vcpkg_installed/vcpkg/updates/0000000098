@@ -1,9 +1,0 @@
-Package: boost-algorithm
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-array, boost-assert, boost-bind, boost-concept-check, boost-config, boost-core, boost-exception, boost-function, boost-iterator, boost-mpl, boost-range, boost-regex, boost-static-assert, boost-throw-exception, boost-tuple, boost-type-traits, boost-unordered, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 87345698c2851a9acd7da2beab5b362f288ebeaff85a9919a188c0cd6953c64a
-Description: Boost algorithm module
-Status: install ok half-installed

@@ -1,9 +1,0 @@
-Package: boost-io
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 3f2a11ec689e60ab32e85a370730dc33fce3915377d05e50e586ea848c2b4f9b
-Description: Boost io module
-Status: install ok installed

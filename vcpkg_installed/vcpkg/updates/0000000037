@@ -1,9 +1,0 @@
-Package: boost-build
-Version: 1.81.0
-Port-Version: 3
-Depends: boost-uninstall
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 5f34efa88d65a40658ec7dbba3c7f33c01b516666a1ac91cd95e2dc0e9d151ae
-Description: Boost.Build
-Status: install ok installed
