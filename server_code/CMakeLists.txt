@@ -1,0 +1,1 @@
+project("InteractiveEventMap_server")
