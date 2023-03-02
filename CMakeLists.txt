@@ -15,7 +15,7 @@ add_executable(InteractiveEventMap_server ${SERVER_SRC})
 
 
 find_package(Boost REQUIRED)
-target_link_libraries(InteractiveEventMap_client PRIVATE Boost::boost)
-
-target_link_libraries(InteractiveEventMap_server PRIVATE Boost::boost)
+find_package(Boost REQUIRED COMPONENTS thread)
+target_link_libraries(InteractiveEventMap_client PRIVATE Boost::boost Boost::thread)
+target_link_libraries(InteractiveEventMap_server PRIVATE Boost::boost Boost::thread)
 
