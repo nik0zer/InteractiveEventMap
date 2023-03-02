@@ -3,5 +3,5 @@
 
 int main()
 {
-    std::cout<<"client"<<std::endl;
+    std::cout<<"server"<<std::endl;
 }

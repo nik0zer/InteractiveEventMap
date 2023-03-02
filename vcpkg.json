@@ -1,0 +1,8 @@
+{
+    "name": "interactiveeventmap",
+    "version-string": "0.1.0",
+    "license": "MIT",
+    "dependencies": [
+        "boost-asio"
+    ]
+}
