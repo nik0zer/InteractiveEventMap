@@ -1,9 +1,0 @@
-Package: boost-type-index
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-container-hash, boost-core, boost-preprocessor, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 6c7ce236760d1b335ad10f856eb157cc0b5711b1316a1e8a537c56feaeeff855
-Description: Boost type_index module
-Status: install ok installed
