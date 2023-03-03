@@ -22,6 +22,28 @@ class ServerConnection
     void set_new_server_ip(std::string server_ip, int port);
     void set_new_server_ip(boost::asio::ip::address server_ip, int port);
     void close_connection();
+
+    template<typename T> void send_data(T data)
+    {
+        if(!_is_connected)
+        {
+            try
+            {
+                connect_to_server();
+            }
+            catch(...)
+            {
+                return;
+            }
+        }
+        
+        boost::asio::streambuf buffer;
+        std::ostream out(&buffer);
+
+        out<<data<<std::endl;
+        write(*_socket_ptr ,buffer);
+    }
+
     ServerConnection(std::string server_ip, int port);
     ServerConnection(boost::asio::ip::address server_ip, int port);
 };
