@@ -4,6 +4,9 @@ ServerConnection::ServerConnection(std::string server_ip, int port)
 {
     _server_ip = boost::asio::ip::address::from_string(server_ip);
     _port = port;
+    _is_connected = false;
+    _is_read = false;
+    _is_written = false;
     _socket_ptr = boost::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
 }
 
@@ -11,6 +14,9 @@ ServerConnection::ServerConnection(boost::asio::ip::address server_ip, int port)
 {
     _server_ip = server_ip;
     _port = port;
+    _is_connected = false;
+    _is_read = false;
+    _is_written = false;
     _socket_ptr = boost::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
 }
 
@@ -51,7 +57,4 @@ void ServerConnection::set_new_server_ip(std::string server_ip, int port)
 {
     set_new_server_ip(boost::asio::ip::address::from_string(server_ip), port);
 }
-
-//template<typename T> void ServerConnection::send_data(T data)
-
 

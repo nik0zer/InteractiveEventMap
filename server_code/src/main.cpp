@@ -4,8 +4,6 @@
 #include <boost/chrono.hpp>
 
 
-//Here is a simple synchronous server:using boost::asio;
-
 typedef boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 
 void client_session(socket_ptr sock)

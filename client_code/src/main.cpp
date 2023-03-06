@@ -17,6 +17,7 @@ int main()
 
     //dont safe to use thread in send if send often several sent data can be shuffle in server buffer
     //ToDo: write system to protect from this or dont use tread for this
+    //add system to protect write threads
 
     thr.join();
     thr_1.join();
