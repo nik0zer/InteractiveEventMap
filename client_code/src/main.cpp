@@ -11,9 +11,12 @@ int main()
     server_connection.connect_to_server();
     std::string b("jkgdfkg");
     boost::thread thr(&ServerConnection::send_data<std::string>, &server_connection, b);
+    std::cout<<"1234567890"<<std::endl;
+    server_connection.read_data();
     boost::thread thr_2(&ServerConnection::send_data<std::string>, &server_connection, b);
     boost::thread thr_3(&ServerConnection::send_data<std::string>, &server_connection, b);
     boost::thread thr_1(&ServerConnection::send_data<int>, &server_connection, 5);
+    std::cout<<server_connection.read_data_array.size()<<std::endl;
 
     //dont safe to use thread in send if send often several sent data can be shuffle in server buffer
     //ToDo: write system to protect from this or dont use tread for this
