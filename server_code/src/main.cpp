@@ -28,8 +28,8 @@ void client_session(socket_ptr sock)
             data.clear();
             try
             {
-                sock->write_some(boost::asio::buffer("2 1\n", 4)); 
-                sock->write_some(boost::asio::buffer("okk", 3)); 
+                std::cout<<"123456"<<std::endl;
+                write(*sock, boost::asio::buffer("123 ok\n", 7));
             }
             catch(...)
             {
