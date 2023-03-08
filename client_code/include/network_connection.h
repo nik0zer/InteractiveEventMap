@@ -15,10 +15,10 @@ class ReadData
 {
   public:
     std::string _data_name;
-    boost::shared_ptr<std::istream> _data_stream_ptr;
+    std::shared_ptr<std::istream> _data_stream_ptr;
 
   public:
-    ReadData(std::string data_name, boost::shared_ptr<std::istream> data_stream_ptr) : _data_name(data_name), _data_stream_ptr(data_stream_ptr){};
+    ReadData(std::string data_name, std::shared_ptr<std::istream> data_stream_ptr) : _data_name(data_name), _data_stream_ptr(data_stream_ptr){};
 };
 
 class ServerConnection
@@ -28,7 +28,7 @@ class ServerConnection
     bool _is_connected;
     boost::asio::io_service _io_service;
     int _port;
-    boost::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
+    std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
     bool _is_written;
     bool _is_read;
 
