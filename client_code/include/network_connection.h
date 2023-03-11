@@ -15,10 +15,10 @@ class ReadData
 {
   public:
     std::string _data_name;
-    std::shared_ptr<std::istream> _data_stream_ptr;
+    std::istream& _data_stream_ptr;
 
   public:
-    ReadData(std::string data_name, std::shared_ptr<std::istream> data_stream_ptr) : _data_name(data_name), _data_stream_ptr(data_stream_ptr){};
+    ReadData(std::string data_name, std::istream& data_stream_ptr) : _data_name(data_name), _data_stream_ptr(data_stream_ptr){};
 };
 
 class ServerConnection

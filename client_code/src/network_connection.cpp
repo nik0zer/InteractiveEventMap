@@ -73,24 +73,26 @@ void ServerConnection::read_data()
 
     _is_read = true;
     boost::asio::streambuf data_buffer;
-    std::shared_ptr<std::istream> data_stream_ptr;
+    // std::shared_ptr<std::istream> data_stream_ptr;
+    // std::istream data_stream;
+
+    std::istream data_stream(&data_buffer);
+    
+
     std::string name;
     
     try
     {
         boost::asio::read_until(*_socket_ptr, data_buffer, "\n");  
+        //
         std::cout<<"start of read"<<std::endl;
-        std::shared_ptr<std::istream> temp_data_stream_ptr(new std::istream(&data_buffer));
-        data_stream_ptr = temp_data_stream_ptr;
-        //std::istream data_stream(&data_buffer);
-        //std::cout<<data_stream_ptr->rdbuf()<<std::endl;
-        (*data_stream_ptr)>>name;
-        //char delim;
-        //data_stream>>delim;
-        data_stream_ptr->ignore(1);
+        // data_stream_ptr.reset(new std::istream(&data_buffer));
+
+        data_stream >> name;
+        data_stream.ignore(1);
+
         std::cout<<name<<" - name part"<<std::endl;
-        std::cout<<data_stream_ptr->rdbuf()<<" - buffer part"<<std::endl;
-        
+        //std::cout<<data_stream.rdbuf()<<" - buffer part"<<std::endl;
         std::cout<<"end of read"<<std::endl;
     }
     catch(const std::exception& e)
@@ -100,11 +102,12 @@ void ServerConnection::read_data()
         std::cerr << e.what() << '\n';
         return;
     }
+    std::cout<<"after try"<<std::endl;
+    std::cout<<data_stream.rdbuf()<<" - buffer part"<<std::endl;
 
-    std::cout<<data_stream_ptr->rdbuf()<<" - buffer part"<<std::endl;
-    std::cout<<"12345678901234567890"<<std::endl;
+    std::cout<<"after use shared_ptr"<<std::endl;
 
-    ReadData _read_data((name), data_stream_ptr);
+    ReadData _read_data(name, data_stream);
     read_data_array.push_back(_read_data);
     _is_read = false;
 }
