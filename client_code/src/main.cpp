@@ -22,11 +22,6 @@ int main()
         std::cout<<"name: "<<server_connection.read_data_array[i]._data_name<<"   buffer: "
         <<*(server_connection.read_data_array[i]._data_str_ptr)<<std::endl;
     }
-
-    //dont safe to use thread in send if send often several sent data can be shuffle in server buffer
-    //ToDo: write system to protect from this or dont use tread for this
-    //add system to protect write threads
-
     
     server_connection.close_connection();
     std::cout<<"client"<<std::endl;
