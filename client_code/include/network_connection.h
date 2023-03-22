@@ -15,10 +15,11 @@ class ReadData
 {
   public:
     std::string _data_name;
-    std::istream& _data_stream_ptr;
+    std::shared_ptr<std::string> _data_str_ptr;
 
   public:
-    ReadData(std::string data_name, std::istream& data_stream_ptr) : _data_name(data_name), _data_stream_ptr(data_stream_ptr){};
+    ReadData(std::string data_name, std::shared_ptr<std::string> data_str_ptr) :
+    _data_name(data_name), _data_str_ptr(data_str_ptr){};
 };
 
 class ServerConnection
@@ -42,55 +43,58 @@ class ServerConnection
     void set_new_server_ip(boost::asio::ip::address server_ip, int port);
     void close_connection();
     void read_data();
-    void thread_read_data();
+    boost::thread thread_read_data();
+
+    template<typename T> boost::thread thread_send_data(T data)
+    {
+      return boost::thread(&ServerConnection::send_data<T>, this, data);
+    }
     
     template<typename T> void send_data(T data)
     {
-        while(_is_written)
-        {
-            std::cout<<"..."<<std::endl;
-        }
+      while(_is_written)
+      {
+      }
 
-        _is_written = true;
-        if(!_is_connected)
-        {
-            try
-            {
-                connect_to_server();
-            }
-            catch(const std::exception& e)
-            {
-                std::cerr << e.what() << '\n';
-                _is_written = false;
-                return;
-            }
-        }
-        
-        boost::asio::streambuf buffer;
-        std::ostream out(&buffer);
-        size_t written_length = 0;
-        out<<data<<std::endl;
-
-        size_t buffer_size = buffer.size();
-
-        try
-        {
-            written_length = write(*_socket_ptr, buffer);
-        }
-        catch(const std::exception& e)
-        {
+      _is_written = true;
+      if(!_is_connected)
+      {
+          try
+          {
+            connect_to_server();
+          }
+          catch(const std::exception& e)
+          {
             std::cerr << e.what() << '\n';
             _is_written = false;
             return;
-        }
+          }
+      }
+      
+      boost::asio::streambuf buffer;
+      std::ostream out(&buffer);
+      size_t written_length = 0;
+      out<<data<<std::endl;
 
+      size_t buffer_size = buffer.size();
+
+      try
+      {
+        written_length = write(*_socket_ptr, buffer);
+      }
+      catch(const std::exception& e)
+      {
+        std::cerr << e.what() << '\n';
         _is_written = false;
+        return;
+      }
 
-        if(written_length != buffer_size)
-        {
-            return;
-        }
-            
+      _is_written = false;
+
+      if(written_length != buffer_size)
+      {
+        return;
+      }
     }
 
     ServerConnection(std::string server_ip, int port);

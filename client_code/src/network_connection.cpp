@@ -63,7 +63,6 @@ void ServerConnection::read_data()
 {
     while(_is_read)
     {
-        std::cout<<".."<<std::endl;
     }
 
     if(!_is_connected)
@@ -72,28 +71,19 @@ void ServerConnection::read_data()
     }
 
     _is_read = true;
+
     boost::asio::streambuf data_buffer;
-    // std::shared_ptr<std::istream> data_stream_ptr;
-    // std::istream data_stream;
-
     std::istream data_stream(&data_buffer);
-    
-
+    std::shared_ptr<std::string> data_str_ptr = std::shared_ptr<std::string>(new std::string());
     std::string name;
     
     try
     {
-        boost::asio::read_until(*_socket_ptr, data_buffer, "\n");  
-        //
-        std::cout<<"start of read"<<std::endl;
-        // data_stream_ptr.reset(new std::istream(&data_buffer));
+        boost::asio::read_until(*_socket_ptr, data_buffer, "\n");
 
         data_stream >> name;
         data_stream.ignore(1);
-
-        std::cout<<name<<" - name part"<<std::endl;
-        //std::cout<<data_stream.rdbuf()<<" - buffer part"<<std::endl;
-        std::cout<<"end of read"<<std::endl;
+        std::getline(data_stream, (*data_str_ptr), '\n');
     }
     catch(const std::exception& e)
     {
@@ -102,18 +92,13 @@ void ServerConnection::read_data()
         std::cerr << e.what() << '\n';
         return;
     }
-    std::cout<<"after try"<<std::endl;
-    std::cout<<data_stream.rdbuf()<<" - buffer part"<<std::endl;
 
-    std::cout<<"after use shared_ptr"<<std::endl;
-
-    ReadData _read_data(name, data_stream);
+    ReadData _read_data(name, data_str_ptr);
     read_data_array.push_back(_read_data);
     _is_read = false;
 }
 
-void ServerConnection::thread_read_data()
+boost::thread ServerConnection::thread_read_data()
 {
-    boost::thread(&ServerConnection::read_data, this);
+    return boost::thread(&ServerConnection::read_data, this);
 }
-
