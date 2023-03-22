@@ -4,9 +4,7 @@
 #include <boost/chrono.hpp>
 
 
-//Here is a simple synchronous server:using boost::asio;
-
-typedef boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
+typedef std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 
 void client_session(socket_ptr sock)
  {
@@ -30,7 +28,8 @@ void client_session(socket_ptr sock)
             data.clear();
             try
             {
-                sock->write_some(boost::asio::buffer("ok", 2)); 
+                std::cout<<"123456"<<std::endl;
+                write(*sock, boost::asio::buffer("123 notok\n", 10));
             }
             catch(...)
             {

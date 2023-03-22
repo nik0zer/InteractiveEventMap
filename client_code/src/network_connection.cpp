@@ -4,14 +4,20 @@ ServerConnection::ServerConnection(std::string server_ip, int port)
 {
     _server_ip = boost::asio::ip::address::from_string(server_ip);
     _port = port;
-    _socket_ptr = boost::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
+    _is_connected = false;
+    _is_read = false;
+    _is_written = false;
+    _socket_ptr = std::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
 }
 
 ServerConnection::ServerConnection(boost::asio::ip::address server_ip, int port)
 {
     _server_ip = server_ip;
     _port = port;
-    _socket_ptr = boost::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
+    _is_connected = false;
+    _is_read = false;
+    _is_written = false;
+    _socket_ptr = std::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
 }
 
 void ServerConnection::connect_to_server()
@@ -21,8 +27,9 @@ void ServerConnection::connect_to_server()
     {
         _socket_ptr->connect(endpoint);
     }
-    catch(...)
+    catch(const std::exception& e)
     {
+        std::cerr << e.what() << '\n';
         return;
     }
     _is_connected = true;
@@ -44,7 +51,7 @@ void ServerConnection::set_new_server_ip(boost::asio::ip::address server_ip, int
     _server_ip = server_ip;
     _port = port;
     _socket_ptr.reset();
-    _socket_ptr = boost::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
+    _socket_ptr = std::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
 }
 
 void ServerConnection::set_new_server_ip(std::string server_ip, int port)
@@ -52,6 +59,46 @@ void ServerConnection::set_new_server_ip(std::string server_ip, int port)
     set_new_server_ip(boost::asio::ip::address::from_string(server_ip), port);
 }
 
-//template<typename T> void ServerConnection::send_data(T data)
+void ServerConnection::read_data()
+{
+    while(_is_read)
+    {
+    }
 
+    if(!_is_connected)
+    {
+        connect_to_server();
+    }
 
+    _is_read = true;
+
+    boost::asio::streambuf data_buffer;
+    std::istream data_stream(&data_buffer);
+    std::shared_ptr<std::string> data_str_ptr = std::shared_ptr<std::string>(new std::string());
+    std::string name;
+    
+    try
+    {
+        boost::asio::read_until(*_socket_ptr, data_buffer, "\n");
+
+        data_stream >> name;
+        data_stream.ignore(1);
+        std::getline(data_stream, (*data_str_ptr), '\n');
+    }
+    catch(const std::exception& e)
+    {
+        //send smth to server about err
+        _is_read = false;
+        std::cerr << e.what() << '\n';
+        return;
+    }
+
+    ReadData _read_data(name, data_str_ptr);
+    read_data_array.push_back(_read_data);
+    _is_read = false;
+}
+
+boost::thread ServerConnection::thread_read_data()
+{
+    return boost::thread(&ServerConnection::read_data, this);
+}
