@@ -6,11 +6,6 @@
 #include <boost/chrono.hpp>
 #include <iostream>
 
-enum SERVERCONNECTION_CONSTANTS
-{
-    NUM_BUFFER_SIZE = 512
-};
-
 class ReadData
 {
   private:
@@ -34,12 +29,15 @@ class ServerConnection
     std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
     bool _is_written;
     bool _is_read;
+    template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
+    {
+      std::ostream out(buffer_ptr.get());
+      out<<data<<std::endl;
+    }
+    void send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr);
 
   public:
     std::vector<ReadData> read_data_array;
-    
-
-  public:
     void connect_to_server();
     void set_new_server_ip(std::string server_ip, int port);
     void set_new_server_ip(boost::asio::ip::address server_ip, int port);
@@ -51,52 +49,12 @@ class ServerConnection
     {
       return boost::thread(&ServerConnection::send_data<T>, this, data);
     }
-    
+
     template<typename T> void send_data(T data)
     {
-      while(_is_written)
-      {
-      }
-
-      _is_written = true;
-      if(!_is_connected)
-      {
-          try
-          {
-            connect_to_server();
-          }
-          catch(const std::exception& e)
-          {
-            std::cerr << e.what() << '\n';
-            _is_written = false;
-            return;
-          }
-      }
-      
-      boost::asio::streambuf buffer;
-      std::ostream out(&buffer);
-      size_t written_length = 0;
-      out<<data<<std::endl;
-
-      size_t buffer_size = buffer.size();
-
-      try
-      {
-        written_length = write(*_socket_ptr, buffer);
-      }
-      catch(const std::exception& e)
-      {
-        std::cerr << e.what() << '\n';
-        _is_written = false;
-        return;
-      }
-
-      _is_written = false;
-
-      if(written_length != buffer_size)
-      {
-        return;
-      }
+      std::shared_ptr<boost::asio::streambuf> buffer_ptr = std::shared_ptr<boost::asio::streambuf>(new boost::asio::streambuf);
+      data_to_buffer(data, buffer_ptr);
+      send_buffer(buffer_ptr);
     }
 
     ServerConnection(std::string server_ip, int port);
