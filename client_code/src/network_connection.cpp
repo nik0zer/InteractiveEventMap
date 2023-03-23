@@ -102,3 +102,68 @@ boost::thread ServerConnection::thread_read_data()
 {
     return boost::thread(&ServerConnection::read_data, this);
 }
+
+//dont use destructor if thread funcs is used in the moment
+ServerConnection::~ServerConnection()
+{
+    if(_is_connected)
+    {
+        close_connection();
+    }
+}
+
+std::string ReadData::data_name()
+{
+    return _data_name;
+}
+
+std::string ReadData::data_str()
+{
+    return (*_data_str_ptr);
+}
+
+void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
+{
+
+    while(_is_written)
+      {
+      }
+      _is_written = true;
+      
+      if(!_is_connected)
+      {
+          try
+          {
+            connect_to_server();
+          }
+          catch(const std::exception& e)
+          {
+            std::cerr << e.what() << '\n';
+            _is_written = false;
+            return;
+          }
+      }
+      
+      
+      size_t written_length = 0;
+
+      size_t buffer_size = (*buffer_ptr).size();
+
+      try
+      {
+        written_length = write(*_socket_ptr, (*buffer_ptr));
+      }
+      catch(const std::exception& e)
+      {
+        std::cerr << e.what() << '\n';
+        _is_written = false;
+        return;
+      }
+
+      _is_written = false;
+
+      if(written_length != buffer_size)
+      {
+        return;
+      }
+}
