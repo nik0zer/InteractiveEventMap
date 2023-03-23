@@ -19,8 +19,8 @@ int main()
     std::cout<<server_connection.read_data_array.size()<<std::endl;
     for(int i = 0; i < server_connection.read_data_array.size(); i++)
     {
-        std::cout<<"name: "<<server_connection.read_data_array[i]._data_name<<"   buffer: "
-        <<*(server_connection.read_data_array[i]._data_str_ptr)<<std::endl;
+        std::cout<<"name: "<<server_connection.read_data_array[i].data_name()<<"   buffer: "
+        <<server_connection.read_data_array[i].data_str()<<std::endl;
     }
     
     server_connection.close_connection();

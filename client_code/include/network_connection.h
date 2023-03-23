@@ -13,11 +13,13 @@ enum SERVERCONNECTION_CONSTANTS
 
 class ReadData
 {
-  public:
+  private:
     std::string _data_name;
     std::shared_ptr<std::string> _data_str_ptr;
 
   public:
+    std::string data_name();
+    std::string data_str();
     ReadData(std::string data_name, std::shared_ptr<std::string> data_str_ptr) :
     _data_name(data_name), _data_str_ptr(data_str_ptr){};
 };
@@ -99,6 +101,7 @@ class ServerConnection
 
     ServerConnection(std::string server_ip, int port);
     ServerConnection(boost::asio::ip::address server_ip, int port);
+    ~ServerConnection();
 };
 
 #endif

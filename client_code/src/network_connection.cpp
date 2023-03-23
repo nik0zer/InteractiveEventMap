@@ -102,3 +102,22 @@ boost::thread ServerConnection::thread_read_data()
 {
     return boost::thread(&ServerConnection::read_data, this);
 }
+
+//dont use destructor if thread funcs is used in the moment
+ServerConnection::~ServerConnection()
+{
+    if(_is_connected)
+    {
+        close_connection();
+    }
+}
+
+std::string ReadData::data_name()
+{
+    return _data_name;
+}
+
+std::string ReadData::data_str()
+{
+    return (*_data_str_ptr);
+}
