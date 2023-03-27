@@ -52,7 +52,7 @@ class ServerConnection
 
     template<typename T> void send_data(T data)
     {
-      std::shared_ptr<boost::asio::streambuf> buffer_ptr = std::shared_ptr<boost::asio::streambuf>(new boost::asio::streambuf);
+      std::shared_ptr<boost::asio::streambuf> buffer_ptr(new boost::asio::streambuf);
       data_to_buffer(data, buffer_ptr);
       send_buffer(buffer_ptr);
     }

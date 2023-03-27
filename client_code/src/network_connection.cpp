@@ -74,7 +74,7 @@ void ServerConnection::read_data()
 
     boost::asio::streambuf data_buffer;
     std::istream data_stream(&data_buffer);
-    std::shared_ptr<std::string> data_str_ptr = std::shared_ptr<std::string>(new std::string());
+    std::shared_ptr<std::string> data_str_ptr(new std::string());
     std::string name;
     
     try

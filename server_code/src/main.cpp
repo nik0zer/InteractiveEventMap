@@ -43,7 +43,7 @@ void client_session(socket_ptr sock)
 int main()
 {
     boost::asio::io_service service;
-    boost::asio::ip::tcp::endpoint ep(boost::asio::ip::tcp::v4(), 2001); // listen on 80
+    boost::asio::ip::tcp::endpoint ep(boost::asio::ip::tcp::v4(), 2001); // listen on 2001
     boost::asio::ip::tcp::acceptor acc(service, ep);
     while ( true) 
     {
