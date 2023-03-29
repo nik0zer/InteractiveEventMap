@@ -166,3 +166,4 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         return;
     }
 }
+

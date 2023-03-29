@@ -9,9 +9,10 @@ typedef std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 
 void client_session(Client_connection client_connection)
  {
-    std::cout<<"client_session"<<std::endl;
+    
     while ( true)
      {
+        std::cout<<"client_session"<<std::endl;
             try
             {
                 std::string b("123 notok\n");

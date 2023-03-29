@@ -3,6 +3,7 @@
 #include <boost/thread.hpp>
 #include <boost/chrono.hpp>
 
+
 Client::Client(int client_id, std::shared_ptr<boost::thread> client_session_ptr, std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr)
 {
     this->client_id = client_id;
@@ -30,7 +31,6 @@ void Server::client_waiting(void client_session(Client_connection client_connect
         std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr(new boost::asio::ip::tcp::socket(_io_service));
         acceptor.accept(*socket_ptr);
 
-        std::cout<<"1"<<std::endl;
         std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, Client_connection(socket_ptr)));
 
         clients.push_back(Client(free_client_id[0], thread_ptr, socket_ptr));
@@ -79,9 +79,21 @@ void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buff
     {
         written_length = write(*_socket_ptr, (*buffer_ptr));
     }
+    catch(boost::system::system_error e)
+    {
+        std::cout << e.what() << " system_error" << std::endl;
+        if(e.code().value() == BROKEN_PIPE_ERROR || e.code().value() == CONNECTION_RESET_BY_PEER)
+        {
+            _socket_ptr->close();
+            throw(e);
+            return;
+        }
+        _is_written = false;
+        return;
+    }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
         _is_written = false;
         return;
     }
@@ -92,5 +104,66 @@ void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buff
     {
         return;
     }
+}
+
+std::string ReadData::data_name()
+{
+    return _data_name;
+}
+
+std::string ReadData::data_str()
+{
+    return (*_data_str_ptr);
+}
+
+boost::thread Client_connection::thread_read_data()
+{
+    return boost::thread(&Client_connection::read_data, this);
+}
+
+void Client_connection::read_data()
+{
+    while(_is_read)
+    {
+    }
+
+    _is_read = true;
+
+    boost::asio::streambuf data_buffer;
+    std::istream data_stream(&data_buffer);
+    std::shared_ptr<std::string> data_str_ptr(new std::string());
+    std::string name;
+    
+    try
+    {
+        boost::asio::read_until(*_socket_ptr, data_buffer, "\n");
+
+        data_stream >> name;
+        data_stream.ignore(1);
+        std::getline(data_stream, (*data_str_ptr), '\n');
+    }
+    catch(boost::system::system_error e)
+    {
+        std::cout << e.what() << " system_error" << std::endl;
+        if(e.code().value() == BROKEN_PIPE_ERROR || e.code().value() == CONNECTION_RESET_BY_PEER)
+        {
+            _socket_ptr->close();
+            throw(e);
+            return;
+        }
+        _is_read = false;
+        return;
+    }
+    catch(const std::exception& e)
+    {
+        //send smth to server about err
+        _is_read = false;
+        std::cerr << e.what() << '\n';
+        return;
+    }
+
+    ReadData _read_data(name, data_str_ptr);
+    read_data_array.push_back(_read_data);
+    _is_read = false;
 }
 
