@@ -13,8 +13,7 @@ enum
 
 enum ERRORS
 {
-    BROKEN_PIPE_ERROR = 32,
-    CONNECTION_RESET_BY_PEER = 104
+    END_OF_FILE = 2
 };
 
 class ReadData

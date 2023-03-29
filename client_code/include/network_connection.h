@@ -6,6 +6,11 @@
 #include <boost/chrono.hpp>
 #include <iostream>
 
+enum ERRORS
+{
+    END_OF_FILE = 2
+};
+
 class ReadData
 {
   private:

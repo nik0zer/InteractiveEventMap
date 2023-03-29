@@ -13,8 +13,14 @@ int main()
     
     boost::thread thr = server_connection.thread_send_data(b);
     boost::thread r_thr_1 = server_connection.thread_read_data();
+    boost::thread thr_1 = server_connection.thread_send_data(b);
+    boost::thread r_thr_2 = server_connection.thread_read_data();
+    boost::thread thr_2 = server_connection.thread_send_data(b);
     thr.join();
+    thr_1.join();
+    thr_2.join();
     r_thr_1.join();
+    r_thr_2.join();
 
     std::cout<<server_connection.read_data_array.size()<<std::endl;
     for(int i = 0; i < server_connection.read_data_array.size(); i++)
