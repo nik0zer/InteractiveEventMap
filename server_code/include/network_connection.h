@@ -8,7 +8,7 @@
 
 enum
 {
-    MAX_OF_CLIENTS = 512
+    MAX_OF_CLIENTS = 4
 };
 
 enum ERRORS
@@ -59,6 +59,11 @@ class Client_connection
         std::vector<ReadData> read_data_array;
         void read_data();
         boost::thread thread_read_data();
+        
+        template<typename T> boost::thread thread_send_data(T data)
+        {
+            return boost::thread(&ServerConnection::send_data<T>, this, data);
+        }
 
         template<typename T> void send_data(T data)
         {

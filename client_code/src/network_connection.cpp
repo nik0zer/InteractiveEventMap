@@ -63,6 +63,7 @@ void ServerConnection::read_data()
 {
     while(_is_read)
     {
+        std::cout<<"."<<std::endl;
     }
 
     if(!_is_connected)
@@ -91,6 +92,7 @@ void ServerConnection::read_data()
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             _socket_ptr->close();
+            _is_read = false;
             throw(e);
             return;
         }
@@ -138,6 +140,7 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
 {
     while(_is_written)
     {
+        std::cout<<".."<<std::endl;
     }
     _is_written = true;
     
@@ -170,6 +173,7 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
         {
             _socket_ptr->close();
+            _is_written = false;
             throw(e);
             return;
         }
