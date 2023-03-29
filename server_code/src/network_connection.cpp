@@ -82,7 +82,7 @@ void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buff
     catch(boost::system::system_error e)
     {
         std::cout << e.what() << " system_error" << std::endl;
-        if(e.code().value() == BROKEN_PIPE_ERROR || e.code().value() == CONNECTION_RESET_BY_PEER)
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
         {
             _socket_ptr->close();
             throw(e);
@@ -145,7 +145,7 @@ void Client_connection::read_data()
     catch(boost::system::system_error e)
     {
         std::cout << e.what() << " system_error" << std::endl;
-        if(e.code().value() == BROKEN_PIPE_ERROR || e.code().value() == CONNECTION_RESET_BY_PEER)
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             _socket_ptr->close();
             throw(e);

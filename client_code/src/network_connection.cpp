@@ -85,6 +85,18 @@ void ServerConnection::read_data()
         data_stream.ignore(1);
         std::getline(data_stream, (*data_str_ptr), '\n');
     }
+    catch(boost::system::system_error e)
+    {
+        std::cout << e.what() << " system_error" << std::endl;
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
+        {
+            _socket_ptr->close();
+            throw(e);
+            return;
+        }
+        _is_read = false;
+        return;
+    }
     catch(const std::exception& e)
     {
         //send smth to server about err
@@ -152,9 +164,21 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     {
         written_length = write(*_socket_ptr, (*buffer_ptr));
     }
+    catch(boost::system::system_error e)
+    {
+        std::cout << e.what() << " system_error" << std::endl;
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
+        {
+            _socket_ptr->close();
+            throw(e);
+            return;
+        }
+        _is_written = false;
+        return;
+    }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cout << e.what() << std::endl;
         _is_written = false;
         return;
     }

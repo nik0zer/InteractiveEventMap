@@ -10,7 +10,7 @@ typedef std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 void client_session(Client_connection client_connection)
  {
     
-    while ( true)
+    while (true)
      {
         std::cout<<"client_session"<<std::endl;
         try
@@ -24,11 +24,12 @@ void client_session(Client_connection client_connection)
             std::cout<<"connection closed"<<std::endl;
             return;
         }
-        
+
         try
         {
             std::string b("123 notok\n");
-            client_connection.send_data(b);
+            client_connection.send_data(client_connection.read_data_array[0].data_name() + " " + 
+            client_connection.read_data_array[0].data_str());
         }
         catch(...)
         {
