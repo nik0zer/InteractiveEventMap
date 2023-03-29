@@ -9,7 +9,7 @@ int main()
     boost::asio::io_service io_service;
     ServerConnection server_connection(std::string("127.0.0.1"), 2001);
     server_connection.connect_to_server();
-    std::string b("jkgdfkg");
+    std::string b("1 ...\n");
     
     boost::thread thr = server_connection.thread_send_data(b);
     boost::thread r_thr_1 = server_connection.thread_read_data();

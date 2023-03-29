@@ -74,7 +74,7 @@ void ServerConnection::read_data()
 
     boost::asio::streambuf data_buffer;
     std::istream data_stream(&data_buffer);
-    std::shared_ptr<std::string> data_str_ptr = std::shared_ptr<std::string>(new std::string());
+    std::shared_ptr<std::string> data_str_ptr(new std::string());
     std::string name;
     
     try
@@ -124,46 +124,46 @@ std::string ReadData::data_str()
 
 void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
 {
-
     while(_is_written)
-      {
-      }
-      _is_written = true;
-      
-      if(!_is_connected)
-      {
-          try
-          {
+    {
+    }
+    _is_written = true;
+    
+    if(!_is_connected)
+    {
+        try
+        {
             connect_to_server();
-          }
-          catch(const std::exception& e)
-          {
+        }
+        catch(const std::exception& e)
+        {
             std::cerr << e.what() << '\n';
             _is_written = false;
             return;
-          }
-      }
-      
-      
-      size_t written_length = 0;
+        }
+    }
+    
+    
+    size_t written_length = 0;
 
-      size_t buffer_size = (*buffer_ptr).size();
+    size_t buffer_size = (*buffer_ptr).size();
 
-      try
-      {
+    try
+    {
         written_length = write(*_socket_ptr, (*buffer_ptr));
-      }
-      catch(const std::exception& e)
-      {
+    }
+    catch(const std::exception& e)
+    {
         std::cerr << e.what() << '\n';
         _is_written = false;
         return;
-      }
+    }
 
-      _is_written = false;
+    _is_written = false;
 
-      if(written_length != buffer_size)
-      {
+    if(written_length != buffer_size)
+    {
         return;
-      }
+    }
 }
+
