@@ -13,31 +13,33 @@ void client_session(Client_connection client_connection)
     while ( true)
      {
         std::cout<<"client_session"<<std::endl;
-            try
-            {
-                std::string b("123 notok\n");
-                client_connection.send_data(b);
-            }
-            catch(...)
-            {
-                std::cout<<"connection closed"<<std::endl;
-                return;
-            }
+        try
+        {
+            client_connection.read_data();
+            std::cout<<"name: "<<client_connection.read_data_array[0].data_name()<<"   buffer: "
+            <<client_connection.read_data_array[0].data_str()<<std::endl;
+        }
+        catch(...)
+        {
+            std::cout<<"connection closed"<<std::endl;
+            return;
+        }
+        
+        try
+        {
+            std::string b("123 notok\n");
+            client_connection.send_data(b);
+        }
+        catch(...)
+        {
+            std::cout<<"connection closed"<<std::endl;
+            return;
+        }
     }
 }
 
 int main()
 {
-    // boost::asio::io_service service;
-    // boost::asio::ip::tcp::endpoint ep(boost::asio::ip::tcp::v4(), 2001); // listen on 2001
-    // boost::asio::ip::tcp::acceptor acc(service, ep);
-    // while ( true) 
-    // {
-    //     socket_ptr sock(new boost::asio::ip::tcp::socket(service));
-    //     acc.accept(*sock);
-    //     boost::thread(client_session, sock);
-    // }
-
     Server server(2001);
     server.client_waiting(client_session);
 }
