@@ -1,2 +1,2 @@
 # InteractiveEventMap
-C++ group project for 4th semestr of studying programming in MIPT 
+Group project in C++ for the 4th semester of programming training at MIPT
