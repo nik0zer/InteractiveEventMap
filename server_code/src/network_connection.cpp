@@ -175,3 +175,15 @@ void Client_connection::read_data()
     _is_read = false;
 }
 
+void Client_connection::cycle_read()
+{
+    while(true)
+    {
+        this->read_data();
+    }
+}
+
+boost::thread Client_connection::thread_cycle_read()
+{
+    return boost::thread(&Client_connection::cycle_read, this);
+}
