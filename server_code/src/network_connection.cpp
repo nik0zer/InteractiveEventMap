@@ -35,6 +35,12 @@ void Server::client_waiting(void client_session(Client_connection client_connect
 
         clients.push_back(Client(free_client_id[0], thread_ptr, socket_ptr));
         free_client_id.erase(free_client_id.begin());
+        for(auto i = free_client_id.begin(); i != free_client_id.end(); i++)
+        {
+            std::cout<<*i<<" ";
+        }
+        std::cout<<std::endl;
+        
 
         if(!free_client_id.size())
         {
@@ -85,6 +91,7 @@ void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buff
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
         {
             _socket_ptr->close();
+            _is_written = false;
             throw(e);
             return;
         }
@@ -148,6 +155,7 @@ void Client_connection::read_data()
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             _socket_ptr->close();
+            _is_read = false;
             throw(e);
             return;
         }
@@ -167,3 +175,15 @@ void Client_connection::read_data()
     _is_read = false;
 }
 
+void Client_connection::cycle_read()
+{
+    while(true)
+    {
+        this->read_data();
+    }
+}
+
+boost::thread Client_connection::thread_cycle_read()
+{
+    return boost::thread(&Client_connection::cycle_read, this);
+}
