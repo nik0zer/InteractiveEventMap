@@ -72,10 +72,7 @@ bool Client::check_connection()
 
 void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
 {
-    while(_is_written)
-    {
-    }
-    _is_written = true;  
+    write_mutex.lock();
     
     size_t written_length = 0;
 
@@ -91,21 +88,21 @@ void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buff
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
         {
             _socket_ptr->close();
-            _is_written = false;
+            write_mutex.unlock();
             throw(e);
             return;
         }
-        _is_written = false;
+        write_mutex.unlock();
         return;
     }
     catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
-        _is_written = false;
+        write_mutex.unlock();
         return;
     }
 
-    _is_written = false;
+    write_mutex.unlock();
 
     if(written_length != buffer_size)
     {
@@ -130,11 +127,7 @@ boost::thread Client_connection::thread_read_data()
 
 void Client_connection::read_data()
 {
-    while(_is_read)
-    {
-    }
-
-    _is_read = true;
+    read_mutex.lock();
 
     boost::asio::streambuf data_buffer;
     std::istream data_stream(&data_buffer);
@@ -155,24 +148,24 @@ void Client_connection::read_data()
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             _socket_ptr->close();
-            _is_read = false;
+            read_mutex.unlock();
             throw(e);
             return;
         }
-        _is_read = false;
+        read_mutex.unlock();
         return;
     }
     catch(const std::exception& e)
     {
         //send smth to server about err
-        _is_read = false;
+        read_mutex.unlock();
         std::cerr << e.what() << '\n';
         return;
     }
 
     ReadData _read_data(name, data_str_ptr);
     read_data_array.push_back(_read_data);
-    _is_read = false;
+    read_mutex.unlock();
 }
 
 void Client_connection::cycle_read()
