@@ -5,6 +5,7 @@
 #include <boost/thread.hpp>
 #include <boost/chrono.hpp>
 #include <iostream>
+#include <mutex>
 
 enum ERRORS
 {
@@ -32,8 +33,8 @@ class ServerConnection
     boost::asio::io_service _io_service;
     int _port;
     std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
-    bool _is_written;
-    bool _is_read;
+    std::mutex write_mutex;
+    std::mutex read_mutex;
     template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
     {
       std::ostream out(buffer_ptr.get());
