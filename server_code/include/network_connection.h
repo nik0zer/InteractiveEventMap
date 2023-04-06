@@ -5,6 +5,7 @@
 #include <boost/thread.hpp>
 #include <boost/chrono.hpp>
 #include <iostream>
+#include <mutex>
 
 enum
 {
@@ -44,18 +45,20 @@ class Client_connection
 {
     private:
         std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
-        bool _is_written;
-        bool _is_read;
+        std::mutex write_mutex;
+        std::mutex read_mutex;
         template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
         {
             std::ostream out(buffer_ptr.get());
             out<<data<<std::endl;
         }
         void send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr);
+        
     
     public:
         Client_connection(std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr) : 
-        _socket_ptr(socket_ptr), _is_written(false), _is_read(false){};
+        _socket_ptr(socket_ptr) {};
+        Client_connection(const Client_connection& client_connection) : _socket_ptr(client_connection._socket_ptr) {};
         std::vector<ReadData> read_data_array;
         void read_data();
         void cycle_read();

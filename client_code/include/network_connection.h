@@ -35,6 +35,7 @@ class ServerConnection
     std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
     std::mutex write_mutex;
     std::mutex read_mutex;
+
     template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
     {
       std::ostream out(buffer_ptr.get());
