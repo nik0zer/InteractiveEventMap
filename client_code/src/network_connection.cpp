@@ -5,8 +5,6 @@ ServerConnection::ServerConnection(std::string server_ip, int port)
     _server_ip = boost::asio::ip::address::from_string(server_ip);
     _port = port;
     _is_connected = false;
-    _is_read = false;
-    _is_written = false;
     _socket_ptr = std::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
 }
 
@@ -15,8 +13,6 @@ ServerConnection::ServerConnection(boost::asio::ip::address server_ip, int port)
     _server_ip = server_ip;
     _port = port;
     _is_connected = false;
-    _is_read = false;
-    _is_written = false;
     _socket_ptr = std::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
 }
 
@@ -61,17 +57,12 @@ void ServerConnection::set_new_server_ip(std::string server_ip, int port)
 
 void ServerConnection::read_data()
 {
-    while(_is_read)
-    {
-        std::cout<<"."<<std::endl;
-    }
+    read_mutex.lock();
 
     if(!_is_connected)
     {
         connect_to_server();
     }
-
-    _is_read = true;
 
     boost::asio::streambuf data_buffer;
     std::istream data_stream(&data_buffer);
@@ -92,24 +83,24 @@ void ServerConnection::read_data()
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             _socket_ptr->close();
-            _is_read = false;
+            read_mutex.unlock();
             throw(e);
             return;
         }
-        _is_read = false;
+        read_mutex.unlock();
         return;
     }
     catch(const std::exception& e)
     {
         //send smth to server about err
-        _is_read = false;
+        read_mutex.unlock();
         std::cerr << e.what() << '\n';
         return;
     }
 
     ReadData _read_data(name, data_str_ptr);
     read_data_array.push_back(_read_data);
-    _is_read = false;
+    read_mutex.unlock();
 }
 
 boost::thread ServerConnection::thread_read_data()
@@ -138,11 +129,7 @@ std::string ReadData::data_str()
 
 void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
 {
-    while(_is_written)
-    {
-        std::cout<<".."<<std::endl;
-    }
-    _is_written = true;
+    write_mutex.lock();
     
     if(!_is_connected)
     {
@@ -153,7 +140,7 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         catch(const std::exception& e)
         {
             std::cerr << e.what() << '\n';
-            _is_written = false;
+            write_mutex.unlock();
             return;
         }
     }
@@ -173,25 +160,20 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
         {
             _socket_ptr->close();
-            _is_written = false;
+            write_mutex.unlock();
             throw(e);
             return;
         }
-        _is_written = false;
+        write_mutex.unlock();
         return;
     }
     catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
-        _is_written = false;
+        write_mutex.unlock();
         return;
     }
 
-    _is_written = false;
-
-    if(written_length != buffer_size)
-    {
-        return;
-    }
+    write_mutex.unlock();
 }
 
