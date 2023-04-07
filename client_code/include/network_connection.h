@@ -25,6 +25,7 @@ class ReadData
     _data_name(data_name), _data_str_ptr(data_str_ptr){};
 };
 
+
 class ServerConnection
 {
   private:
@@ -35,6 +36,7 @@ class ServerConnection
     std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
     std::mutex write_mutex;
     std::mutex read_mutex;
+    std::mutex read_data_mutex;
 
     template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
     {
@@ -50,6 +52,7 @@ class ServerConnection
     void set_new_server_ip(boost::asio::ip::address server_ip, int port);
     void close_connection();
     void read_data();
+    void read_data_array_delete_elem(std::vector<ReadData> :: iterator i);
     boost::thread thread_read_data();
 
     template<typename T> boost::thread thread_send_data(T data)
@@ -68,5 +71,6 @@ class ServerConnection
     ServerConnection(boost::asio::ip::address server_ip, int port);
     ~ServerConnection();
 };
+
 
 #endif

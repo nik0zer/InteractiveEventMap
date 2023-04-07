@@ -99,7 +99,9 @@ void ServerConnection::read_data()
     }
 
     ReadData _read_data(name, data_str_ptr);
+    read_data_mutex.lock();
     read_data_array.push_back(_read_data);
+    read_data_mutex.unlock();
     read_mutex.unlock();
 }
 
@@ -175,5 +177,12 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     }
 
     write_mutex.unlock();
+}
+
+void ServerConnection::read_data_array_delete_elem(std::vector<ReadData> :: iterator i)
+{
+    read_data_mutex.lock();
+    read_data_array.erase(i);
+    read_data_mutex.unlock();
 }
 

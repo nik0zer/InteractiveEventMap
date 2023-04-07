@@ -7,7 +7,7 @@
 
 typedef std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 
-void client_session(Client_connection client_connection)
+void client_session(ClientConnection ClientConnection)
  {
     
     while (true)
@@ -15,9 +15,9 @@ void client_session(Client_connection client_connection)
         std::cout<<"client_session"<<std::endl;
         try
         {
-            client_connection.read_data();
-            std::cout<<"name: "<<client_connection.read_data_array[0].data_name()<<"   buffer: "
-            <<client_connection.read_data_array[0].data_str()<<std::endl;
+            ClientConnection.read_data();
+            std::cout<<"name: "<<ClientConnection.read_data_array[0].data_name()<<"   buffer: "
+            <<ClientConnection.read_data_array[0].data_str()<<std::endl;
         }
         catch(...)
         {
@@ -28,8 +28,8 @@ void client_session(Client_connection client_connection)
         try
         {
             std::string b("123 notok\n");
-            client_connection.send_data(client_connection.read_data_array[0].data_name() + " " + 
-            client_connection.read_data_array[0].data_str());
+            ClientConnection.send_data(ClientConnection.read_data_array[0].data_name() + " " + 
+            ClientConnection.read_data_array[0].data_str());
         }
         catch(...)
         {

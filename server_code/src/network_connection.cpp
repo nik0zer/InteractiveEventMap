@@ -23,7 +23,7 @@ Server::Server(int port)
     }
 }
 
-void Server::client_waiting(void client_session(Client_connection client_connection))
+void Server::client_waiting(void client_session(ClientConnection ClientConnection))
 {
     boost::asio::ip::tcp::acceptor acceptor(_io_service, _endpoint);
     while(true)
@@ -31,7 +31,7 @@ void Server::client_waiting(void client_session(Client_connection client_connect
         std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr(new boost::asio::ip::tcp::socket(_io_service));
         acceptor.accept(*socket_ptr);
 
-        std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, Client_connection(socket_ptr)));
+        std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, ClientConnection(socket_ptr)));
 
         clients.push_back(Client(free_client_id[0], thread_ptr, socket_ptr));
         free_client_id.erase(free_client_id.begin());
@@ -70,7 +70,7 @@ bool Client::check_connection()
     return _socket_ptr->is_open();
 }
 
-void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
+void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
 {
     write_mutex.lock();
     
@@ -120,12 +120,12 @@ std::string ReadData::data_str()
     return (*_data_str_ptr);
 }
 
-boost::thread Client_connection::thread_read_data()
+boost::thread ClientConnection::thread_read_data()
 {
-    return boost::thread(&Client_connection::read_data, this);
+    return boost::thread(&ClientConnection::read_data, this);
 }
 
-void Client_connection::read_data()
+void ClientConnection::read_data()
 {
     read_mutex.lock();
 
@@ -164,11 +164,13 @@ void Client_connection::read_data()
     }
 
     ReadData _read_data(name, data_str_ptr);
+    read_data_mutex.lock();
     read_data_array.push_back(_read_data);
+    read_data_mutex.unlock();
     read_mutex.unlock();
 }
 
-void Client_connection::cycle_read()
+void ClientConnection::cycle_read()
 {
     while(true)
     {
@@ -176,7 +178,15 @@ void Client_connection::cycle_read()
     }
 }
 
-boost::thread Client_connection::thread_cycle_read()
+boost::thread ClientConnection::thread_cycle_read()
 {
-    return boost::thread(&Client_connection::cycle_read, this);
+    return boost::thread(&ClientConnection::cycle_read, this);
 }
+
+void ClientConnection::read_data_array_delete_elem(std::vector<ReadData> :: iterator i)
+{
+    read_data_mutex.lock();
+    read_data_array.erase(i);
+    read_data_mutex.unlock();
+}
+
