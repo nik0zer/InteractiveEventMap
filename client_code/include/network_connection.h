@@ -34,8 +34,8 @@ class ServerConnection
     boost::asio::io_service _io_service;
     int _port;
     std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
-    std::mutex write_mutex;
-    std::mutex read_mutex;
+    std::mutex _write_mutex;
+    std::mutex _read_mutex;
     std::mutex read_data_mutex;
 
     template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
@@ -44,6 +44,19 @@ class ServerConnection
       out<<data<<std::endl;
     }
     void send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr);
+    void _thread_read_data();
+
+    template<typename T> void _thread_send_data(T data)
+    {
+      try
+      {
+        send_data<T>(data);
+      }
+      catch(const std::exception& e)
+      {
+        std::cout<<e.what()<<std::endl;
+      }
+    }
 
   public:
     std::vector<ReadData> read_data_array;
@@ -53,11 +66,11 @@ class ServerConnection
     void close_connection();
     void read_data();
     void read_data_array_delete_elem(std::vector<ReadData> :: iterator i);
-    std::thread thread_read_data();
+    boost::thread thread_read_data();
 
-    template<typename T> std::thread thread_send_data(T data)
+    template<typename T> boost::thread thread_send_data(T data)
     {
-      return std::thread(&ServerConnection::send_data<T>, this, data);
+      return boost::thread(&ServerConnection::_thread_send_data<T>, this, data);
     }
 
     template<typename T> void send_data(T data)

@@ -4,7 +4,7 @@
 #include <boost/chrono.hpp>
 
 
-Client::Client(int client_id, std::shared_ptr<std::thread> client_session_ptr, std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr)
+Client::Client(int client_id, std::shared_ptr<boost::thread> client_session_ptr, std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr)
 {
     this->client_id = client_id;
     this->client_session_ptr = client_session_ptr;
@@ -31,10 +31,12 @@ void Server::client_waiting(void client_session(ClientConnection ClientConnectio
         std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr(new boost::asio::ip::tcp::socket(_io_service));
         acceptor.accept(*socket_ptr);
 
-        std::shared_ptr<std::thread> thread_ptr(new std::thread(client_session, (ClientConnection(socket_ptr))));
-
+        std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, ClientConnection(socket_ptr)));
+        std::cout<<"num_of_free_id: "<<free_client_id.size()<<std::endl;
         clients.push_back(Client(free_client_id[0], thread_ptr, socket_ptr));
+        
         free_client_id.erase(free_client_id.begin());
+        std::cout<<"num_of_free_id_after_erase: "<<free_client_id.size()<<std::endl;
         for(auto i = free_client_id.begin(); i != free_client_id.end(); i++)
         {
             std::cout<<*i<<" ";
@@ -45,6 +47,7 @@ void Server::client_waiting(void client_session(ClientConnection ClientConnectio
         if(!free_client_id.size())
         {
             client_update();
+            std::cout<<"num_of_free_id_after_update: "<<free_client_id.size()<<std::endl;
         }
     }
 }
@@ -72,7 +75,7 @@ bool Client::check_connection()
 
 void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
 {
-    write_mutex.lock();
+    std::lock_guard<std::mutex> lock(_write_mutex);
     
     size_t written_length = 0;
 
@@ -88,21 +91,21 @@ void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
         {
             _socket_ptr->close();
-            write_mutex.unlock();
+            
             throw(e);
             return;
         }
-        write_mutex.unlock();
+        
         return;
     }
     catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
-        write_mutex.unlock();
+        
         return;
     }
 
-    write_mutex.unlock();
+    
 
     if(written_length != buffer_size)
     {
@@ -120,14 +123,14 @@ std::string ReadData::data_str()
     return (*_data_str_ptr);
 }
 
-std::thread ClientConnection::thread_read_data()
+boost::thread ClientConnection::thread_read_data()
 {
-    return std::thread(&ClientConnection::read_data, this);
+    return boost::thread(&ClientConnection::_thread_read_data, this);
 }
 
 void ClientConnection::read_data()
 {
-    read_mutex.lock();
+    std::lock_guard<std::mutex> lock(_read_mutex);
 
     boost::asio::streambuf data_buffer;
     std::istream data_stream(&data_buffer);
@@ -148,17 +151,17 @@ void ClientConnection::read_data()
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             _socket_ptr->close();
-            read_mutex.unlock();
+            
             throw(e);
             return;
         }
-        read_mutex.unlock();
+        
         return;
     }
     catch(const std::exception& e)
     {
         //send smth to server about err
-        read_mutex.unlock();
+        
         std::cerr << e.what() << '\n';
         return;
     }
@@ -166,21 +169,28 @@ void ClientConnection::read_data()
     ReadData _read_data(name, data_str_ptr);
     read_data_mutex.lock();
     read_data_array.push_back(_read_data);
-    read_data_mutex.unlock();
-    read_mutex.unlock();
+    read_data_mutex.unlock(); 
 }
 
 void ClientConnection::cycle_read()
 {
     while(true)
     {
-        this->read_data();
+        try
+        {
+            read_data();
+        }
+        catch(const std::exception& e)
+        {
+            std::cout<<e.what()<<std::endl;
+            return;
+        }
     }
 }
 
-std::thread ClientConnection::thread_cycle_read()
+boost::thread ClientConnection::thread_cycle_read()
 {
-    return std::thread(&ClientConnection::cycle_read, this);
+    return boost::thread(&ClientConnection::cycle_read, this);
 }
 
 void ClientConnection::read_data_array_delete_elem(std::vector<ReadData> :: iterator i)
@@ -188,5 +198,22 @@ void ClientConnection::read_data_array_delete_elem(std::vector<ReadData> :: iter
     read_data_mutex.lock();
     read_data_array.erase(i);
     read_data_mutex.unlock();
+}
+
+bool ClientConnection::is_socket_open()
+{
+    return _socket_ptr->is_open();
+}
+
+void ClientConnection::_thread_read_data()
+{
+    try
+    {
+        read_data();
+    }
+    catch(const std::exception& e)
+    {
+        std::cout<<e.what()<<std::endl;
+    }
 }
 
