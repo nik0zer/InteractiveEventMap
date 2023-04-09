@@ -105,9 +105,9 @@ void ServerConnection::read_data()
     read_mutex.unlock();
 }
 
-boost::thread ServerConnection::thread_read_data()
+std::thread ServerConnection::thread_read_data()
 {
-    return boost::thread(&ServerConnection::read_data, this);
+    return std::thread(&ServerConnection::read_data, this);
 }
 
 //dont use destructor if thread funcs is used in the moment

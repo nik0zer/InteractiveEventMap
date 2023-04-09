@@ -4,7 +4,7 @@
 #include <boost/chrono.hpp>
 
 
-Client::Client(int client_id, std::shared_ptr<boost::thread> client_session_ptr, std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr)
+Client::Client(int client_id, std::shared_ptr<std::thread> client_session_ptr, std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr)
 {
     this->client_id = client_id;
     this->client_session_ptr = client_session_ptr;
@@ -31,7 +31,7 @@ void Server::client_waiting(void client_session(ClientConnection ClientConnectio
         std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr(new boost::asio::ip::tcp::socket(_io_service));
         acceptor.accept(*socket_ptr);
 
-        std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, ClientConnection(socket_ptr)));
+        std::shared_ptr<std::thread> thread_ptr(new std::thread(client_session, (ClientConnection(socket_ptr))));
 
         clients.push_back(Client(free_client_id[0], thread_ptr, socket_ptr));
         free_client_id.erase(free_client_id.begin());
@@ -120,9 +120,9 @@ std::string ReadData::data_str()
     return (*_data_str_ptr);
 }
 
-boost::thread ClientConnection::thread_read_data()
+std::thread ClientConnection::thread_read_data()
 {
-    return boost::thread(&ClientConnection::read_data, this);
+    return std::thread(&ClientConnection::read_data, this);
 }
 
 void ClientConnection::read_data()
@@ -178,9 +178,9 @@ void ClientConnection::cycle_read()
     }
 }
 
-boost::thread ClientConnection::thread_cycle_read()
+std::thread ClientConnection::thread_cycle_read()
 {
-    return boost::thread(&ClientConnection::cycle_read, this);
+    return std::thread(&ClientConnection::cycle_read, this);
 }
 
 void ClientConnection::read_data_array_delete_elem(std::vector<ReadData> :: iterator i)

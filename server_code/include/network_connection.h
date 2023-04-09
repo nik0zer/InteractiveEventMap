@@ -36,8 +36,8 @@ class Client
         std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
     public:
         int client_id;
-        std::shared_ptr<boost::thread> client_session_ptr;
-        Client(int client_id, std::shared_ptr<boost::thread> client_session_ptr, std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr);
+        std::shared_ptr<std::thread> client_session_ptr;
+        Client(int client_id, std::shared_ptr<std::thread> client_session_ptr, std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr);
         bool check_connection();
 };
 
@@ -59,17 +59,20 @@ class ClientConnection
     public:
         ClientConnection(std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr) : 
         _socket_ptr(socket_ptr) {};
+        //ClientConnection(ClientConnection&& ClientConnection) : _socket_ptr(ClientConnection._socket_ptr) {};
         ClientConnection(const ClientConnection& ClientConnection) : _socket_ptr(ClientConnection._socket_ptr) {};
+
+
         std::vector<ReadData> read_data_array;
         void read_data();
         void cycle_read();
-        boost::thread thread_cycle_read();
-        boost::thread thread_read_data();
+        std::thread thread_cycle_read();
+        std::thread thread_read_data();
         void read_data_array_delete_elem(std::vector<ReadData> :: iterator i);
         
-        template<typename T> boost::thread thread_send_data(T data)
+        template<typename T> std::thread thread_send_data(T data)
         {
-            return boost::thread(&ClientConnection::send_data<T>, this, data);
+            return std::thread(&ClientConnection::send_data<T>, this, data);
         }
 
         template<typename T> void send_data(T data)
@@ -95,6 +98,8 @@ class Server
         std::vector<Client> clients;
         std::vector<int> free_client_id;
         Server(int port);
+        Server(const Server& server) = delete;
+        Server& operator=(const Server& server) = delete;
         void client_waiting(void client_session(ClientConnection ClientConnection));
         void client_update();
 };

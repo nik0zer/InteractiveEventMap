@@ -53,11 +53,11 @@ class ServerConnection
     void close_connection();
     void read_data();
     void read_data_array_delete_elem(std::vector<ReadData> :: iterator i);
-    boost::thread thread_read_data();
+    std::thread thread_read_data();
 
-    template<typename T> boost::thread thread_send_data(T data)
+    template<typename T> std::thread thread_send_data(T data)
     {
-      return boost::thread(&ServerConnection::send_data<T>, this, data);
+      return std::thread(&ServerConnection::send_data<T>, this, data);
     }
 
     template<typename T> void send_data(T data)
@@ -69,6 +69,8 @@ class ServerConnection
 
     ServerConnection(std::string server_ip, int port);
     ServerConnection(boost::asio::ip::address server_ip, int port);
+    ServerConnection(const ServerConnection& server) = delete;
+    ServerConnection operator=(const ServerConnection& server) = delete;
     ~ServerConnection();
 };
 
