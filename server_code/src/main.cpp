@@ -10,12 +10,14 @@ typedef std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 void client_session(ClientConnection client_connection)
  {
     std::cout<<"client_session"<<std::endl;
-    client_connection.thread_cycle_read();
+    boost::thread thr =  client_connection.thread_cycle_read();
     while (true)
      {
         if(!client_connection.is_socket_open())
+        {
+            thr.join();
             return;
-
+        }
         try
         {
             std::string b("123 notok\n");
@@ -25,6 +27,7 @@ void client_session(ClientConnection client_connection)
         catch(...)
         {
             std::cout<<"connection closed"<<std::endl;
+            thr.join();
             return;
         }
     }

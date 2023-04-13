@@ -36,7 +36,8 @@ class ServerConnection
     std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
     std::mutex _write_mutex;
     std::mutex _read_mutex;
-    std::mutex read_data_mutex;
+    std::mutex _socket_ptr_mutex;
+    
 
     template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
     {
@@ -59,6 +60,7 @@ class ServerConnection
     }
 
   public:
+    std::mutex read_data_mutex;
     std::vector<ReadData> read_data_array;
     void connect_to_server();
     void set_new_server_ip(std::string server_ip, int port);

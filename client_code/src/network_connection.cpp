@@ -33,7 +33,12 @@ void ServerConnection::connect_to_server()
 
 void ServerConnection::close_connection()
 {
-    _socket_ptr->close();
+    if(_socket_ptr->is_open())
+    {
+        _socket_ptr_mutex.lock();
+        _socket_ptr->close();
+        _socket_ptr_mutex.unlock();
+    }
     _is_connected = false;
 }
 
@@ -82,7 +87,12 @@ void ServerConnection::read_data()
         std::cout << e.what() << " system_error" << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
-            _socket_ptr->close();
+            if(_socket_ptr->is_open())
+            {
+                _socket_ptr_mutex.lock();
+                _socket_ptr->close();
+                _socket_ptr_mutex.unlock();
+            }
             
             throw(e);
             return;
@@ -92,9 +102,13 @@ void ServerConnection::read_data()
     }
     catch(const std::exception& e)
     {
-        //send smth to server about err
-        
-        std::cerr << e.what() << '\n';
+        std::cout<<e.what()<<std::endl;
+        throw e;
+        return;
+    }
+    catch(...)
+    {
+        throw;
         return;
     }
 
@@ -141,7 +155,13 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         }
         catch(const std::exception& e)
         {
-            std::cerr << e.what() << '\n';
+            std::cout<<e.what()<<std::endl;
+            throw e;
+            return;
+        }
+        catch(...)
+        {
+            throw;
             return;
         }
     }
@@ -158,9 +178,15 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     catch(boost::system::system_error e)
     {
         std::cout << e.what() << " system_error" << std::endl;
-        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
-            _socket_ptr->close();
+            if(_socket_ptr->is_open())
+            {
+                _socket_ptr_mutex.lock();
+                _socket_ptr->close();
+                _socket_ptr_mutex.unlock();
+            }
+            
             throw(e);
             return;
         }
@@ -168,7 +194,13 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
+        std::cerr << e.what() << '\n';
+        throw e;
+        return;
+    }
+    catch(...)
+    {
+        throw;
         return;
     }
 

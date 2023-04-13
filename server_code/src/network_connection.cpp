@@ -88,20 +88,28 @@ void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     catch(boost::system::system_error e)
     {
         std::cout << e.what() << " system_error" << std::endl;
-        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
-            _socket_ptr->close();
-            
-            throw(e);
-            return;
+            if(_socket_ptr->is_open())
+            {
+                _socket_ptr_mutex.lock();
+                _socket_ptr->close();
+                _socket_ptr_mutex.unlock();
+            }
         }
         
+        throw(e);
         return;
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
-        
+        std::cout<<e.what()<<std::endl;
+        throw e;
+        return;
+    }
+    catch(...)
+    {
+        throw;
         return;
     }
 
@@ -132,6 +140,12 @@ void ClientConnection::read_data()
 {
     std::lock_guard<std::mutex> lock(_read_mutex);
 
+    if(!(_socket_ptr->is_open()))
+    {
+        throw std::exception();
+        return;
+    }
+    
     boost::asio::streambuf data_buffer;
     std::istream data_stream(&data_buffer);
     std::shared_ptr<std::string> data_str_ptr(new std::string());
@@ -140,7 +154,6 @@ void ClientConnection::read_data()
     try
     {
         boost::asio::read_until(*_socket_ptr, data_buffer, "\n");
-
         data_stream >> name;
         data_stream.ignore(1);
         std::getline(data_stream, (*data_str_ptr), '\n');
@@ -150,19 +163,25 @@ void ClientConnection::read_data()
         std::cout << e.what() << " system_error" << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
-            _socket_ptr->close();
-            
-            throw(e);
-            return;
+            if(_socket_ptr->is_open())
+            {
+                _socket_ptr_mutex.lock();
+                _socket_ptr->close();
+                _socket_ptr_mutex.unlock();
+            }
         }
-        
+        throw e;
         return;
     }
     catch(const std::exception& e)
     {
-        //send smth to server about err
-        
-        std::cerr << e.what() << '\n';
+        std::cout<<e.what()<<std::endl;
+        throw e;
+        return;
+    }
+    catch(...)
+    {
+        throw;
         return;
     }
 
@@ -183,6 +202,10 @@ void ClientConnection::cycle_read()
         catch(const std::exception& e)
         {
             std::cout<<e.what()<<std::endl;
+            return;
+        }
+        catch(...)
+        {
             return;
         }
     }

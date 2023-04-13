@@ -47,7 +47,9 @@ class ClientConnection
         std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
         std::mutex _write_mutex;
         std::mutex _read_mutex;
-        std::mutex read_data_mutex;
+        std::mutex _socket_ptr_mutex;
+
+
         void _thread_read_data();
         template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
         {
@@ -70,6 +72,7 @@ class ClientConnection
         
     
     public:
+        std::mutex read_data_mutex;
         ClientConnection(std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr) : 
         _socket_ptr(socket_ptr) {};
         ClientConnection(const ClientConnection& ClientConnection) : _socket_ptr(ClientConnection._socket_ptr) {};
