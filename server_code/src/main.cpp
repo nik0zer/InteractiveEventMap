@@ -7,33 +7,27 @@
 
 typedef std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 
-void client_session(Client_connection client_connection)
+void client_session(ClientConnection client_connection)
  {
-    
+    std::cout<<"client_session"<<std::endl;
+    boost::thread thr =  client_connection.thread_cycle_read();
     while (true)
      {
-        std::cout<<"client_session"<<std::endl;
-        try
+        if(!client_connection.is_socket_open())
         {
-            client_connection.read_data();
-            std::cout<<"name: "<<client_connection.read_data_array[0].data_name()<<"   buffer: "
-            <<client_connection.read_data_array[0].data_str()<<std::endl;
-        }
-        catch(...)
-        {
-            std::cout<<"connection closed"<<std::endl;
+            thr.join();
             return;
         }
-
         try
         {
             std::string b("123 notok\n");
-            client_connection.send_data(client_connection.read_data_array[0].data_name() + " " + 
-            client_connection.read_data_array[0].data_str());
+            client_connection.send_data(b);
+            client_connection.send_data(b);
         }
         catch(...)
         {
             std::cout<<"connection closed"<<std::endl;
+            thr.join();
             return;
         }
     }
@@ -43,6 +37,11 @@ int main()
 {
     Server server(2001);
     server.client_waiting(client_session);
+    for(auto i = server.clients.begin(); i != server.clients.end(); i++)
+    {
+        i->client_session_ptr->join();
+    }
+    std::cout<<"end of server code"<<std::endl;
 }
 
 

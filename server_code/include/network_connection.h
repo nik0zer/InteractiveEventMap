@@ -41,33 +41,54 @@ class Client
         bool check_connection();
 };
 
-class Client_connection
+class ClientConnection
 {
     private:
         std::shared_ptr<boost::asio::ip::tcp::socket> _socket_ptr;
-        std::mutex write_mutex;
-        std::mutex read_mutex;
+        std::mutex _write_mutex;
+        std::mutex _read_mutex;
+        std::mutex _socket_ptr_mutex;
+
+
+        void _thread_read_data();
         template<typename T> void data_to_buffer(T data, std::shared_ptr<boost::asio::streambuf> buffer_ptr)
         {
             std::ostream out(buffer_ptr.get());
             out<<data<<std::endl;
         }
         void send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr);
+
+        template<typename T> void _thread_send_data(T data)
+        {
+            try
+            {
+                send_data<T>(data);
+            }
+            catch(const std::exception& e)
+            {
+                std::cout<<e.what()<<std::endl;
+            }
+        }
         
     
     public:
-        Client_connection(std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr) : 
+        std::mutex read_data_mutex;
+        ClientConnection(std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr) : 
         _socket_ptr(socket_ptr) {};
-        Client_connection(const Client_connection& client_connection) : _socket_ptr(client_connection._socket_ptr) {};
+        ClientConnection(const ClientConnection& ClientConnection) : _socket_ptr(ClientConnection._socket_ptr) {};
+        bool is_socket_open();
+
+
         std::vector<ReadData> read_data_array;
         void read_data();
         void cycle_read();
         boost::thread thread_cycle_read();
         boost::thread thread_read_data();
+        void read_data_array_delete_elem(std::vector<ReadData> :: iterator i);
         
         template<typename T> boost::thread thread_send_data(T data)
         {
-            return boost::thread(&Client_connection::send_data<T>, this, data);
+            return boost::thread(&ClientConnection::send_data<T>, this, data);
         }
 
         template<typename T> void send_data(T data)
@@ -93,7 +114,9 @@ class Server
         std::vector<Client> clients;
         std::vector<int> free_client_id;
         Server(int port);
-        void client_waiting(void client_session(Client_connection client_connection));
+        Server(const Server& server) = delete;
+        Server& operator=(const Server& server) = delete;
+        void client_waiting(void client_session(ClientConnection ClientConnection));
         void client_update();
 };
 

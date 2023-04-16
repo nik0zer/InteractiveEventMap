@@ -33,7 +33,12 @@ void ServerConnection::connect_to_server()
 
 void ServerConnection::close_connection()
 {
-    _socket_ptr->close();
+    if(_socket_ptr->is_open())
+    {
+        _socket_ptr_mutex.lock();
+        _socket_ptr->close();
+        _socket_ptr_mutex.unlock();
+    }
     _is_connected = false;
 }
 
@@ -57,7 +62,7 @@ void ServerConnection::set_new_server_ip(std::string server_ip, int port)
 
 void ServerConnection::read_data()
 {
-    read_mutex.lock();
+    std::lock_guard<std::mutex> lock(_read_mutex);
 
     if(!_is_connected)
     {
@@ -82,30 +87,41 @@ void ServerConnection::read_data()
         std::cout << e.what() << " system_error" << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
-            _socket_ptr->close();
-            read_mutex.unlock();
+            if(_socket_ptr->is_open())
+            {
+                _socket_ptr_mutex.lock();
+                _socket_ptr->close();
+                _socket_ptr_mutex.unlock();
+            }
+            
             throw(e);
             return;
         }
-        read_mutex.unlock();
+        
         return;
     }
     catch(const std::exception& e)
     {
-        //send smth to server about err
-        read_mutex.unlock();
-        std::cerr << e.what() << '\n';
+        std::cout<<e.what()<<std::endl;
+        throw e;
+        return;
+    }
+    catch(...)
+    {
+        throw;
         return;
     }
 
     ReadData _read_data(name, data_str_ptr);
+    read_data_mutex.lock();
     read_data_array.push_back(_read_data);
-    read_mutex.unlock();
+    read_data_mutex.unlock();
+    
 }
 
 boost::thread ServerConnection::thread_read_data()
 {
-    return boost::thread(&ServerConnection::read_data, this);
+    return boost::thread(&ServerConnection::_thread_read_data, this);
 }
 
 //dont use destructor if thread funcs is used in the moment
@@ -129,7 +145,7 @@ std::string ReadData::data_str()
 
 void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
 {
-    write_mutex.lock();
+    std::lock_guard<std::mutex> lock(_write_mutex);
     
     if(!_is_connected)
     {
@@ -139,8 +155,13 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         }
         catch(const std::exception& e)
         {
-            std::cerr << e.what() << '\n';
-            write_mutex.unlock();
+            std::cout<<e.what()<<std::endl;
+            throw e;
+            return;
+        }
+        catch(...)
+        {
+            throw;
             return;
         }
     }
@@ -157,23 +178,51 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     catch(boost::system::system_error e)
     {
         std::cout << e.what() << " system_error" << std::endl;
-        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
-            _socket_ptr->close();
-            write_mutex.unlock();
+            if(_socket_ptr->is_open())
+            {
+                _socket_ptr_mutex.lock();
+                _socket_ptr->close();
+                _socket_ptr_mutex.unlock();
+            }
+            
             throw(e);
             return;
         }
-        write_mutex.unlock();
         return;
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
-        write_mutex.unlock();
+        std::cerr << e.what() << '\n';
+        throw e;
+        return;
+    }
+    catch(...)
+    {
+        throw;
         return;
     }
 
-    write_mutex.unlock();
+    
+}
+
+void ServerConnection::read_data_array_delete_elem(std::vector<ReadData> :: iterator i)
+{
+    read_data_mutex.lock();
+    read_data_array.erase(i);
+    read_data_mutex.unlock();
+}
+
+void ServerConnection::_thread_read_data()
+{
+    try
+    {
+        read_data();
+    }
+    catch(const std::exception& e)
+    {
+        std::cout<<e.what()<<std::endl;
+    }
 }
 

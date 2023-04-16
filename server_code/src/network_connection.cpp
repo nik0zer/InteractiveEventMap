@@ -23,7 +23,7 @@ Server::Server(int port)
     }
 }
 
-void Server::client_waiting(void client_session(Client_connection client_connection))
+void Server::client_waiting(void client_session(ClientConnection ClientConnection))
 {
     boost::asio::ip::tcp::acceptor acceptor(_io_service, _endpoint);
     while(true)
@@ -31,10 +31,12 @@ void Server::client_waiting(void client_session(Client_connection client_connect
         std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr(new boost::asio::ip::tcp::socket(_io_service));
         acceptor.accept(*socket_ptr);
 
-        std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, Client_connection(socket_ptr)));
-
+        std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, ClientConnection(socket_ptr)));
+        std::cout<<"num_of_free_id: "<<free_client_id.size()<<std::endl;
         clients.push_back(Client(free_client_id[0], thread_ptr, socket_ptr));
+        
         free_client_id.erase(free_client_id.begin());
+        std::cout<<"num_of_free_id_after_erase: "<<free_client_id.size()<<std::endl;
         for(auto i = free_client_id.begin(); i != free_client_id.end(); i++)
         {
             std::cout<<*i<<" ";
@@ -45,6 +47,7 @@ void Server::client_waiting(void client_session(Client_connection client_connect
         if(!free_client_id.size())
         {
             client_update();
+            std::cout<<"num_of_free_id_after_update: "<<free_client_id.size()<<std::endl;
         }
     }
 }
@@ -70,9 +73,9 @@ bool Client::check_connection()
     return _socket_ptr->is_open();
 }
 
-void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
+void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
 {
-    write_mutex.lock();
+    std::lock_guard<std::mutex> lock(_write_mutex);
     
     size_t written_length = 0;
 
@@ -85,24 +88,32 @@ void Client_connection::send_buffer(std::shared_ptr<boost::asio::streambuf> buff
     catch(boost::system::system_error e)
     {
         std::cout << e.what() << " system_error" << std::endl;
-        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET)
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
-            _socket_ptr->close();
-            write_mutex.unlock();
-            throw(e);
-            return;
+            if(_socket_ptr->is_open())
+            {
+                _socket_ptr_mutex.lock();
+                _socket_ptr->close();
+                _socket_ptr_mutex.unlock();
+            }
         }
-        write_mutex.unlock();
+        
+        throw(e);
         return;
     }
     catch(const std::exception& e)
     {
-        std::cout << e.what() << std::endl;
-        write_mutex.unlock();
+        std::cout<<e.what()<<std::endl;
+        throw e;
+        return;
+    }
+    catch(...)
+    {
+        throw;
         return;
     }
 
-    write_mutex.unlock();
+    
 
     if(written_length != buffer_size)
     {
@@ -120,15 +131,21 @@ std::string ReadData::data_str()
     return (*_data_str_ptr);
 }
 
-boost::thread Client_connection::thread_read_data()
+boost::thread ClientConnection::thread_read_data()
 {
-    return boost::thread(&Client_connection::read_data, this);
+    return boost::thread(&ClientConnection::_thread_read_data, this);
 }
 
-void Client_connection::read_data()
+void ClientConnection::read_data()
 {
-    read_mutex.lock();
+    std::lock_guard<std::mutex> lock(_read_mutex);
 
+    if(!(_socket_ptr->is_open()))
+    {
+        throw std::exception();
+        return;
+    }
+    
     boost::asio::streambuf data_buffer;
     std::istream data_stream(&data_buffer);
     std::shared_ptr<std::string> data_str_ptr(new std::string());
@@ -137,7 +154,6 @@ void Client_connection::read_data()
     try
     {
         boost::asio::read_until(*_socket_ptr, data_buffer, "\n");
-
         data_stream >> name;
         data_stream.ignore(1);
         std::getline(data_stream, (*data_str_ptr), '\n');
@@ -147,36 +163,80 @@ void Client_connection::read_data()
         std::cout << e.what() << " system_error" << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
-            _socket_ptr->close();
-            read_mutex.unlock();
-            throw(e);
-            return;
+            if(_socket_ptr->is_open())
+            {
+                _socket_ptr_mutex.lock();
+                _socket_ptr->close();
+                _socket_ptr_mutex.unlock();
+            }
         }
-        read_mutex.unlock();
+        throw e;
         return;
     }
     catch(const std::exception& e)
     {
-        //send smth to server about err
-        read_mutex.unlock();
-        std::cerr << e.what() << '\n';
+        std::cout<<e.what()<<std::endl;
+        throw e;
+        return;
+    }
+    catch(...)
+    {
+        throw;
         return;
     }
 
     ReadData _read_data(name, data_str_ptr);
+    read_data_mutex.lock();
     read_data_array.push_back(_read_data);
-    read_mutex.unlock();
+    read_data_mutex.unlock(); 
 }
 
-void Client_connection::cycle_read()
+void ClientConnection::cycle_read()
 {
     while(true)
     {
-        this->read_data();
+        try
+        {
+            read_data();
+        }
+        catch(const std::exception& e)
+        {
+            std::cout<<e.what()<<std::endl;
+            return;
+        }
+        catch(...)
+        {
+            return;
+        }
     }
 }
 
-boost::thread Client_connection::thread_cycle_read()
+boost::thread ClientConnection::thread_cycle_read()
 {
-    return boost::thread(&Client_connection::cycle_read, this);
+    return boost::thread(&ClientConnection::cycle_read, this);
 }
+
+void ClientConnection::read_data_array_delete_elem(std::vector<ReadData> :: iterator i)
+{
+    read_data_mutex.lock();
+    read_data_array.erase(i);
+    read_data_mutex.unlock();
+}
+
+bool ClientConnection::is_socket_open()
+{
+    return _socket_ptr->is_open();
+}
+
+void ClientConnection::_thread_read_data()
+{
+    try
+    {
+        read_data();
+    }
+    catch(const std::exception& e)
+    {
+        std::cout<<e.what()<<std::endl;
+    }
+}
+
