@@ -84,7 +84,7 @@ void ServerConnection::read_data()
     }
     catch(boost::system::system_error e)
     {
-        std::cout << e.what() << " system_error" << std::endl;
+        std::cerr << e.what() << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             if(_socket_ptr->is_open())
@@ -102,7 +102,7 @@ void ServerConnection::read_data()
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
         throw e;
         return;
     }
@@ -155,7 +155,7 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         }
         catch(const std::exception& e)
         {
-            std::cout<<e.what()<<std::endl;
+            std::cerr<<e.what()<<std::endl;
             throw e;
             return;
         }
@@ -177,7 +177,7 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     }
     catch(boost::system::system_error e)
     {
-        std::cout << e.what() << " system_error" << std::endl;
+        std::cerr << e.what() << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             if(_socket_ptr->is_open())
@@ -222,7 +222,7 @@ void ServerConnection::_thread_read_data()
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
     }
 }
 

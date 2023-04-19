@@ -14,7 +14,6 @@ Client::Client(int client_id, std::shared_ptr<boost::thread> client_session_ptr,
 Server::Server(int port)
 {
     _port  = port;
-    std::cout<<port<<std::endl;
     _endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), _port);
     
     for(int i = 0; i < MAX_OF_CLIENTS; i++)
@@ -32,22 +31,13 @@ void Server::client_waiting(void client_session(ClientConnection ClientConnectio
         acceptor.accept(*socket_ptr);
 
         std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, ClientConnection(socket_ptr)));
-        std::cout<<"num_of_free_id: "<<free_client_id.size()<<std::endl;
         clients.push_back(Client(free_client_id[0], thread_ptr, socket_ptr));
         
         free_client_id.erase(free_client_id.begin());
-        std::cout<<"num_of_free_id_after_erase: "<<free_client_id.size()<<std::endl;
-        for(auto i = free_client_id.begin(); i != free_client_id.end(); i++)
-        {
-            std::cout<<*i<<" ";
-        }
-        std::cout<<std::endl;
-        
 
         if(!free_client_id.size())
         {
             client_update();
-            std::cout<<"num_of_free_id_after_update: "<<free_client_id.size()<<std::endl;
         }
     }
 }
@@ -87,7 +77,7 @@ void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     }
     catch(boost::system::system_error e)
     {
-        std::cout << e.what() << " system_error" << std::endl;
+        std::cerr << e.what() << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             if(_socket_ptr->is_open())
@@ -103,7 +93,7 @@ void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
         throw e;
         return;
     }
@@ -160,7 +150,7 @@ void ClientConnection::read_data()
     }
     catch(boost::system::system_error e)
     {
-        std::cout << e.what() << " system_error" << std::endl;
+        std::cerr << e.what() << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             if(_socket_ptr->is_open())
@@ -175,7 +165,7 @@ void ClientConnection::read_data()
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
         throw e;
         return;
     }
@@ -201,7 +191,7 @@ void ClientConnection::cycle_read()
         }
         catch(const std::exception& e)
         {
-            std::cout<<e.what()<<std::endl;
+            std::cerr<<e.what()<<std::endl;
             return;
         }
         catch(...)
@@ -236,7 +226,7 @@ void ClientConnection::_thread_read_data()
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
     }
 }
 
