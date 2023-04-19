@@ -4,6 +4,7 @@
     "license": "MIT",
     "dependencies": [
         "boost-asio",
-        "boost-thread"
+        "boost-thread",
+        "sqlite3"
     ]
 }
