@@ -4,21 +4,21 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/
 project("interactive_event_map")
 SET(MYCOMPILE_FLAGS "-pthread")
 
-SET(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} ${MYCOMPILE_FLAGS}")
+SET(CMAKE_C_FLAGS    "${CMAKE_C_FLAGS} ${MYCOMPILE_FLAGS}")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${MYCOMPILE_FLAGS}")
 
 file(GLOB SERVER_SRC "server_code/src/*")
 file(GLOB CLIENT_SRC "client_code/src/*")
-file(GLOB SQL_SRC "sql_code/src/*")
+file(GLOB SQL_SRC    "sql_code/src/*")
 
 add_executable(InteractiveEventMap_client ${CLIENT_SRC})
 add_executable(InteractiveEventMap_server ${SERVER_SRC})
-add_executable(InteractiveEventMap_sql ${SQL_SRC})
+add_executable(InteractiveEventMap_sql    ${SQL_SRC})
 
 
 target_include_directories(InteractiveEventMap_server PRIVATE "server_code/include")
 target_include_directories(InteractiveEventMap_client PRIVATE "client_code/include")
-target_include_directories(InteractiveEventMap_sql PRIVATE "sql_code/include")
+target_include_directories(InteractiveEventMap_sql PRIVATE    "sql_code/include")
 
 
 find_package(Boost REQUIRED)
