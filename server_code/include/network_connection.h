@@ -80,7 +80,7 @@ class ClientConnection
             bytes_from_uint32_t name_size_byte;
             name_size_byte.uint = name_size;
             
-            std::string data_str = data;
+            std::string data_str = (std::string)data;
             uint32_t data_size = data_str.size();
             bytes_from_uint32_t data_size_byte;
             data_size_byte.uint = data_size;
