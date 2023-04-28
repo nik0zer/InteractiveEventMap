@@ -10,7 +10,7 @@ int main()
     DataBase& main_base = DataBase::get_instance();
     Person per(1, "Name 1", "");
     Person per1(1, "Name 1", "Psw 1");
-    Person per2(1, "Name 12", "Psw 1");
+    Person per2("Name 12", "Psw 1");
     main_base.add_person(per);
     main_base.add_person(per);
     main_base.add_person(per1);

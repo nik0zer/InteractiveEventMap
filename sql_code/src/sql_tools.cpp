@@ -54,6 +54,7 @@ sqlite3* DataBase::open_db(const std::string path)
 //!  @param  [in]   DB - pointer on DB
 //!  @return        None
 //!  @note          In case of error in open DB, throw runtime error
+//!  @note          Depends of CREDS structure!!!
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
@@ -148,6 +149,7 @@ DataBase& DataBase::get_instance()
 //!  Add person to CREDS database
 //!
 //!  @param  [in]   person - person to search in DB
+//!  @note          Depends of CREDS structure!!!
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
@@ -159,7 +161,7 @@ void DataBase::add_person(Person& person)
         return;
     }
 
-    std::string sql_cmd = fmt::format("INSERT INTO CREDS VALUES({}, '{}', '{}');", std::to_string(get_next_id()), 
+    std::string sql_cmd = fmt::format("INSERT INTO CREDS VALUES({}, '{}', '{}');", std::to_string(get_next_person_id()), 
                                                                                     person.login_, person.password_);
 
     char* messaggeError;
@@ -184,6 +186,7 @@ void DataBase::add_person(Person& person)
 //!  Remove person to CREDS database
 //!
 //!  @param  [in]   person - person to search in DB
+//!  @note          Depends of CREDS structure!!!
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
@@ -214,18 +217,18 @@ void DataBase::remove_person(Person& person)
 
 
 //----------------------------------------------------------------
-//!  DataBase class have field reserved_id_ list. So we need the
+//!  DataBase class have field reserved_persons_id_ list. So we need the
 //!  next id for adding new person.
 //!
-//!  @return    int next_id
+//!  @return        int next_id
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
-int DataBase::get_next_id()
+int DataBase::get_next_person_id()
 {
     int i;
-    for (i = 1; reserved_id_.size() != 0 && reserved_id_.find(i) != reserved_id_.end(); i++) ;
-    reserved_id_.insert(i);
+    for (i = 1; reserved_persons_id_.size() != 0 && reserved_persons_id_.find(i) != reserved_persons_id_.end(); i++) ;
+    reserved_persons_id_.insert(i);
 
     return i;
 }
@@ -235,6 +238,7 @@ int DataBase::get_next_id()
 //----------------------------------------------------------------
 //!  Fill member "persons_list_" with returned info from DB
 //!
+//!  @note          Depends of CREDS structure!!!
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
@@ -329,6 +333,7 @@ bool DataBase::person_exists(Person& person)
 //----------------------------------------------------------------
 //!  Redefinition of operator << for class Person
 //!
+//!  @note          Depends of CREDS structure!!!
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
@@ -339,6 +344,15 @@ std::ostream& operator<< (std::ostream &out, const Person &person)
     return out;
 }
 
+
+
+
+std::ostream& operator<< (std::ostream &out, const Event &event)
+{
+    out << event.id_ << "    " << event.name_ << "    " << event.address_ << "    " << event.info_;
+
+    return out;
+}
 
 
 
