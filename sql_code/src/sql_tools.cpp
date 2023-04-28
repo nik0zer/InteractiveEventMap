@@ -6,10 +6,8 @@
 //----------------------------------------------------------------
 
 
-
 #include "sql_tools.h"
 #define PADDING 30
-
 
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -73,22 +71,10 @@ void DataBase::create_tables(sqlite3* DB)
     std::string sql_cmd = "CREATE TABLE CREDS("
                           "ID INT PRIMARY KEY     NOT NULL, "
                           "LOGIN          TEXT    NOT NULL, "
-                          "PASSWORD       TEXT    NOT NULL  );";
+                          "PASSWORD       TEXT    NOT NULL, "
+                          "LAST_EDIT_TIME INT     NOT NULL);";
 
-
-    // Reserve pointer for collect errors of sql commands
-    char* messaggeError;
-
-
-    // Creating table
-    if (sqlite3_exec(DB, sql_cmd.c_str(), NULL, 0, &messaggeError) != SQLITE_OK) 
-    {
-        std::string error_msg = "Can't create table CREDS";
-        spdlog::warn("{}: {}", error_msg, messaggeError ? messaggeError : "");
-        sqlite3_free(messaggeError);
-    }
-
-    spdlog::info("{:30} ... {}", "Creating table CREDS", "OK");
+    execute_sql(sql_cmd, "CREDS");
 
 
     // CMD to create table for events info
@@ -98,17 +84,9 @@ void DataBase::create_tables(sqlite3* DB)
                       "INFO           TEXT            , "
                       "ADDRESS        VARCHAR(100)    );";
 
+    execute_sql(sql_cmd, "EVENTS");
 
-    // Creating table
-    if (sqlite3_exec(DB, sql_cmd.c_str(), NULL, 0, &messaggeError) != SQLITE_OK) 
-    {
-        std::string error_msg = "Can't create table EVENTS";
-        spdlog::warn("{}: {}", error_msg, messaggeError ? messaggeError : "");
-        sqlite3_free(messaggeError);
-    }
-
-    spdlog::info("{:30} ... {}", "Creating table EVENTS", "OK");
-
+    spdlog::info("Tables created");
 }
 
 
@@ -145,6 +123,38 @@ DataBase& DataBase::get_instance()
 
 
 
+void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
+{
+    // Reserve pointer for collect errors of sql commands
+    char* messaggeError;
+    int res = 0;
+
+
+    if (table == "CREDS")
+    {
+        sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, 0, &messaggeError);
+    }
+    else if (table == "EVENTS")
+    {
+        sqlite3_exec(ptr_, sql_cmd.c_str(), callback_event, 0, &messaggeError);
+    }
+
+
+    if (res != SQLITE_OK) 
+    {
+        std::string error_msg = sql_cmd;
+        spdlog::warn("Error in CMD {} : {}", error_msg, messaggeError ? messaggeError : "");
+        sqlite3_free(messaggeError);
+    }
+}
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Person part of interaction with DataBase
+// ---------------------------------------------------------------------------------------------------------------------
+
+
 //----------------------------------------------------------------
 //!  Add person to CREDS database
 //!
@@ -161,21 +171,10 @@ void DataBase::add_person(Person& person)
         return;
     }
 
-    std::string sql_cmd = fmt::format("INSERT INTO CREDS VALUES({}, '{}', '{}');", std::to_string(get_next_person_id()), 
-                                                                                    person.login_, person.password_);
+    std::string sql_cmd = fmt::format("INSERT INTO CREDS VALUES({}, '{}', '{}', {});", 
+                            std::to_string(get_next_person_id()), person.login_, person.password_, std::time(nullptr));
 
-    char* messaggeError;
-
-
-    if (sqlite3_exec(ptr_, sql_cmd.c_str(), NULL, 0, &messaggeError) != SQLITE_OK) 
-    {
-        std::string error_msg = "INSERT Error (cmd = '''" + sql_cmd + "''')";
-        spdlog::error ("{}: {}", error_msg, messaggeError ? messaggeError : "");
-        sqlite3_free(messaggeError);
-
-        return;
-    }
-
+    execute_sql(sql_cmd, "CREDS");
 
     spdlog::info("{:30} ... {}", "Adding person '" + person.login_ + "'", "OK");
 }
@@ -199,18 +198,8 @@ void DataBase::remove_person(Person& person)
     }
 
     std::string sql_cmd = fmt::format("DELETE FROM CREDS WHERE LOGIN = '{}';", person.login_);
-    char* messaggeError;
     
-
-    if (sqlite3_exec(ptr_, sql_cmd.c_str(), NULL, 0, &messaggeError) != SQLITE_OK)
-    {
-        std::string error_msg = "DELETE Error (cmd = '''" + sql_cmd + "''')";
-        spdlog::error ("{}: {}", error_msg, messaggeError ? messaggeError : "");
-        sqlite3_free(messaggeError);
-
-        return;
-    }
-
+    execute_sql(sql_cmd, "CREDS");
 
     spdlog::info("Person {} removed successfully", person.login_);
 }
@@ -242,7 +231,7 @@ int DataBase::get_next_person_id()
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
-int DataBase::callback_creds(void* data, int argc, char** argv, char** azColName) 
+int DataBase::callback_person(void* data, int argc, char** argv, char** azColName) 
 {
     if (data)
     {
@@ -260,6 +249,30 @@ int DataBase::callback_creds(void* data, int argc, char** argv, char** azColName
 
 
 //----------------------------------------------------------------
+//!  Fill member "events_list_" with returned info from DB
+//!
+//!  @note          Depends of CREDS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
+int DataBase::callback_event(void* data, int argc, char** argv, char** azColName) 
+{
+    if (data)
+    {
+        spdlog::warn("Reveived data: {}", (const char*)data ? (const char*)data : "");
+        return 0;
+    }
+
+    Event temp(atoi(argv[0]), argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], atoi(argv[7]));
+
+    DataBase::get_instance().events_list_.push_back(temp);
+
+    return 0;
+}
+
+
+
+//----------------------------------------------------------------
 //!  Get all persons from DB to person_list_ member of class
 //!
 //!  @copyright     AlexZ
@@ -268,8 +281,36 @@ int DataBase::callback_creds(void* data, int argc, char** argv, char** azColName
 void DataBase::request_all_persons()
 {
     std::string sql_cmd = "SELECT * FROM CREDS;";
+    execute_sql(sql_cmd, "CREDS");
+}
 
-    sqlite3_exec(ptr_, sql_cmd.c_str(), callback_creds, NULL, NULL);
+
+
+//----------------------------------------------------------------
+//!  Check if person exist in database by login
+//!
+//!  @return        true (if exists), false (if not)
+//!  @note          If person exists, method set person.id_ to actual in database.
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
+bool DataBase::person_exists(Person& person)
+{   
+    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}';", person.login_);
+
+    persons_list_.clear();
+    execute_sql(sql_cmd, "CREDS");
+
+    if (persons_list_.size() > 0)
+    {
+        person.id_ = persons_list_.begin()->id_;
+        return true;
+    }
+
+    else
+    {
+        return false;
+    }
 }
 
 
@@ -294,38 +335,192 @@ void DataBase::print_persons_list()
 }
 
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Person part of interaction with DataBase
+// ---------------------------------------------------------------------------------------------------------------------
 
-//----------------------------------------------------------------
-//!  Check if person exist in database by login
-//!
-//!  @return        true (if exists), false (if not)
-//!  @note          If person exists, method set person.id_ to actual in database.
-//!  @copyright     AlexZ
-//----------------------------------------------------------------
 
-bool DataBase::person_exists(Person& person)
-{   
-    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}';", person.login_);
+// //----------------------------------------------------------------
+// //!  Add event to CREDS database
+// //!
+// //!  @param  [in]   person - person to search in DB
+// //!  @note          Depends of EVENTS structure!!!
+// //!  @copyright     AlexZ
+// //----------------------------------------------------------------
 
-    persons_list_.clear();
-    sqlite3_exec(ptr_, sql_cmd.c_str(), callback_creds, NULL, NULL);
+// void DataBase::add_event(Event& event)
+// {
+//     if (event_exists(event))
+//     {
+//         spdlog::warn("Person already exists ({})", person.login_);
+//         return;
+//     }
 
-    if (persons_list_.size() > 0)
-    {
-        person.id_ = persons_list_.begin()->id_;
-        return true;
-    }
+//     std::string sql_cmd = fmt::format("INSERT INTO CREDS VALUES({}, '{}', '{}');", std::to_string(get_next_person_id()), 
+//                                                                                     person.login_, person.password_);
 
-    else
-    {
-        return false;
-    }
-}
+//     char* messaggeError;
+
+
+//     if (sqlite3_exec(ptr_, sql_cmd.c_str(), NULL, 0, &messaggeError) != SQLITE_OK) 
+//     {
+//         std::string error_msg = "INSERT Error (cmd = '''" + sql_cmd + "''')";
+//         spdlog::error ("{}: {}", error_msg, messaggeError ? messaggeError : "");
+//         sqlite3_free(messaggeError);
+
+//         return;
+//     }
+
+
+//     spdlog::info("{:30} ... {}", "Adding person '" + person.login_ + "'", "OK");
+// }
+
+
+
+// //----------------------------------------------------------------
+// //!  Remove person to CREDS database
+// //!
+// //!  @param  [in]   person - person to search in DB
+// //!  @note          Depends of CREDS structure!!!
+// //!  @copyright     AlexZ
+// //----------------------------------------------------------------
+
+// void DataBase::remove_person(Person& person)
+// {
+//     if (!person_exists(person))
+//     {
+//         spdlog::warn("Person '{}' doesn't exist", person.login_);
+//         return;
+//     }
+
+//     std::string sql_cmd = fmt::format("DELETE FROM CREDS WHERE LOGIN = '{}';", person.login_);
+//     char* messaggeError;
+    
+
+//     if (sqlite3_exec(ptr_, sql_cmd.c_str(), NULL, 0, &messaggeError) != SQLITE_OK)
+//     {
+//         std::string error_msg = "DELETE Error (cmd = '''" + sql_cmd + "''')";
+//         spdlog::error ("{}: {}", error_msg, messaggeError ? messaggeError : "");
+//         sqlite3_free(messaggeError);
+
+//         return;
+//     }
+
+
+//     spdlog::info("Person {} removed successfully", person.login_);
+// }
+
+
+// //----------------------------------------------------------------
+// //!  DataBase class have field reserved_persons_id_ list. So we need the
+// //!  next id for adding new person.
+// //!
+// //!  @return        int next_id
+// //!  @copyright     AlexZ
+// //----------------------------------------------------------------
+
+// int DataBase::get_next_person_id()
+// {
+//     int i;
+//     for (i = 1; reserved_persons_id_.size() != 0 && reserved_persons_id_.find(i) != reserved_persons_id_.end(); i++) ;
+//     reserved_persons_id_.insert(i);
+
+//     return i;
+// }
+
+
+
+// //----------------------------------------------------------------
+// //!  Fill member "persons_list_" with returned info from DB
+// //!
+// //!  @note          Depends of CREDS structure!!!
+// //!  @copyright     AlexZ
+// //----------------------------------------------------------------
+
+// int DataBase::callback_person(void* data, int argc, char** argv, char** azColName) 
+// {
+//     if (data)
+//     {
+//         spdlog::warn("Reveived data: {}", (const char*)data ? (const char*)data : "");
+//         return 0;
+//     }
+
+//     Person temp(atoi(argv[0]), argv[1], argv[2]);
+
+//     DataBase::get_instance().persons_list_.push_back(temp);
+
+//     return 0;
+// }
+
+
+
+// //----------------------------------------------------------------
+// //!  Get all persons from DB to person_list_ member of class
+// //!
+// //!  @copyright     AlexZ
+// //----------------------------------------------------------------
+
+// void DataBase::request_all_persons()
+// {
+//     std::string sql_cmd = "SELECT * FROM CREDS;";
+
+//     sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, NULL, NULL);
+// }
+
+
+
+// //----------------------------------------------------------------
+// //!  Print list of persons, returned from database
+// //!
+// //!  @copyright     AlexZ
+// //----------------------------------------------------------------
+
+// void DataBase::print_persons_list()
+// {
+//     std::cout << "Persons:\n";
+
+//     // for (const auto& item : get_instance().persons_list_)    
+//     for (const auto& item : persons_list_)      // Не выводит
+//     {
+//         std::cout << item;
+//     }
+
+//     std::cout << std::endl;
+// }
+
+
+
+// //----------------------------------------------------------------
+// //!  Check if person exist in database by login
+// //!
+// //!  @return        true (if exists), false (if not)
+// //!  @note          If person exists, method set person.id_ to actual in database.
+// //!  @copyright     AlexZ
+// //----------------------------------------------------------------
+
+// bool DataBase::person_exists(Person& person)
+// {   
+//     std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}';", person.login_);
+
+//     persons_list_.clear();
+//     sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, NULL, NULL);
+
+//     if (persons_list_.size() > 0)
+//     {
+//         person.id_ = persons_list_.begin()->id_;
+//         return true;
+//     }
+
+//     else
+//     {
+//         return false;
+//     }
+// }
 
 
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Realisation for class "Person"
+// std::cout operators <<
 // ---------------------------------------------------------------------------------------------------------------------
 
 
@@ -346,6 +541,12 @@ std::ostream& operator<< (std::ostream &out, const Person &person)
 
 
 
+//----------------------------------------------------------------
+//!  Redefinition of operator << for class Event
+//!
+//!  @note          Depends of CREDS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
 
 std::ostream& operator<< (std::ostream &out, const Event &event)
 {
@@ -385,7 +586,7 @@ std::ostream& operator<< (std::ostream &out, const Event &event)
 
   
 //     std::cout << "STATE OF CREDS BEFORE INSERT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_creds, NULL, NULL);
+//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
 
   
 //     char* messaggeError;
@@ -408,7 +609,7 @@ std::ostream& operator<< (std::ostream &out, const Event &event)
   
 
 //     std::cout << "\nSTATE OF TABLE AFTER INSERT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_creds, NULL, NULL);
+//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
   
 
 //     sql = "DELETE FROM CREDS WHERE ID = 2;";
@@ -428,7 +629,7 @@ std::ostream& operator<< (std::ostream &out, const Event &event)
   
 
 //     std::cout << "STATE OF TABLE AFTER DELETE OF ELEMENT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_creds, NULL, NULL);
+//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
 
 
 //     std::cout << "End of test_db\n";
@@ -454,3 +655,5 @@ std::ostream& operator<< (std::ostream &out, const Event &event)
 
 //     std::remove(path_to_database.c_str());
 // }
+
+
