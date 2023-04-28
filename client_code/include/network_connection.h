@@ -97,6 +97,8 @@ class ServerConnection
     void read_data();
     void read_data_array_delete_elem(std::vector<ReadData> :: iterator i);
     boost::thread thread_read_data();
+    void cycle_read();
+    boost::thread thread_cycle_read();
 
     template<typename T> boost::thread thread_send_data(std::string name, T data)
     {

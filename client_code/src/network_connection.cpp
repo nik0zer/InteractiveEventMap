@@ -257,3 +257,28 @@ void ServerConnection::_thread_read_data()
     }
 }
 
+void ServerConnection::cycle_read()
+{
+    while(true)
+    {
+        try
+        {
+            read_data();
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr<<e.what()<<std::endl;
+            return;
+        }
+        catch(...)
+        {
+            return;
+        }
+    }
+}
+
+boost::thread ServerConnection::thread_cycle_read()
+{
+    return boost::thread(&ServerConnection::cycle_read, this);
+}
+
