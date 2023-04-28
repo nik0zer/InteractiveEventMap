@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 #include <list>
+// #include <format>
 #include "sqlite3.h"
 #include <spdlog/spdlog.h>
 
@@ -40,19 +41,22 @@ class DataBase
     DataBase();
 
   public:
-    static DataBase& get_instance();
-    void       add_person(Person& new_person);    // Насколько нужно эти методы объявлять константными?
-    bool       person_exists(const Person& person);
-    int        get_next_id();
-    void       print_all_creds();
-    void       print_persons_list();
 
-    friend int callback_creds(void* data, int argc, char** argv, char** azColName);
+    DataBase(DataBase&) = delete;
+    DataBase& operator=(const DataBase&) = delete;
+
+    static DataBase& get_instance();
+    void             add_person(Person& new_person);    // Насколько нужно эти методы объявлять константными?
+    bool             person_exists(Person& person);
+    int              get_next_id();
+    void             request_all_persons();
+    void             print_persons_list();
+    static int       callback_creds(void* data, int argc, char** argv, char** azColName);
 };
 
 
 sqlite3*   open_db(const std::string path);
-int        callback_creds(void* data, int argc, char** argv, char** azColName);
+
 void       create_tables(sqlite3* DB);
 int        test_db(sqlite3* DB);
 void       main_test();
