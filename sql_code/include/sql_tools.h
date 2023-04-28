@@ -39,6 +39,8 @@ class DataBase
     // std::list<Event> ans_events;
 
     DataBase();
+    sqlite3*   open_db(const std::string path);
+    void       create_tables(sqlite3* DB);
 
   public:
 
@@ -55,9 +57,7 @@ class DataBase
 };
 
 
-sqlite3*   open_db(const std::string path);
 
-void       create_tables(sqlite3* DB);
 int        test_db(sqlite3* DB);
 void       main_test();
 

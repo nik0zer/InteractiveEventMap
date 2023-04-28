@@ -21,7 +21,7 @@
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
-sqlite3* open_db(const std::string path) 
+sqlite3* DataBase::open_db(const std::string path) 
 {
     sqlite3* DB = nullptr; 
   
@@ -51,7 +51,7 @@ sqlite3* open_db(const std::string path)
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
-void create_tables(sqlite3* DB) 
+void DataBase::create_tables(sqlite3* DB) 
 {
     if (!DB)
     {
@@ -128,6 +128,7 @@ DataBase::DataBase()
 
 //----------------------------------------------------------------
 //!  Method to get instance of singleton object
+//!  @return        DataBase& - link for object of class
 //----------------------------------------------------------------
 
 DataBase& DataBase::get_instance()
@@ -141,6 +142,7 @@ DataBase& DataBase::get_instance()
 
 //----------------------------------------------------------------
 //!  Add person to CREDS database
+//!  @param  [in]   person - person to search in DB
 //----------------------------------------------------------------
 
 void DataBase::add_person(Person& person)
@@ -173,8 +175,9 @@ void DataBase::add_person(Person& person)
 
 
 //----------------------------------------------------------------
-//!  DataBase class have field reserved_id_ list, and this method 
-//!  return the minimal useful id.
+//!  DataBase class have field reserved_id_ list. So we need the
+//!  next id for adding new person.
+//!  @return    int next_id
 //----------------------------------------------------------------
 
 int DataBase::get_next_id()
@@ -202,11 +205,6 @@ int DataBase::callback_creds(void* data, int argc, char** argv, char** azColName
 
     Person temp(atoi(argv[0]), argv[1], argv[2]);
 
-    // for (int i = 0; i < argc; i++) {
-    //     printf("%s = %s; ", azColName[i], argv[i] ? argv[i] : "NULL");
-    // }
-    // printf("\n");
-
     DataBase::get_instance().persons_list_.push_back(temp);
 
     return 0;
@@ -215,7 +213,7 @@ int DataBase::callback_creds(void* data, int argc, char** argv, char** azColName
 
 
 //----------------------------------------------------------------
-//!  Get all persons from DB
+//!  Get all persons from DB to person_list_ member of class
 //----------------------------------------------------------------
 
 void DataBase::request_all_persons()
@@ -248,7 +246,8 @@ void DataBase::print_persons_list()
 
 //----------------------------------------------------------------
 //!  Check if person exist in database by login
-//!  If person exists, method set person.id_ to actual in database.
+//!  @return    true (if exists), false (if not)
+//!  @note      If person exists, method set person.id_ to actual in database.
 //----------------------------------------------------------------
 
 bool DataBase::person_exists(Person& person)
@@ -278,6 +277,9 @@ bool DataBase::person_exists(Person& person)
 
 
 
+//----------------------------------------------------------------
+//!  Redefinition of operator << for class Person
+//----------------------------------------------------------------
 
 std::ostream& operator<< (std::ostream &out, const Person &person)
 {
