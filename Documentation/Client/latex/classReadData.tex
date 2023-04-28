@@ -1,0 +1,97 @@
+\hypertarget{classReadData}{}\doxysection{Read\+Data Class Reference}
+\label{classReadData}\index{ReadData@{ReadData}}
+
+
+Сlass containing data read from a message.  
+
+
+
+
+{\ttfamily \#include $<$network\+\_\+connection.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{classReadData_a0f9aff91467670021d8c2e70cd39bf08}{data\+\_\+name}} ()
+\begin{DoxyCompactList}\small\item\em return name of datagramm \end{DoxyCompactList}\item 
+std\+::shared\+\_\+ptr$<$ std\+::vector$<$ char $>$ $>$ \mbox{\hyperlink{classReadData_a9fc4f2f07c57648e911addb20d5e9442}{data\+\_\+str\+\_\+ptr}} ()
+\begin{DoxyCompactList}\small\item\em return char vector contains message data \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{classReadData_a1bba0552dc6daf0dab799e28b30ef842}{data\+\_\+size}} ()
+\begin{DoxyCompactList}\small\item\em return size of message data \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classReadData_a772ee1c2beda32a4fbd8c4627eec081d}{Read\+Data}} (std\+::string \mbox{\hyperlink{classReadData_a0f9aff91467670021d8c2e70cd39bf08}{data\+\_\+name}}, uint32\+\_\+t \mbox{\hyperlink{classReadData_a1bba0552dc6daf0dab799e28b30ef842}{data\+\_\+size}}, std\+::shared\+\_\+ptr$<$ std\+::vector$<$ char $>$$>$ \mbox{\hyperlink{classReadData_a9fc4f2f07c57648e911addb20d5e9442}{data\+\_\+str\+\_\+ptr}})
+\begin{DoxyCompactList}\small\item\em Construct a new Read Data object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Сlass containing data read from a message. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classReadData_a772ee1c2beda32a4fbd8c4627eec081d}\label{classReadData_a772ee1c2beda32a4fbd8c4627eec081d}} 
+\index{ReadData@{ReadData}!ReadData@{ReadData}}
+\index{ReadData@{ReadData}!ReadData@{ReadData}}
+\doxysubsubsection{\texorpdfstring{ReadData()}{ReadData()}}
+{\footnotesize\ttfamily Read\+Data\+::\+Read\+Data (\begin{DoxyParamCaption}\item[{std\+::string}]{data\+\_\+name,  }\item[{uint32\+\_\+t}]{data\+\_\+size,  }\item[{std\+::shared\+\_\+ptr$<$ std\+::vector$<$ char $>$$>$}]{data\+\_\+str\+\_\+ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Read Data object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+\_\+name} & name of message \\
+\hline
+{\em data\+\_\+size} & size of message data \\
+\hline
+{\em data\+\_\+str\+\_\+ptr} & char vector contains message data \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classReadData_a0f9aff91467670021d8c2e70cd39bf08}\label{classReadData_a0f9aff91467670021d8c2e70cd39bf08}} 
+\index{ReadData@{ReadData}!data\_name@{data\_name}}
+\index{data\_name@{data\_name}!ReadData@{ReadData}}
+\doxysubsubsection{\texorpdfstring{data\_name()}{data\_name()}}
+{\footnotesize\ttfamily std\+::string Read\+Data\+::data\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+return name of datagramm 
+
+\begin{DoxyReturn}{Returns}
+std\+::string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classReadData_a1bba0552dc6daf0dab799e28b30ef842}\label{classReadData_a1bba0552dc6daf0dab799e28b30ef842}} 
+\index{ReadData@{ReadData}!data\_size@{data\_size}}
+\index{data\_size@{data\_size}!ReadData@{ReadData}}
+\doxysubsubsection{\texorpdfstring{data\_size()}{data\_size()}}
+{\footnotesize\ttfamily uint32\+\_\+t Read\+Data\+::data\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+return size of message data 
+
+\begin{DoxyReturn}{Returns}
+uint32\+\_\+t 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classReadData_a9fc4f2f07c57648e911addb20d5e9442}\label{classReadData_a9fc4f2f07c57648e911addb20d5e9442}} 
+\index{ReadData@{ReadData}!data\_str\_ptr@{data\_str\_ptr}}
+\index{data\_str\_ptr@{data\_str\_ptr}!ReadData@{ReadData}}
+\doxysubsubsection{\texorpdfstring{data\_str\_ptr()}{data\_str\_ptr()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ std\+::vector$<$ char $>$ $>$ Read\+Data\+::data\+\_\+str\+\_\+ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+return char vector contains message data 
+
+\begin{DoxyReturn}{Returns}
+std\+::shared\+\_\+ptr$<$std\+::vector$<$char$>$$>$ 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+client\+\_\+code/include/network\+\_\+connection.\+h\item 
+client\+\_\+code/src/network\+\_\+connection.\+cpp\end{DoxyCompactItemize}
