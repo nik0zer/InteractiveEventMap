@@ -5,6 +5,7 @@
     "dependencies": [
         "boost-asio",
         "boost-thread",
-        "sqlite3"
+        "sqlite3",
+        "spdlog"
     ]
 }

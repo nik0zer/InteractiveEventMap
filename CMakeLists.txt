@@ -24,7 +24,8 @@ target_include_directories(InteractiveEventMap_sql PRIVATE    "sql_code/include"
 find_package(Boost REQUIRED)
 find_package(Boost REQUIRED COMPONENTS thread)
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
 target_link_libraries(InteractiveEventMap_client PRIVATE Boost::boost Boost::thread) 
 target_link_libraries(InteractiveEventMap_server PRIVATE Boost::boost Boost::thread)
-target_link_libraries(InteractiveEventMap_sql PRIVATE Boost::boost Boost::thread unofficial::sqlite3::sqlite3)
+target_link_libraries(InteractiveEventMap_sql PRIVATE Boost::boost Boost::thread unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
