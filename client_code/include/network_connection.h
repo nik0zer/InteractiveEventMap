@@ -186,18 +186,54 @@ class ServerConnection
      * 
      */
     void read_data();
+
+    /**
+     * @brief delete elem from read data array by iterator
+     * 
+     * @param i iterator of the deleted element
+     */
     void read_data_array_delete_elem(std::vector<ReadData> :: iterator i);
 
-
+    /**
+     * @brief read data in a separated tread
+     * 
+     * @return boost::thread reading thread
+     */
     boost::thread thread_read_data();
+
+    /**
+     * @brief cyclically reads server messages
+     * 
+     */
     void cycle_read();
+
+    /**
+     * @brief cyclically reads server messages in separated thread
+     * 
+     * @return boost::thread cyclically reading thread
+     */
     boost::thread thread_cycle_read();
 
+    /**
+     * @brief send message to server in a separated thread
+     * 
+     * @tparam T type of data for message
+     * @param name message name
+     * @param data message data
+     * @return boost::thread send message thread
+     */
     template<typename T> boost::thread thread_send_data(std::string name, T data)
     {
       return boost::thread(&ServerConnection::_thread_send_data<T>, this, name, data);
     }
 
+    /**
+     * @brief send message to server
+     * 
+     * @tparam T type of data for message
+     * @param name message name
+     * @param data message data
+     */
     template<typename T> void send_data(std::string name, T data)
     {
       std::shared_ptr<boost::asio::streambuf> buffer_ptr(new boost::asio::streambuf);
@@ -205,7 +241,21 @@ class ServerConnection
       send_buffer(buffer_ptr);
     }
 
+
+    /**
+     * @brief Construct a new Server Connection object
+     * 
+     * @param server_ip server ip (string)
+     * @param port port
+     */
     ServerConnection(std::string server_ip, int port);
+
+    /**
+     * @brief Construct a new Server Connection object
+     * 
+     * @param server_ip server ip (ip::address)
+     * @param port port
+     */
     ServerConnection(boost::asio::ip::address server_ip, int port);
     ServerConnection(const ServerConnection& server) = delete;
     ServerConnection operator=(const ServerConnection& server) = delete;
