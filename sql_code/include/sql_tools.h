@@ -6,7 +6,6 @@
 #include <set>
 #include <string>
 #include <list>
-// #include <format>
 #include "sqlite3.h"
 #include <spdlog/spdlog.h>
 
@@ -24,19 +23,21 @@ class Person
   public:
     Person();
     Person(int id, std::string login, std::string psw): id_(id), login_(login), password_(psw){}
-    // Переопределить оператор вывода
     friend std::ostream& operator<< (std::ostream &out, const Person &person);
 
     friend DataBase;
 };
 
 
+
+// Переписать с двумя наследниками-таблицами
+
 class DataBase
 {
-    sqlite3*      ptr_;
-    std::set<int> reserved_id_;
-    std::list<Person> persons_list_;
-    // std::list<Event> ans_events;
+    sqlite3*            ptr_;               // Pointer to DataBase
+    std::set<int>       reserved_id_;       // set of already using ids
+    std::list<Person>   persons_list_;      // List for answer from DataBase for person's creds
+    // std::list<Event> ans_events;            // List for answer from DataBase for events
 
     DataBase();
     sqlite3*   open_db(const std::string path);
@@ -49,17 +50,13 @@ class DataBase
 
     static DataBase& get_instance();
     void             add_person(Person& new_person);    // Насколько нужно эти методы объявлять константными?
+    void             remove_person(Person& person);
     bool             person_exists(Person& person);
     int              get_next_id();
     void             request_all_persons();
     void             print_persons_list();
     static int       callback_creds(void* data, int argc, char** argv, char** azColName);
 };
-
-
-
-int        test_db(sqlite3* DB);
-void       main_test();
 
 
 

@@ -12,6 +12,12 @@
 
 
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Realisation for class "DataBase"
+// ---------------------------------------------------------------------------------------------------------------------
+
+
+
 //----------------------------------------------------------------
 //!  Open database for subsequent interactions
 //
@@ -106,16 +112,12 @@ void DataBase::create_tables(sqlite3* DB)
 
 
 
-// ---------------------------------------------------------------------------------------------------------------------
-// Realisation for class "DataBase"
-// ---------------------------------------------------------------------------------------------------------------------
-
-
-
 //----------------------------------------------------------------
 //!  Constructor for class DataBase consist of
 //!  - openning DB
 //!  - creating tables in DB (CREDS and EVENTS)
+//!
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 DataBase::DataBase()
@@ -128,7 +130,9 @@ DataBase::DataBase()
 
 //----------------------------------------------------------------
 //!  Method to get instance of singleton object
+//!
 //!  @return        DataBase& - link for object of class
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 DataBase& DataBase::get_instance()
@@ -142,7 +146,9 @@ DataBase& DataBase::get_instance()
 
 //----------------------------------------------------------------
 //!  Add person to CREDS database
+//!
 //!  @param  [in]   person - person to search in DB
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 void DataBase::add_person(Person& person)
@@ -174,10 +180,38 @@ void DataBase::add_person(Person& person)
 
 
 
+void DataBase::remove_person(Person& person)
+{
+    if (!person_exists(person))
+    {
+        spdlog::warn("Person '{}' doesn't exist", person.login_);
+        return;
+    }
+
+    std::string sql_cmd = fmt::format("DELETE FROM CREDS WHERE LOGIN = '{}';", person.login_);
+    char* messaggeError;
+    
+
+    if (sqlite3_exec(ptr_, sql_cmd.c_str(), NULL, 0, &messaggeError) != SQLITE_OK)
+    {
+        std::string error_msg = "DELETE Error (cmd = '''" + sql_cmd + "''')";
+        spdlog::error ("{}: {}", error_msg, messaggeError ? messaggeError : "");
+        sqlite3_free(messaggeError);
+
+        return;
+    }
+
+
+    spdlog::info("Person {} removed successfully", person.login_);
+}
+
+
 //----------------------------------------------------------------
 //!  DataBase class have field reserved_id_ list. So we need the
 //!  next id for adding new person.
+//!
 //!  @return    int next_id
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 int DataBase::get_next_id()
@@ -193,6 +227,8 @@ int DataBase::get_next_id()
 
 //----------------------------------------------------------------
 //!  Fill member "persons_list_" with returned info from DB
+//!
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 int DataBase::callback_creds(void* data, int argc, char** argv, char** azColName) 
@@ -214,6 +250,8 @@ int DataBase::callback_creds(void* data, int argc, char** argv, char** azColName
 
 //----------------------------------------------------------------
 //!  Get all persons from DB to person_list_ member of class
+//!
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 void DataBase::request_all_persons()
@@ -227,6 +265,8 @@ void DataBase::request_all_persons()
 
 //----------------------------------------------------------------
 //!  Print list of persons, returned from database
+//!
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 void DataBase::print_persons_list()
@@ -246,8 +286,10 @@ void DataBase::print_persons_list()
 
 //----------------------------------------------------------------
 //!  Check if person exist in database by login
-//!  @return    true (if exists), false (if not)
-//!  @note      If person exists, method set person.id_ to actual in database.
+//!
+//!  @return        true (if exists), false (if not)
+//!  @note          If person exists, method set person.id_ to actual in database.
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 bool DataBase::person_exists(Person& person)
@@ -279,6 +321,8 @@ bool DataBase::person_exists(Person& person)
 
 //----------------------------------------------------------------
 //!  Redefinition of operator << for class Person
+//!
+//!  @copyright     AlexZ
 //----------------------------------------------------------------
 
 std::ostream& operator<< (std::ostream &out, const Person &person)

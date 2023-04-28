@@ -15,6 +15,7 @@ int main()
     main_base.add_person(per);
     main_base.add_person(per1);
     main_base.add_person(per2);
+    main_base.remove_person(per1);
     main_base.request_all_persons();
     main_base.print_persons_list();
     main_base.person_exists(per);
