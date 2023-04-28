@@ -36,13 +36,7 @@ void client_session(ClientConnection client_connection)
 
 int main()
 {
-    Server server(2001);
-    server.client_waiting(client_session);
-    for(auto i = server.clients.begin(); i != server.clients.end(); i++)
-    {
-        i->client_session_ptr->join();
-    }
-    std::cout<<"end of server code"<<std::endl;
+    
 }
 
 
