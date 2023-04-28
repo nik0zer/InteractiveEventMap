@@ -1,0 +1,61 @@
+\hypertarget{classClient}{}\doxysection{Client Class Reference}
+\label{classClient}\index{Client@{Client}}
+
+
+Class with information about connected client.  
+
+
+
+
+{\ttfamily \#include $<$network\+\_\+connection.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classClient_a55dc4d909a49b72bb25dddada6e7e945}{Client}} (int client\+\_\+id, std\+::shared\+\_\+ptr$<$ boost\+::thread $>$ client\+\_\+session\+\_\+ptr, std\+::shared\+\_\+ptr$<$ boost\+::asio\+::ip\+::tcp\+::socket $>$ socket\+\_\+ptr)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classClient}{Client}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classClient_ad4ad8a39dd099f3103d5a39cf08a7242}\label{classClient_ad4ad8a39dd099f3103d5a39cf08a7242}} 
+bool {\bfseries check\+\_\+connection} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classClient_af99bc865f109d9769ca9f4b7799fdb1c}\label{classClient_af99bc865f109d9769ca9f4b7799fdb1c}} 
+int {\bfseries client\+\_\+id}
+\item 
+\mbox{\Hypertarget{classClient_a6f5765de513279c026038aa6d966a2cf}\label{classClient_a6f5765de513279c026038aa6d966a2cf}} 
+std\+::shared\+\_\+ptr$<$ boost\+::thread $>$ {\bfseries client\+\_\+session\+\_\+ptr}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class with information about connected client. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classClient_a55dc4d909a49b72bb25dddada6e7e945}\label{classClient_a55dc4d909a49b72bb25dddada6e7e945}} 
+\index{Client@{Client}!Client@{Client}}
+\index{Client@{Client}!Client@{Client}}
+\doxysubsubsection{\texorpdfstring{Client()}{Client()}}
+{\footnotesize\ttfamily Client\+::\+Client (\begin{DoxyParamCaption}\item[{int}]{client\+\_\+id,  }\item[{std\+::shared\+\_\+ptr$<$ boost\+::thread $>$}]{client\+\_\+session\+\_\+ptr,  }\item[{std\+::shared\+\_\+ptr$<$ boost\+::asio\+::ip\+::tcp\+::socket $>$}]{socket\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+Construct a new \mbox{\hyperlink{classClient}{Client}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+id} & client id \\
+\hline
+{\em client\+\_\+session\+\_\+ptr} & pointer to client session thread \\
+\hline
+{\em socket\+\_\+ptr} & pointer to socket connected with client \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+server\+\_\+code/include/network\+\_\+connection.\+h\item 
+server\+\_\+code/src/network\+\_\+connection.\+cpp\end{DoxyCompactItemize}

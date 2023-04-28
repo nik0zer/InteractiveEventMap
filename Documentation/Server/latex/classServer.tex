@@ -1,0 +1,104 @@
+\hypertarget{classServer}{}\doxysection{Server Class Reference}
+\label{classServer}\index{Server@{Server}}
+
+
+Class which control clients connection to server.  
+
+
+
+
+{\ttfamily \#include $<$network\+\_\+connection.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classServer_a7d1fe6ba5f0fe9190a4f039662ea0e85}{Server}} (int port)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classServer}{Server}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classServer_a23b785f7b249dda93d5d67b47235937a}\label{classServer_a23b785f7b249dda93d5d67b47235937a}} 
+{\bfseries Server} (const \mbox{\hyperlink{classServer}{Server}} \&server)=delete
+\item 
+\mbox{\Hypertarget{classServer_a6f74b08d722f9d855b6e6b404e79708c}\label{classServer_a6f74b08d722f9d855b6e6b404e79708c}} 
+\mbox{\hyperlink{classServer}{Server}} \& {\bfseries operator=} (const \mbox{\hyperlink{classServer}{Server}} \&server)=delete
+\item 
+void \mbox{\hyperlink{classServer_a8152f347b0e708789c3884919ff56099}{client\+\_\+waiting}} (void client\+\_\+session(\mbox{\hyperlink{classClientConnection}{Client\+Connection}} \mbox{\hyperlink{classClientConnection}{Client\+Connection}}))
+\begin{DoxyCompactList}\small\item\em function is infinitely waiting for the connection of the sockets \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classServer_a821b91891f05e9af46224616c04938a2}\label{classServer_a821b91891f05e9af46224616c04938a2}} 
+void \mbox{\hyperlink{classServer_a821b91891f05e9af46224616c04938a2}{client\+\_\+update}} ()
+\begin{DoxyCompactList}\small\item\em function removing inactive clients function removing inactive clients from the list of clients and returning their ids to the list of free ones \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classClient}{Client}} $>$ \mbox{\hyperlink{classServer_ae4f51f6091114a170d7c8d5dcb899419}{clients}}
+\begin{DoxyCompactList}\small\item\em array of clients connected to server \end{DoxyCompactList}\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{classServer_a2bfb5dd940b31f85230f2711d4a5e981}{free\+\_\+client\+\_\+id}}
+\begin{DoxyCompactList}\small\item\em array of free clients id \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class which control clients connection to server. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classServer_a7d1fe6ba5f0fe9190a4f039662ea0e85}\label{classServer_a7d1fe6ba5f0fe9190a4f039662ea0e85}} 
+\index{Server@{Server}!Server@{Server}}
+\index{Server@{Server}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{Server()}{Server()}}
+{\footnotesize\ttfamily Server\+::\+Server (\begin{DoxyParamCaption}\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Construct a new \mbox{\hyperlink{classServer}{Server}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em port} & port for waiting for clients \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classServer_a8152f347b0e708789c3884919ff56099}\label{classServer_a8152f347b0e708789c3884919ff56099}} 
+\index{Server@{Server}!client\_waiting@{client\_waiting}}
+\index{client\_waiting@{client\_waiting}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{client\_waiting()}{client\_waiting()}}
+{\footnotesize\ttfamily void Server\+::client\+\_\+waiting (\begin{DoxyParamCaption}\item[{void }]{client\+\_\+sessionClient\+Connection Client\+Connection }\end{DoxyParamCaption})}
+
+
+
+function is infinitely waiting for the connection of the sockets 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+session} & function that will be called to interact with the client after its connection \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classServer_ae4f51f6091114a170d7c8d5dcb899419}\label{classServer_ae4f51f6091114a170d7c8d5dcb899419}} 
+\index{Server@{Server}!clients@{clients}}
+\index{clients@{clients}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{clients}{clients}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classClient}{Client}}$>$ Server\+::clients}
+
+
+
+array of clients connected to server 
+
+\mbox{\Hypertarget{classServer_a2bfb5dd940b31f85230f2711d4a5e981}\label{classServer_a2bfb5dd940b31f85230f2711d4a5e981}} 
+\index{Server@{Server}!free\_client\_id@{free\_client\_id}}
+\index{free\_client\_id@{free\_client\_id}!Server@{Server}}
+\doxysubsubsection{\texorpdfstring{free\_client\_id}{free\_client\_id}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ Server\+::free\+\_\+client\+\_\+id}
+
+
+
+array of free clients id 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+server\+\_\+code/include/network\+\_\+connection.\+h\item 
+server\+\_\+code/src/network\+\_\+connection.\+cpp\end{DoxyCompactItemize}

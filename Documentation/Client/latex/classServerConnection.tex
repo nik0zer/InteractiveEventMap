@@ -1,0 +1,291 @@
+\hypertarget{classServerConnection}{}\doxysection{Server\+Connection Class Reference}
+\label{classServerConnection}\index{ServerConnection@{ServerConnection}}
+
+
+Сlass that provides a connection to the server.  
+
+
+
+
+{\ttfamily \#include $<$network\+\_\+connection.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classServerConnection_a644c6418d8bd8c20de76579b37d18b92}{connect\+\_\+to\+\_\+server}} ()
+\begin{DoxyCompactList}\small\item\em connecting to the server using the specified IP address \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classServerConnection_ab21fec80589ce32575a4fb4fa585d273}{set\+\_\+new\+\_\+server\+\_\+ip}} (std\+::string server\+\_\+ip, int port)
+\begin{DoxyCompactList}\small\item\em Set the new server ip. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classServerConnection_a47b36709787bbf7477fad47274f60b29}{set\+\_\+new\+\_\+server\+\_\+ip}} (boost\+::asio\+::ip\+::address server\+\_\+ip, int port)
+\begin{DoxyCompactList}\small\item\em Set the new server ip. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classServerConnection_a4e5b78e4b32baebf822cc65c6b8b9720}{close\+\_\+connection}} ()
+\begin{DoxyCompactList}\small\item\em close connection with server \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classServerConnection_a6d4744da928c7d42440897511f26e751}{read\+\_\+data}} ()
+\begin{DoxyCompactList}\small\item\em read data from server to read array \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classServerConnection_a9434a1d11ce989e661d0f21f48fabcd8}{read\+\_\+data\+\_\+array\+\_\+delete\+\_\+elem}} (std\+::vector$<$ \mbox{\hyperlink{classReadData}{Read\+Data}} $>$ \+::iterator i)
+\begin{DoxyCompactList}\small\item\em delete elem from read data array by iterator \end{DoxyCompactList}\item 
+boost\+::thread \mbox{\hyperlink{classServerConnection_a1fb8095597f533e8bbe25f85b0be9aff}{thread\+\_\+read\+\_\+data}} ()
+\begin{DoxyCompactList}\small\item\em read data in a separated tread \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classServerConnection_a0fd719d157e28a3a8fd59cfccef79b50}{cycle\+\_\+read}} ()
+\begin{DoxyCompactList}\small\item\em cyclically reads server messages \end{DoxyCompactList}\item 
+boost\+::thread \mbox{\hyperlink{classServerConnection_a8add1777894d7fb9e509ebdbbf71fea8}{thread\+\_\+cycle\+\_\+read}} ()
+\begin{DoxyCompactList}\small\item\em cyclically reads server messages in separated thread \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\boost\+::thread \mbox{\hyperlink{classServerConnection_a04dd8e898da6cdb7b3e7c5bfc0fc8f3e}{thread\+\_\+send\+\_\+data}} (std\+::string name, T data)
+\begin{DoxyCompactList}\small\item\em send message to server in a separated thread \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classServerConnection_af891ec8aceb5932a4198936176257aad}{send\+\_\+data}} (std\+::string name, T data)
+\begin{DoxyCompactList}\small\item\em send message to server \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classServerConnection_a0f5af97fa7e349548dbddcb8358c22f4}{Server\+Connection}} (std\+::string server\+\_\+ip, int port)
+\begin{DoxyCompactList}\small\item\em Construct a new Server Connection object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classServerConnection_ae89b717eb53ae607f7a755f820e09219}{Server\+Connection}} (boost\+::asio\+::ip\+::address server\+\_\+ip, int port)
+\begin{DoxyCompactList}\small\item\em Construct a new Server Connection object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classServerConnection_ade00d9a41d29115d24be429f1ffd0b5a}\label{classServerConnection_ade00d9a41d29115d24be429f1ffd0b5a}} 
+{\bfseries Server\+Connection} (const \mbox{\hyperlink{classServerConnection}{Server\+Connection}} \&server)=delete
+\item 
+\mbox{\Hypertarget{classServerConnection_a52b464b6a2bc3919bfe9e3b677f400c2}\label{classServerConnection_a52b464b6a2bc3919bfe9e3b677f400c2}} 
+\mbox{\hyperlink{classServerConnection}{Server\+Connection}} {\bfseries operator=} (const \mbox{\hyperlink{classServerConnection}{Server\+Connection}} \&server)=delete
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::mutex \mbox{\hyperlink{classServerConnection_a72ad9e44710f523659ab2b79466a0aa3}{read\+\_\+data\+\_\+mutex}}
+\begin{DoxyCompactList}\small\item\em mutex to access read data array \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classReadData}{Read\+Data}} $>$ \mbox{\hyperlink{classServerConnection_a6deef6bf2a996eec5a58acfa62fde102}{read\+\_\+data\+\_\+array}}
+\begin{DoxyCompactList}\small\item\em array with read data \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Сlass that provides a connection to the server. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classServerConnection_a0f5af97fa7e349548dbddcb8358c22f4}\label{classServerConnection_a0f5af97fa7e349548dbddcb8358c22f4}} 
+\index{ServerConnection@{ServerConnection}!ServerConnection@{ServerConnection}}
+\index{ServerConnection@{ServerConnection}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{ServerConnection()}{ServerConnection()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Server\+Connection\+::\+Server\+Connection (\begin{DoxyParamCaption}\item[{std\+::string}]{server\+\_\+ip,  }\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Construct a new Server Connection object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em server\+\_\+ip} & server ip (string) \\
+\hline
+{\em port} & port \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classServerConnection_ae89b717eb53ae607f7a755f820e09219}\label{classServerConnection_ae89b717eb53ae607f7a755f820e09219}} 
+\index{ServerConnection@{ServerConnection}!ServerConnection@{ServerConnection}}
+\index{ServerConnection@{ServerConnection}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{ServerConnection()}{ServerConnection()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Server\+Connection\+::\+Server\+Connection (\begin{DoxyParamCaption}\item[{boost\+::asio\+::ip\+::address}]{server\+\_\+ip,  }\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Construct a new Server Connection object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em server\+\_\+ip} & server ip (ip\+::address) \\
+\hline
+{\em port} & port \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classServerConnection_a4e5b78e4b32baebf822cc65c6b8b9720}\label{classServerConnection_a4e5b78e4b32baebf822cc65c6b8b9720}} 
+\index{ServerConnection@{ServerConnection}!close\_connection@{close\_connection}}
+\index{close\_connection@{close\_connection}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{close\_connection()}{close\_connection()}}
+{\footnotesize\ttfamily void Server\+Connection\+::close\+\_\+connection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+close connection with server 
+
+\mbox{\Hypertarget{classServerConnection_a644c6418d8bd8c20de76579b37d18b92}\label{classServerConnection_a644c6418d8bd8c20de76579b37d18b92}} 
+\index{ServerConnection@{ServerConnection}!connect\_to\_server@{connect\_to\_server}}
+\index{connect\_to\_server@{connect\_to\_server}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{connect\_to\_server()}{connect\_to\_server()}}
+{\footnotesize\ttfamily void Server\+Connection\+::connect\+\_\+to\+\_\+server (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+connecting to the server using the specified IP address 
+
+\mbox{\Hypertarget{classServerConnection_a0fd719d157e28a3a8fd59cfccef79b50}\label{classServerConnection_a0fd719d157e28a3a8fd59cfccef79b50}} 
+\index{ServerConnection@{ServerConnection}!cycle\_read@{cycle\_read}}
+\index{cycle\_read@{cycle\_read}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{cycle\_read()}{cycle\_read()}}
+{\footnotesize\ttfamily void Server\+Connection\+::cycle\+\_\+read (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+cyclically reads server messages 
+
+\mbox{\Hypertarget{classServerConnection_a6d4744da928c7d42440897511f26e751}\label{classServerConnection_a6d4744da928c7d42440897511f26e751}} 
+\index{ServerConnection@{ServerConnection}!read\_data@{read\_data}}
+\index{read\_data@{read\_data}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{read\_data()}{read\_data()}}
+{\footnotesize\ttfamily void Server\+Connection\+::read\+\_\+data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+read data from server to read array 
+
+\mbox{\Hypertarget{classServerConnection_a9434a1d11ce989e661d0f21f48fabcd8}\label{classServerConnection_a9434a1d11ce989e661d0f21f48fabcd8}} 
+\index{ServerConnection@{ServerConnection}!read\_data\_array\_delete\_elem@{read\_data\_array\_delete\_elem}}
+\index{read\_data\_array\_delete\_elem@{read\_data\_array\_delete\_elem}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{read\_data\_array\_delete\_elem()}{read\_data\_array\_delete\_elem()}}
+{\footnotesize\ttfamily void Server\+Connection\+::read\+\_\+data\+\_\+array\+\_\+delete\+\_\+elem (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classReadData}{Read\+Data}} $>$ \+::iterator}]{i }\end{DoxyParamCaption})}
+
+
+
+delete elem from read data array by iterator 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & iterator of the deleted element \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classServerConnection_af891ec8aceb5932a4198936176257aad}\label{classServerConnection_af891ec8aceb5932a4198936176257aad}} 
+\index{ServerConnection@{ServerConnection}!send\_data@{send\_data}}
+\index{send\_data@{send\_data}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{send\_data()}{send\_data()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void Server\+Connection\+::send\+\_\+data (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{T}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+send message to server 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type of data for message \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & message name \\
+\hline
+{\em data} & message data \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classServerConnection_a47b36709787bbf7477fad47274f60b29}\label{classServerConnection_a47b36709787bbf7477fad47274f60b29}} 
+\index{ServerConnection@{ServerConnection}!set\_new\_server\_ip@{set\_new\_server\_ip}}
+\index{set\_new\_server\_ip@{set\_new\_server\_ip}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{set\_new\_server\_ip()}{set\_new\_server\_ip()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Server\+Connection\+::set\+\_\+new\+\_\+server\+\_\+ip (\begin{DoxyParamCaption}\item[{boost\+::asio\+::ip\+::address}]{server\+\_\+ip,  }\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Set the new server ip. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em server\+\_\+ip} & server ip (ip\+::address) \\
+\hline
+{\em port} & port (int) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classServerConnection_ab21fec80589ce32575a4fb4fa585d273}\label{classServerConnection_ab21fec80589ce32575a4fb4fa585d273}} 
+\index{ServerConnection@{ServerConnection}!set\_new\_server\_ip@{set\_new\_server\_ip}}
+\index{set\_new\_server\_ip@{set\_new\_server\_ip}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{set\_new\_server\_ip()}{set\_new\_server\_ip()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Server\+Connection\+::set\+\_\+new\+\_\+server\+\_\+ip (\begin{DoxyParamCaption}\item[{std\+::string}]{server\+\_\+ip,  }\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Set the new server ip. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em server\+\_\+ip} & server ip (string) \\
+\hline
+{\em port} & port (int) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classServerConnection_a8add1777894d7fb9e509ebdbbf71fea8}\label{classServerConnection_a8add1777894d7fb9e509ebdbbf71fea8}} 
+\index{ServerConnection@{ServerConnection}!thread\_cycle\_read@{thread\_cycle\_read}}
+\index{thread\_cycle\_read@{thread\_cycle\_read}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{thread\_cycle\_read()}{thread\_cycle\_read()}}
+{\footnotesize\ttfamily boost\+::thread Server\+Connection\+::thread\+\_\+cycle\+\_\+read (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+cyclically reads server messages in separated thread 
+
+\begin{DoxyReturn}{Returns}
+boost\+::thread cyclically reading thread 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classServerConnection_a1fb8095597f533e8bbe25f85b0be9aff}\label{classServerConnection_a1fb8095597f533e8bbe25f85b0be9aff}} 
+\index{ServerConnection@{ServerConnection}!thread\_read\_data@{thread\_read\_data}}
+\index{thread\_read\_data@{thread\_read\_data}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{thread\_read\_data()}{thread\_read\_data()}}
+{\footnotesize\ttfamily boost\+::thread Server\+Connection\+::thread\+\_\+read\+\_\+data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+read data in a separated tread 
+
+\begin{DoxyReturn}{Returns}
+boost\+::thread reading thread 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classServerConnection_a04dd8e898da6cdb7b3e7c5bfc0fc8f3e}\label{classServerConnection_a04dd8e898da6cdb7b3e7c5bfc0fc8f3e}} 
+\index{ServerConnection@{ServerConnection}!thread\_send\_data@{thread\_send\_data}}
+\index{thread\_send\_data@{thread\_send\_data}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{thread\_send\_data()}{thread\_send\_data()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+boost\+::thread Server\+Connection\+::thread\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{T}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+send message to server in a separated thread 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type of data for message \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & message name \\
+\hline
+{\em data} & message data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boost\+::thread send message thread 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classServerConnection_a6deef6bf2a996eec5a58acfa62fde102}\label{classServerConnection_a6deef6bf2a996eec5a58acfa62fde102}} 
+\index{ServerConnection@{ServerConnection}!read\_data\_array@{read\_data\_array}}
+\index{read\_data\_array@{read\_data\_array}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{read\_data\_array}{read\_data\_array}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classReadData}{Read\+Data}}$>$ Server\+Connection\+::read\+\_\+data\+\_\+array}
+
+
+
+array with read data 
+
+\mbox{\Hypertarget{classServerConnection_a72ad9e44710f523659ab2b79466a0aa3}\label{classServerConnection_a72ad9e44710f523659ab2b79466a0aa3}} 
+\index{ServerConnection@{ServerConnection}!read\_data\_mutex@{read\_data\_mutex}}
+\index{read\_data\_mutex@{read\_data\_mutex}!ServerConnection@{ServerConnection}}
+\doxysubsubsection{\texorpdfstring{read\_data\_mutex}{read\_data\_mutex}}
+{\footnotesize\ttfamily std\+::mutex Server\+Connection\+::read\+\_\+data\+\_\+mutex}
+
+
+
+mutex to access read data array 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+client\+\_\+code/include/network\+\_\+connection.\+h\item 
+client\+\_\+code/src/network\+\_\+connection.\+cpp\end{DoxyCompactItemize}
