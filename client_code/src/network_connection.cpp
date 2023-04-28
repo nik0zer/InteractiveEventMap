@@ -84,7 +84,6 @@ void ServerConnection::read_data()
             name_size.bytes[i] = data_buffer.sgetc();
             data_buffer.snextc();
         }
-        std::cout<<name_size.uint<<std::endl;
 
         boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(name_size.uint));
 
