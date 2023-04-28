@@ -22,10 +22,11 @@ class Person
 
   public:
     Person();
+    Person(std::string login, std::string psw): login_(login), password_(psw){}
     Person(int id, std::string login, std::string psw): id_(id), login_(login), password_(psw){}
-    friend std::ostream& operator<< (std::ostream &out, const Person &person);
 
     friend DataBase;
+    friend std::ostream& operator<< (std::ostream &out, const Person &person);
 };
 
 

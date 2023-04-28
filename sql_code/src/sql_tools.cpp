@@ -180,6 +180,13 @@ void DataBase::add_person(Person& person)
 
 
 
+//----------------------------------------------------------------
+//!  Remove person to CREDS database
+//!
+//!  @param  [in]   person - person to search in DB
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
 void DataBase::remove_person(Person& person)
 {
     if (!person_exists(person))
