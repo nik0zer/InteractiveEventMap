@@ -25,10 +25,21 @@ Skeleton::Skeleton(QWidget *parent)
   QAction *quit2 = toolbar->addAction(QIcon(quitpix), "Quit Application");
         
   connect(quit2, &QAction::triggered, qApp, &QApplication::quit);
- 
-  ListWidget *list = new ListWidget(this);
+
+  //std::vector<Event> events = parent-> getEventVector();
+  list = new ListWidget(this);
+  
   
   setCentralWidget(list); // помещаем созданный виджет в центр виджета QMainWindow
  
   statusBar()->showMessage("Ready"); // показываем в нижней панели приложения сообщение "Ready"
+}
+
+void Skeleton::updateEventsList()
+{
+
+  std::cout << events_[0].get_name() << std::endl;;
+  list->setEventVector(events_);
+  list->updateEventsList();
+  printf ("вызвалась\n");
 }

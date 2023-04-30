@@ -8,9 +8,7 @@
 #include <QTextStream>
 
 
-
 auth_window::~auth_window(){};
-
 
 auth_window::auth_window(QWidget *parent) :                                 //реализация конструктора
     QWidget(parent)                                                        //список инициализации  
@@ -45,11 +43,8 @@ auth_window::auth_window(QWidget *parent) :                                 //р
     connect(nameLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(on_nameLineEdit_textEdited()));
     connect(passwordLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(on_passwordLineEdit_textEdited()));
     
-
     setLayout(grid);                                                      //вызов функции размещения GUI
 }
-
-
 
 void auth_window::on_registerPushButton_clicked()                         //реализация слота нажатия кнопки регистрации
 {
@@ -60,6 +55,7 @@ void auth_window::on_registerPushButton_clicked()                         //ре
 void auth_window::on_loginPushButton_clicked()                              //реализация слота нажатия кнопки авторизации
 {
     emit login_button_clicked();
+    
     printf("login\n");
 }
 
@@ -94,3 +90,4 @@ QString auth_window::getPass()
 {
     return auth_window::m_userpass;
 }
+

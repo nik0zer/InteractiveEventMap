@@ -39,7 +39,7 @@ reg_window::reg_window(QWidget *parent) :                               //реа
     grid->addWidget(confirmLineEdit, 4, 2, 1, 1);
     grid->addWidget(reg, 5, 2, 1, 1);
     
-    connect(reg, &QPushButton::clicked, this, &reg_window::on_registerPushButton_clicked);
+    connect(reg, &QPushButton::clicked, this, &reg_window::on_registerPushButton_clicked2);
     connect(nameLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(on_nameLineEdit_textEdited()));
     connect(passwordLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(on_passwordLineEdit_textEdited()));
     connect(confirmLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(on_confirmLineEdit_textEdited()));
@@ -49,9 +49,9 @@ reg_window::reg_window(QWidget *parent) :                               //реа
 
 
 
-void reg_window::on_registerPushButton_clicked()                        //реализация слота нажатия кнопки регистрации
+void reg_window::on_registerPushButton_clicked2()                        //реализация слота нажатия кнопки регистрации
 {
-    emit register_button_clicked(); // нужно будет реализовать
+    emit register_button_clicked2(); // нужно будет реализовать
 }
 
 void reg_window::on_nameLineEdit_textEdited()

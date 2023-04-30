@@ -5,16 +5,24 @@
 #include "reg_window.h"
 #include "../../App/src/skeleton.h"
 #include "../../App/src/listwidget.h"
+#include <vector>
+
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
  
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
     void display(); // прототип пользовательской функции отображения
     bool connectDB(); // прототип метода подключения к БД
+    void setPersonVec(std::vector<Person> pers){pers_ = pers;};
+    std::vector<Person> getPersonVec() {return pers_;};
+    int getPersonVecLen() {return pers_.size();};
+    void updateEventVec(); 
+    void setEventVec(std::vector<Event> events){events_ = events;};
+    
  
 private:
     
@@ -25,10 +33,8 @@ private:
     
     QString m_username; // строки для обработки 
     QString m_userpass; // пользовательского ввода
-    
-    /*QString db_input; // строка для отправки запроса к БД
-    
-    QSqlDatabase mw_db; // экземпляр подключения к БД*/
+    std::vector<Person> pers_;
+    std::vector<Event> events_;
     
     int user_counter; // счетчик пользователей
     bool m_loginSuccesfull; // флаг успешной авторизации

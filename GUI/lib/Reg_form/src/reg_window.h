@@ -15,13 +15,13 @@ public:
     bool checkPass();
  
 signals:
-    void register_button_clicked();
+    void register_button_clicked2();
  
 private slots:
     void on_nameLineEdit_textEdited();
     void on_passwordLineEdit_textEdited();
     void on_confirmLineEdit_textEdited();
-    void on_registerPushButton_clicked();
+    void on_registerPushButton_clicked2();
  
 private:
     QString m_userName;

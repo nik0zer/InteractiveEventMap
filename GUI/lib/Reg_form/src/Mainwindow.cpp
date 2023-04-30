@@ -3,25 +3,34 @@
 #include "auth_window.h"
 #include "reg_window.h"
 #include <QtDebug>
+#include <QString>
 #include <QtSql/QtSql>
 #include "../../App/src/skeleton.h"
+#include "../../Pearsons/pearsons.h"
+#include <string>
+#include <iostream>
+#include <stdlib.h>
+#include <vector>
+#include <list>
 
 
 MainWindow::~MainWindow(){};
 
 MainWindow::MainWindow(QWidget *parent) :                                               //реализация конструктора главного окна
-    QMainWindow(parent)                                                              //список инициализаци
+    QMainWindow(parent)                                                               //список инициализаци
 {
     ////////////////////////////////////////////
     // создаем main UI
     //////////////////////////////////////////////
     auth_window window;
+    
+    
  
     window.setWindowTitle("Auth_window");
       
 
-    user_counter = 0;
-    m_loginSuccesfull = false;
+    /*user_counter = 0;
+    m_loginSuccesfull = false;*/
     connect(&ui_Auth, SIGNAL(login_button_clicked()),  this, SLOT(authorizeUser()));  //соединение сигнала кнопки авторизации экземпляра окна авторизации
                                                                                        //со слотом-обработчиком авторизации
 
@@ -34,75 +43,31 @@ MainWindow::MainWindow(QWidget *parent) :                                       
     connect(&ui_Reg,SIGNAL(register_button_clicked2()),this,SLOT(registerUser()));       //соединение кнопки регистрации экземпляра окна авторизации
                                                                                         //со слотом-обработчиком регистраци
     connect(&ui_Reg,SIGNAL(destroyed()), &ui_Auth, SLOT(show()));
-
-                                                                //установка интерфейса главного окна
-
-      
-    connect(&ui_Auth,SIGNAL(destroyed()), this, SLOT(AuthAquired()));
+ 
+   // connect(&ui_Auth,SIGNAL(destroyed()), this, SLOT(AuthAquired()));
 }
-/////////////////////////
-// НУЖНО РЕАЛИЗОВАТЬ
-///////////////////////
-void MainWindow::authorizeUser() 
+
+void MainWindow::authorizeUser() // работает
 {
-   /* m_username          = ui_Auth.getLogin();
-    m_userpass          = ui_Auth.getPass();
+    std::vector<Person> pers = getPersonVec();
 
-    QString str_t       = " SELECT * "
-                          " FROM userlist "
-                          " WHERE name = '%1'";
-    //int db_number       = 0;
-
-    QString username    = "";
-
-    QString userpass    = "";
-
-    int xPos            = 0;
-
-    int yPos            = 0;
-
-    int width           = 0;
-
-    int length          = 0;
-
-    db_input    = str_t.arg(m_username);
-
-    QSqlQuery query;
-
-    QSqlRecord rec;
-
-    if(!query.exec(db_input))
+    for (int it = 0; it < pers.size(); it++)
     {
-        qDebug() << "Unable to execute query - exiting" << query.lastError() << " : " << query.lastQuery();
+        if (QString::fromStdString(pers[it].get_login()) == ui_Auth.getLogin())
+        {
+            if (QString::fromStdString(pers[it].get_password()) == ui_Auth.getPass())
+            {
+                printf("You are in authorized users))\n");
+                ui_Auth.hide();
+                updateEventVec();
+                ui_App.show();
+            }
+
+            else{printf("bad password\n");}
+        }
+
+        else {printf("please go to register window");}
     }
-    rec = query.record();
-    query.next();
-    user_counter   = query.value(rec.indexOf("number")).toInt();
-    username    = query.value(rec.indexOf("name")).toString();
-    userpass    = query.value(rec.indexOf("pass")).toString();
-    if(m_username != username || m_userpass != userpass)
-    {
-        qDebug() << "Password missmatch" << username << " " << userpass;
-        m_loginSuccesfull = false;
-    }
-    else
-    {
-        m_loginSuccesfull = true;
-        xPos    = query.value(rec.indexOf("xpos")).toInt();
-        yPos    = query.value(rec.indexOf("ypos")).toInt();
-        width   = query.value(rec.indexOf("width")).toInt();
-        length  = query.value(rec.indexOf("length")).toInt();
-        ui_Auth.close();
-        ui_Reg.close();
-        this->setGeometry(xPos,yPos,width, length);
-        this->show();
-    }*/
-
-    printf("You are in authorized users))\n");
-    ui_Auth.hide();
-    ui_App.show();
-
-    
 }
 
 void MainWindow::registerWindowShow()
@@ -113,58 +78,26 @@ void MainWindow::registerWindowShow()
 
 void MainWindow::registerUser()
 {
+    auto pers = getPersonVec();
+    for (int it = 0; it < pers.size(); it++)
+    {
+        if (QString::fromStdString(pers[it].get_login()) == ui_Reg.getName())
+        {
+            printf("логин занят\n");
+            return;
+        } 
+        else{continue;}
+    }
+
     if(ui_Reg.checkPass())
     {
-       /* QSqlQuery query;
-        QSqlRecord rec;
-        QString str_t       = "SELECT COUNT(*) "
-                              "FROM userlist;";
-        db_input            = str_t;
-        if(!query.exec(db_input))
-        {
-            qDebug() << "Unable to get number " << query.lastError() << " : " << query.lastQuery();
-            return;
-        }
-        else
-        {
-            query.next();
-            rec = query.record();
-            user_counter = rec.value(0).toInt();
-            qDebug() << user_counter;
-        }
-
-
-        m_username          = ui_Reg.getName();
-        m_userpass          = ui_Reg.getPass();
-        user_counter++;
-        str_t               =   "INSERT INTO userlist(number, name, pass, xpos, ypos, width, length)"
-                                "VALUES(%1, '%2', '%3', %4, %5, %6, %7);";
-        db_input            = str_t .arg(user_counter)
-                                    .arg(m_username)
-                                    .arg(m_userpass)
-                                    .arg(0)
-                                    .arg(0)
-                                    .arg(800)
-                                    .arg(400);
-
-
-
-        if(!query.exec(db_input))
-        {
-            qDebug() << "Unable to insert data"  << query.lastError() << " : " << query.lastQuery();
-        }
-        else
-        {
-            ui_Reg.hide();
-            ui_Auth.show();
-        }
+       printf("you are registered\n");
+       ui_Reg.hide();
+       updateEventVec();
+       ui_App.show();
     }
-    else
-    {
-        qDebug() << "Confirm password coorectly";
-    }*/
 
-    }
+    else{printf("пароли не совпадают!\n");}
 }
 
 
@@ -173,7 +106,11 @@ void MainWindow::display()                                                      
     ui_Auth.show();                                                                     //отобразить окно авторизации(НЕ главное окно)
 }
 
-
+void MainWindow::updateEventVec()
+{
+    ui_App.setEventVector(events_);
+    ui_App.updateEventsList();
+}
 
 
 /*void MainWindow::wipeDB()

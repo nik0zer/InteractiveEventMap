@@ -11,23 +11,20 @@ ListWidget::ListWidget(QWidget *parent)
   QHBoxLayout *hbox = new QHBoxLayout(this);
  
   lw = new QListWidget(this);
-  lw->addItem("The Omen"); 
+  
+  for(int it = 0; it < events_.size(); it++)
+  {lw->addItem(QString::fromStdString(events_[it].get_name()));} 
+  /*lw->addItem("The Omen"); 
   lw->addItem("The Exorcist");
   lw->addItem("Notes on a scandal");
   lw->addItem("Fargo");
-  lw->addItem("Capote");
+  lw->addItem("Capote");*/
  
   add = new QPushButton("Add event", this);
   rename = new QPushButton("Rename event", this);
   remove = new QPushButton("Remove event", this);
   removeAll = new QPushButton("Remove All", this);
   seeEvent = new QPushButton("See event", this);
-
-  /*add->setVerticalStretch(QSizePolicy::Expanding);   ПОДУМАТЬ КАК УВЕЛИЧИТЬ КНОПКИ ВЕРТИКАЛЬНО
-  rename->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-  remove->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-  removeAll->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  seeEvent->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);*/
 
   vbox->setSpacing(3);
   vbox->addStretch(1);
@@ -63,9 +60,11 @@ void ListWidget::addItem() {
     lw->setCurrentRow(r);
   }
 }
- 
-void ListWidget::renameItem() {
-    
+
+
+void ListWidget::renameItem()
+{
+
   QListWidgetItem *curitem = lw->currentItem();
   
   int r = lw->row(curitem);
@@ -83,7 +82,7 @@ void ListWidget::renameItem() {
     lw->setCurrentRow(r);
   }
 }
- 
+
 void ListWidget::removeItem() {
     
   int r = lw->currentRow();
@@ -108,5 +107,29 @@ void ListWidget::see(){
     if (r != -1) {   
     printf("hello\n");
   }
+
+}
+
+void ListWidget::setEventVector(std::vector<Event> events){events_ = events;};
+
+void ListWidget::updateEventsList()
+{
+  
+for(int it = 0; it < events_.size(); it++)
+{
+  QString c_text = QString::fromStdString(events_[it].get_name());
+  QString s_text = c_text.simplified();
+  
+  if (!s_text.isEmpty()) {
+      
+    lw->addItem(s_text);
+    int r = lw->count() - 1;
+    lw->setCurrentRow(r);
+  }
+}
+
+
+  printf("here\n");
+  
 
 }
