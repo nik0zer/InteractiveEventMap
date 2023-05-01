@@ -6,6 +6,7 @@
         "boost-asio",
         "boost-thread",
         "sqlite3",
-        "spdlog"
+        "spdlog",
+        "sqlite-modern-cpp"
     ]
 }
