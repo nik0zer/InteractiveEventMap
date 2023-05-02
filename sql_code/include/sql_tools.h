@@ -60,6 +60,7 @@ class Event
     std::string get_owner()           {return owner_;}
     time_t      get_last_edit_time()  {return last_edit_time_;}
 
+    Event(){};
     Event(int id, std::string name, std::string info, std::string address, std::string date, std::string time, 
           std::string owner, time_t last_edit_time): id_(id), name_(name), info_(info), address_(address), date_(date),
           time_(time), owner_(owner), last_edit_time_(last_edit_time){}

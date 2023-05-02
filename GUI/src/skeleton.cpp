@@ -35,12 +35,4 @@ Skeleton::Skeleton(QWidget *parent)
   statusBar()->showMessage("Ready"); // показываем в нижней панели приложения сообщение "Ready"
 }
 
-void Skeleton::updateEventsList()
-{
-
-  std::cout << events_[0].get_name() << std::endl;;
-  list->setEventVector(events_);
-  list->updateEventsList();
-  printf ("вызвалась\n");
-}
 #include <moc_skeleton.cpp>

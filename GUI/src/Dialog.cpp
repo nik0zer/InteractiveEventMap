@@ -7,6 +7,9 @@
 
 Dialog::Dialog(QDialog* parent) : QDialog(parent)
 {
+  auto& Base = DataBase::get_instance();
+
+
     QBoxLayout* layout = new QHBoxLayout(this);
     
 
@@ -20,43 +23,21 @@ Dialog::Dialog(QDialog* parent) : QDialog(parent)
 
     QPushButton* cancelBtn = new QPushButton( "Cancel" );
     connect( cancelBtn, SIGNAL( clicked() ), SLOT( reject() ) );
-    layout->addWidget( cancelBtn );
-
-    lw = new QListWidget(this);
-  
-    for(int it = 0; it < events_.size(); it++)
-     {lw->addItem(QString::fromStdString(events_[it].get_name()));} 
-
     
+    lw = new QListWidget(this);
+
+    layout->addWidget(lw);
+    layout->addWidget(cancelBtn);
 
     setLayout( layout );
 }
 
-
-
-void Dialog::setEventVector(std::vector<Event> events){events_ = events;};
-
-void Dialog::updateEventsList()
+void Dialog::update()
 {
-  
-for(int it = 0; it < events_.size(); it++)
-{
-  QString c_text = QString::fromStdString(events_[it].get_name());
-  QString s_text = c_text.simplified();
-  
-  if (!s_text.isEmpty()) {
-      
-    lw->addItem(s_text);
-    lw->addItem(QString::fromStdString(events_[it].get_address()));
-    int r = lw->count() - 1;
-    lw->setCurrentRow(r);
-  }
-}
-
-
-  printf("here\n");
-  
-
+  lw->addItem(QString::fromStdString(event_.get_name()));
+  lw->addItem(QString::fromStdString(event_.get_address()));
+  lw->addItem(QString::fromStdString(event_.get_time()));
+  lw->addItem(QString::fromStdString(event_.get_owner()));
 }
 
 Dialog::~Dialog(){};

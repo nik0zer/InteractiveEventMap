@@ -12,15 +12,14 @@ ListWidget::ListWidget(QWidget *parent)
  
   QHBoxLayout *hbox = new QHBoxLayout(this);
  
+  auto& Base = DataBase::get_instance();
+  auto events = Base.get_all_events();
+
   lw = new QListWidget(this);
   
-  for(int it = 0; it < events_.size(); it++)
-  {lw->addItem(QString::fromStdString(events_[it].get_name()));} 
-  /*lw->addItem("The Omen"); 
-  lw->addItem("The Exorcist");
-  lw->addItem("Notes on a scandal");
-  lw->addItem("Fargo");
-  lw->addItem("Capote");*/
+  for(auto& item : Base.get_all_events())
+  {lw->addItem(QString::fromStdString(item.get_name()));} 
+  
  
   add = new QPushButton("Add event", this);
   rename = new QPushButton("Rename event", this);
@@ -66,7 +65,6 @@ void ListWidget::addItem() {
 
 void ListWidget::renameItem()
 {
-
   QListWidgetItem *curitem = lw->currentItem();
   
   int r = lw->row(curitem);
@@ -106,18 +104,17 @@ void ListWidget::clearItems(){
 
 void ListWidget::see(){
     int r = lw->currentRow();
+    auto& Base = DataBase::get_instance();
+    auto events = Base.get_all_events();
     
     if (r != -1) { 
       Dialog *dg = new Dialog();
-      dg->setEventVector(events_);
-      dg->updateEventsList();
+      dg->setEvent(events[r]);
+      dg->update();
       dg->show();
-    
   }
 
 }
-
-void ListWidget::setEventVector(std::vector<Event> events){events_ = events;};
 
 void ListWidget::updateEventsList()
 {

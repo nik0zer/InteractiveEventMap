@@ -9,11 +9,11 @@
 class Dialog : public QDialog {
     Q_OBJECT
 
-std::vector<Event> events_;
+Event event_;
 QListWidget *lw;
 public:
     Dialog( QDialog* parent = 0 );
     virtual ~Dialog();
-    void setEventVector(std::vector<Event> events);
-    void updateEventsList();
+    void setEvent(Event event) {event_ = event;};
+    void update();
 };

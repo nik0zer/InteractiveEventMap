@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <list>
+#include <iostream>
 
 
 MainWindow::~MainWindow(){};
@@ -48,27 +49,40 @@ MainWindow::MainWindow(QWidget *parent) :                                       
 
 void MainWindow::authorizeUser() // работает
 {
-    std::vector<Person> pers = getPersonVec();
+    auto& Base = DataBase::get_instance();
 
-    //if (Database::get_instance().person_verify(person));
+    QString name = ui_Auth.getLogin();
+    QString password = ui_Auth.getPass();
 
-    for (int it = 0; it < pers.size(); it++)
+    auto per = Person(name.toStdString(), password.toStdString());
+
+    if (Base.person_exists(per))
     {
-        if (QString::fromStdString(pers[it].get_login()) == ui_Auth.getLogin())
-        {
-            if (QString::fromStdString(pers[it].get_password()) == ui_Auth.getPass())
-            {
-                printf("You are in authorized users))\n");
-                ui_Auth.hide();
-                updateEventVec();
-                ui_App.show();
-            }
-
-            else{printf("bad password\n");}
-        }
-
-        else {printf("please go to register window");}
+        ui_Auth.hide();
+        ui_App.show();
     }
+    else
+    {
+        std::cout << "You are not registered" << std::endl;
+    }
+
+    // for (int it = 0; it < pers.size(); it++)
+    // {
+    //     if (QString::fromStdString(pers[it].get_login()) == ui_Auth.getLogin())
+    //     {
+    //         if (QString::fromStdString(pers[it].get_password()) == ui_Auth.getPass())
+    //         {
+    //             printf("You are in authorized users))\n");
+    //             ui_Auth.hide();
+    //             updateEventVec();
+    //             ui_App.show();
+    //         }
+
+    //         else{printf("bad password\n");}
+    //     }
+
+    //     else {printf("please go to register window");}
+    // }
 }
 
 void MainWindow::registerWindowShow()
@@ -100,24 +114,41 @@ void MainWindow::registerUser()
 
     else{printf("пароли не совпадают!\n");}*/
 
+
+
     auto& Base = DataBase::get_instance();
+
+    /*std::cout << "print all pearsons" << std::endl;
+    for (auto& item : Base.get_all_persons())
+    {
+        std::cout << item.get_login() << std::endl;
+    }*/
 
     QString name = ui_Reg.getName();
     QString password = ui_Reg.getPass(); 
 
     auto per = Person(name.toStdString(), password.toStdString());
+
+    if (!Base.person_exists(per))
+    {
+        if(ui_Reg.checkPass())
+        {
+            Base.add_person(per);
+            ui_Reg.hide();
+            ui_App.show();
+            printf(">>>>>>>>>>>>> you are registered <<<<<<<<<<<<< \n");
+        }  
+        else 
+        {
+            printf(">>>>>>>>>>>>>> wrong password <<<<<<<<<<<<<<<< \n");
+        } 
+    }
 }
 
 
 void MainWindow::display()                                                              //реализация пользотвальского метода отображения главного окна
 {
     ui_Auth.show();                                                                     //отобразить окно авторизации(НЕ главное окно)
-}
-
-void MainWindow::updateEventVec()
-{
-    ui_App.setEventVector(events_);
-    ui_App.updateEventsList();
 }
 
 
