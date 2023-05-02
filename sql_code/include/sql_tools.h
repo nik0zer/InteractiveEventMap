@@ -66,6 +66,7 @@ class Event
     Event(int id, std::string name, std::string info, std::string address, std::string date, std::string time, 
           std::string owner, time_t last_edit_time): id_(id), name_(name), info_(info), address_(address), date_(date),
           time_(time), owner_(owner), last_edit_time_(last_edit_time){}
+    Event(std::string name): Event(0, name, "", "", "", "", "", std::time(nullptr)){}
 
     friend DataBase;
     friend std::ostream& operator<< (std::ostream &out, const Event &event);
@@ -102,25 +103,26 @@ class DataBase
 
 
     // Person
-    void              add_person(Person& new_person);    // Насколько нужно эти методы объявлять константными?
-    void              remove_person(Person& person);
-    bool              person_exists(Person& person);
+    void                add_person(Person& new_person);    // Насколько нужно эти методы объявлять константными?
+    void                remove_person(Person& person);
+    bool                person_exists(Person& person);
 
 
     // Event part
-    void              add_event(Event& event);
-    void              remove_event(Event& event);
+    void                add_event(Event& event);
+    void                remove_event(Event& event);
 
 
     // SQL:
-    void execute_sql(const std::string& sql_cmd, const std::string& table);
-    static int        callback_person(void* data, int argc, char** argv, char** azColName);
-    static int        callback_event(void* data, int argc, char** argv, char** azColName);
+    void                execute_sql(const std::string& sql_cmd, const std::string& table);
+    static int          callback_person(void* data, int argc, char** argv, char** azColName);
+    static int          callback_event(void* data, int argc, char** argv, char** azColName);
 
     // Logic
+    bool                person_verify(Person& person);               // Накрутить хеш
     std::vector<Person> get_all_persons();
     std::vector<Event>  get_all_events();
-    // Event               get_event(Event& event);
+    Event               get_event(Event& event); // Requires Name, Date, Time
 };
 
 

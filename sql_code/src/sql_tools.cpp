@@ -137,14 +137,17 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
 
     if (table == "CREDS")
     {
+        spdlog::info("SQL in creds");
         sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, 0, &messaggeError);
     }
     else if (table == "EVENTS")
     {
+        spdlog::info("SQL in events");
         sqlite3_exec(ptr_, sql_cmd.c_str(), callback_event, 0, &messaggeError);
     }
     else
     {
+        spdlog::info("SQL not in table");
         sqlite3_exec(ptr_, sql_cmd.c_str(), nullptr, 0, &messaggeError);
     }
 
@@ -260,6 +263,8 @@ void DataBase::remove_id(std::set<int>& id_set, const int& i)
 
 int DataBase::callback_person(void* data, int argc, char** argv, char** azColName) 
 {
+    spdlog::info("Called callback of PERSON");
+
     if (data)
     {
         spdlog::warn("Received data: {}", (const char*)data ? (const char*)data : "");
@@ -284,6 +289,8 @@ int DataBase::callback_person(void* data, int argc, char** argv, char** azColNam
 
 int DataBase::callback_event(void* data, int argc, char** argv, char** azColName) 
 {
+    spdlog::info("Called callback of EVENT");
+    
     if (data)
     {
         spdlog::warn("Reveived data: {}", (const char*)data ? (const char*)data : "");
@@ -324,10 +331,25 @@ std::vector<Event> DataBase::get_all_events()
 }
 
 
-// Event DataBase::get_event(Event& event)
-// {
-//     std::string sql_cmd = "SELECT * FROM EVENTS WH"
-// }
+Event DataBase::get_event(Event& event)
+{
+    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE NAME='{}';",
+                                        event.get_name());
+
+    execute_sql(sql_cmd, "EVENTS");
+    if (events_vector_.size() == 0)
+    {
+        return Event("");
+    }
+    if (events_vector_.size() == 1)
+    {
+        return events_vector_[0];
+    }
+    
+    spdlog::critical("There are multyple found of event (name = {})", event.get_name());
+
+    return Event("");
+}
 
 
 //----------------------------------------------------------------
@@ -410,6 +432,23 @@ void DataBase::remove_event(Event& event)
 
 
 
+bool DataBase::person_verify(Person& person)
+{
+    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}' AND PASSWORD='{}';",
+                                        person.get_login(), person.get_password());
+
+    execute_sql(sql_cmd, "CREDS");
+
+    if (persons_vector_.size() == 0) return false;
+    if (persons_vector_.size() == 1) return true;
+
+    spdlog::critical("Found more than 1 person in verify func (person login = {})", person.get_login());
+
+    return true;
+}
+
+
+
 // ---------------------------------------------------------------------------------------------------------------------
 // std::cout operators <<
 // ---------------------------------------------------------------------------------------------------------------------
@@ -425,7 +464,7 @@ void DataBase::remove_event(Event& event)
 
 std::ostream& operator<< (std::ostream &out, const Person &person)
 {
-    out << person.id_ << "    " << person.login_ << "    " << person.password_ << std::endl;
+    out << person.id_ << "    " << person.login_ << "    " << person.password_;
 
     return out;
 }
