@@ -103,20 +103,20 @@ class DataBase
 
 
     // Person
-    void              add_person(Person& new_person);    // Насколько нужно эти методы объявлять константными?
-    void              remove_person(Person& person);
-    bool              person_exists(Person& person);
+    void                add_person(Person& new_person);    // Насколько нужно эти методы объявлять константными?
+    void                remove_person(Person& person);
+    bool                person_exists(Person& person);
 
 
     // Event part
-    void              add_event(Event& event);
-    void              remove_event(Event& event);
+    void                add_event(Event& event);
+    void                remove_event(Event& event);
 
 
     // SQL:
-    void execute_sql(const std::string& sql_cmd, const std::string& table);
-    static int        callback_person(void* data, int argc, char** argv, char** azColName);
-    static int        callback_event(void* data, int argc, char** argv, char** azColName);
+    void                execute_sql(const std::string& sql_cmd, const std::string& table);
+    static int          callback_person(void* data, int argc, char** argv, char** azColName);
+    static int          callback_event(void* data, int argc, char** argv, char** azColName);
 
     // Logic
     bool                person_verify(Person& person);               // Накрутить хеш
