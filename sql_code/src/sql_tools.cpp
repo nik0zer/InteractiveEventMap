@@ -347,6 +347,8 @@ Event DataBase::get_event(Event& event)
     }
     
     spdlog::critical("There are multyple found of event (name = {})", event.get_name());
+
+    return Event("");
 }
 
 
@@ -426,6 +428,23 @@ void DataBase::remove_event(Event& event)
     execute_sql(sql_cmd, "EVENTS");
 
     spdlog::info("Person {} removed successfully", event.get_name());
+}
+
+
+
+bool DataBase::person_verify(Person& person)
+{
+    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}' AND PASSWORD='{}';",
+                                        person.get_login(), person.get_password());
+
+    execute_sql(sql_cmd, "CREDS");
+
+    if (persons_vector_.size() == 0) return false;
+    if (persons_vector_.size() == 1) return true;
+
+    spdlog::critical("Found more than 1 person in verify func (person login = {})", person.get_login());
+
+    return true;
 }
 
 

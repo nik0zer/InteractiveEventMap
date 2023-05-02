@@ -119,6 +119,7 @@ class DataBase
     static int        callback_event(void* data, int argc, char** argv, char** azColName);
 
     // Logic
+    bool                person_verify(Person& person);               // Накрутить хеш
     std::vector<Person> get_all_persons();
     std::vector<Event>  get_all_events();
     Event               get_event(Event& event); // Requires Name, Date, Time
