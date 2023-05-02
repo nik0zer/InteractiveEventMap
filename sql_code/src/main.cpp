@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 #include <iostream>
 #include <fstream>
 #include "sqlite3.h"
@@ -50,4 +48,3 @@ int main()
 
 
 }
->>>>>>> sql_dev
