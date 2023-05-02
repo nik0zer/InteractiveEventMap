@@ -5,7 +5,7 @@
 
 int main() 
 {
-    main_test();
+    // main_test();
 
     DataBase& main_base = DataBase::get_instance();
     Person per("Name 1", "");
