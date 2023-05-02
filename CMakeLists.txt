@@ -10,21 +10,17 @@ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${MYCOMPILE_FLAGS}")
 file(GLOB SERVER_SRC "server_code/src/*")
 file(GLOB CLIENT_SRC "client_code/src/*")
 file(GLOB SQL_SRC    "sql_code/src/*")
-file(GLOB SQL_TEST   "sql_code/test_sql.cpp")
 
 find_path(SQLITE_MODERN_CPP_INCLUDE_DIRS "sqlite_modern_cpp.h")
 
 add_executable(InteractiveEventMap_client ${CLIENT_SRC})
 add_executable(InteractiveEventMap_server ${SERVER_SRC})
 add_executable(InteractiveEventMap_sql    ${SQL_SRC})
-add_executable(test_sql    ${SQL_TEST})
 
 
 target_include_directories(InteractiveEventMap_server PRIVATE "server_code/include")
 target_include_directories(InteractiveEventMap_client PRIVATE "client_code/include")
 target_include_directories(InteractiveEventMap_sql PRIVATE    "sql_code/include")
-# target_include_directories(InteractiveEventMap_sql PRIVATE    "sql_code/include" ${SQLITE_MODERN_CPP_INCLUDE_DIRS})
-target_include_directories(test_sql PRIVATE ${SQLITE_MODERN_CPP_INCLUDE_DIRS})
 
 
 find_package(Boost REQUIRED)
@@ -35,4 +31,3 @@ find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(InteractiveEventMap_client PRIVATE Boost::boost Boost::thread) 
 target_link_libraries(InteractiveEventMap_server PRIVATE Boost::boost Boost::thread)
 target_link_libraries(InteractiveEventMap_sql PRIVATE Boost::boost Boost::thread unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
-target_link_libraries(test_sql PRIVATE Boost::boost Boost::thread unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)

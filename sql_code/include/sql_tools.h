@@ -10,7 +10,6 @@
 #include <ctime>
 #include "sqlite3.h"
 #include <spdlog/spdlog.h>
-// #include <sqlite_modern_cpp.h>
 
 
 class Person;
