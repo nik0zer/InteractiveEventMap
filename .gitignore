@@ -5,3 +5,4 @@ server_build/*
 build
 build/*
 vcpkg_installed/*
+.vscode
