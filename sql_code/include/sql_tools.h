@@ -66,6 +66,7 @@ class Event
     Event(int id, std::string name, std::string info, std::string address, std::string date, std::string time, 
           std::string owner, time_t last_edit_time): id_(id), name_(name), info_(info), address_(address), date_(date),
           time_(time), owner_(owner), last_edit_time_(last_edit_time){}
+    Event(std::string name): Event(0, name, "", "", "", "", "", std::time(nullptr)){}
 
     friend DataBase;
     friend std::ostream& operator<< (std::ostream &out, const Event &event);
@@ -120,7 +121,7 @@ class DataBase
     // Logic
     std::vector<Person> get_all_persons();
     std::vector<Event>  get_all_events();
-    // Event               get_event(Event& event);
+    Event               get_event(Event& event); // Requires Name, Date, Time
 };
 
 
