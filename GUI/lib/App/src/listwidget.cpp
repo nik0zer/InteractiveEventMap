@@ -1,6 +1,8 @@
 #include "listwidget.h"
+#include "Dialod.h"
 #include <QVBoxLayout>
 #include <QInputDialog>
+#include <QLabel>
  
 ListWidget::ListWidget(QWidget *parent)
     : QWidget(parent) {
@@ -83,6 +85,7 @@ void ListWidget::renameItem()
   }
 }
 
+
 void ListWidget::removeItem() {
     
   int r = lw->currentRow();
@@ -103,9 +106,13 @@ void ListWidget::clearItems(){
 
 void ListWidget::see(){
     int r = lw->currentRow();
- 
-    if (r != -1) {   
-    printf("hello\n");
+    
+    if (r != -1) { 
+      Dialog *dg = new Dialog();
+      dg->setEventVector(events_);
+      dg->updateEventsList();
+      dg->show();
+    
   }
 
 }

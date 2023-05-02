@@ -27,6 +27,7 @@ class ListWidget : public QWidget {
     ListWidget(QWidget *parent = 0);
     void setEventVector(std::vector<Event> events);
     void updateEventsList();
+    
  
   private slots:
     void addItem();
