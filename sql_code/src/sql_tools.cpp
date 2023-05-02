@@ -138,11 +138,13 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
     if (table == "CREDS")
     {
         spdlog::info("SQL in creds");
+        persons_vector_.clear();
         sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, 0, &messaggeError);
     }
     else if (table == "EVENTS")
     {
         spdlog::info("SQL in events");
+        events_vector_.clear();
         sqlite3_exec(ptr_, sql_cmd.c_str(), callback_event, 0, &messaggeError);
     }
     else
