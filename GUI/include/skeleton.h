@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <vector>
-#include "../../Pearsons/pearsons.h"
+#include "../include/pearsons.h"
 #include "listwidget.h"
 
  

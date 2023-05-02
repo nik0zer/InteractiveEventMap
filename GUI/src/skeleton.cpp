@@ -1,5 +1,5 @@
-#include "skeleton.h"
-#include "listwidget.h"
+#include "../include/skeleton.h"
+#include "../include/listwidget.h"
 
 #include <QToolBar>
 #include <QIcon>
@@ -43,3 +43,4 @@ void Skeleton::updateEventsList()
   list->updateEventsList();
   printf ("вызвалась\n");
 }
+#include <moc_skeleton.cpp>

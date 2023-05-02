@@ -1,8 +1,8 @@
 #include <QApplication>
-#include "../lib/Reg_form/src/Mainwindow.h"
-#include "../lib/Reg_form/src/reg_window.h"
-#include "../lib/Reg_form/src/auth_window.h"
-#include "../lib/Pearsons/pearsons.h"
+#include "../include/Mainwindow.h"
+#include "../include/reg_window.h"
+#include "../include/auth_window.h"
+#include "../include/pearsons.h"
 #include <vector>
 
 

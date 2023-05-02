@@ -2,7 +2,7 @@
 #define AUTH_WINDOW_H
 
 #include <QWidget>
-#include "../../Pearsons/pearsons.h"
+#include "../include/pearsons.h"
 #include <list>
  
  
@@ -34,5 +34,7 @@ private:
 };
 
 std::vector<Person> get_all_persons();
+
+
 
 #endif

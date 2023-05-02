@@ -1,4 +1,4 @@
-#include "auth_window.h"
+#include "../include/auth_window.h"
 #include <QtDebug>
 #include <QGridLayout>
 #include <QLabel>
@@ -91,3 +91,4 @@ QString auth_window::getPass()
     return auth_window::m_userpass;
 }
 
+#include <moc_auth_window.cpp>

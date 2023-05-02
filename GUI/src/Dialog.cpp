@@ -1,4 +1,4 @@
-#include "Dialod.h"
+#include "../include/Dialod.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -61,4 +61,4 @@ for(int it = 0; it < events_.size(); it++)
 
 Dialog::~Dialog(){};
 
-#include "moc_Dialod.cpp"
+#include <moc_Dialod.cpp>

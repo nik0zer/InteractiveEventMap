@@ -1,5 +1,5 @@
-#include "listwidget.h"
-#include "Dialod.h"
+#include "../include/listwidget.h"
+#include "../include/Dialod.h"
 #include <QVBoxLayout>
 #include <QInputDialog>
 #include <QLabel>
@@ -140,3 +140,5 @@ for(int it = 0; it < events_.size(); it++)
   
 
 }
+
+#include <moc_listwidget.cpp>

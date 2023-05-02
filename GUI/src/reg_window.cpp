@@ -1,4 +1,4 @@
-#include "reg_window.h"
+#include "../include/reg_window.h"
 #include <QtDebug>
 #include <QGridLayout>
 #include <QLabel>
@@ -95,3 +95,5 @@ bool reg_window::checkPass()
 {
     return (m_confirmation == m_userPass);
 }
+
+#include <moc_reg_window.cpp>

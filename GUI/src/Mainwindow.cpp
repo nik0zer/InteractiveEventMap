@@ -1,11 +1,11 @@
-#include "Mainwindow.h"
-#include "auth_window.h"
-#include "reg_window.h"
+#include "../include/Mainwindow.h"
+#include "../include/auth_window.h"
+#include "../include/reg_window.h"
 #include <QtDebug>
 #include <QString>
 #include <QtSql/QtSql>
-#include "../../App/src/skeleton.h"
-#include "../../Pearsons/pearsons.h"
+#include "../include/skeleton.h"
+#include "../include/pearsons.h"
 #include <string>
 #include <iostream>
 #include <stdlib.h>
@@ -114,3 +114,4 @@ void MainWindow::updateEventVec()
 }
 
 
+#include <moc_Mainwindow.cpp>

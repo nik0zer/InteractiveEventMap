@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QWidget>
 #include <vector>
-#include "../../Pearsons/pearsons.h"
+#include "../include/pearsons.h"
 #include <QListWidget>
 
 class Dialog : public QDialog {

@@ -1,10 +1,11 @@
+#pragma once 
 #include <QMainWindow>
 #include <QString>
 #include <QtSql/QtSql>
 #include "auth_window.h"
 #include "reg_window.h"
-#include "../../App/src/skeleton.h"
-#include "../../App/src/listwidget.h"
+#include "../include/skeleton.h"
+#include "../include/listwidget.h"
 #include <vector>
 
 

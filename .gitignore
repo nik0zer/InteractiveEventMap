@@ -1,5 +1,4 @@
 client_build
 server_build
 build
-vcpkg_installed
 .vscode
