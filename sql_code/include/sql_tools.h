@@ -5,7 +5,8 @@
 #include <fstream>
 #include <set>
 #include <string>
-#include <list>
+#include <vector>
+#include <vector>
 #include <ctime>
 #include "sqlite3.h"
 #include <spdlog/spdlog.h>
@@ -79,8 +80,8 @@ class DataBase
     sqlite3*            ptr_;                     // Pointer to DataBase
     std::set<int>       reserved_persons_id_;     // set of already using ids of persons
     std::set<int>       reserved_events_id_;      // set of already using ids of events
-    std::list<Person>   persons_list_;            // List for answer from DataBase for person's creds     // Почему падает, если поле объявить статическим
-    std::list<Event>    events_list_;             // List for answer from DataBase for events
+    std::vector<Person>   persons_vector_;            // List for answer from DataBase for person's creds     // Почему падает, если поле объявить статическим
+    std::vector<Event>    events_vector_;             // List for answer from DataBase for events
 
     // Initialize
     DataBase();
@@ -117,7 +118,9 @@ class DataBase
     static int        callback_event(void* data, int argc, char** argv, char** azColName);
 
     // Logic
-    std::list<Person> get_all_persons();
+    std::vector<Person> get_all_persons();
+    std::vector<Event>  get_all_events();
+    // Event               get_event(Event& event);
 };
 
 

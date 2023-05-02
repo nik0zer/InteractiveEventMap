@@ -220,7 +220,7 @@ void DataBase::remove_person(Person& person)
 
 
 //----------------------------------------------------------------
-//!  DataBase class have field reserved_persons_id_ list. So we need the
+//!  DataBase class have field reserved_persons_id_ vector. So we need the
 //!  next id for adding new person.
 //!
 //!  @return        int next_id
@@ -252,7 +252,7 @@ void DataBase::remove_id(std::set<int>& id_set, const int& i)
 
 
 //----------------------------------------------------------------
-//!  Fill member "persons_list_" with returned info from DB
+//!  Fill member "persons_vector_" with returned info from DB
 //!
 //!  @note          Depends of CREDS structure!!!
 //!  @copyright     AlexZ
@@ -268,7 +268,7 @@ int DataBase::callback_person(void* data, int argc, char** argv, char** azColNam
 
     Person temp(atoi(argv[0]), argv[1], argv[2], atol(argv[3]));
 
-    DataBase::get_instance().persons_list_.push_back(temp);
+    DataBase::get_instance().persons_vector_.push_back(temp);
 
     return 0;
 }
@@ -276,7 +276,7 @@ int DataBase::callback_person(void* data, int argc, char** argv, char** azColNam
 
 
 //----------------------------------------------------------------
-//!  Fill member "events_list_" with returned info from DB
+//!  Fill member "events_vector_" with returned info from DB
 //!
 //!  @note          Depends of CREDS structure!!!
 //!  @copyright     AlexZ
@@ -292,7 +292,7 @@ int DataBase::callback_event(void* data, int argc, char** argv, char** azColName
 
     Event temp(atoi(argv[0]), argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], atol(argv[7]));
 
-    DataBase::get_instance().events_list_.push_back(temp);
+    DataBase::get_instance().events_vector_.push_back(temp);
 
     return 0;
 }
@@ -300,19 +300,34 @@ int DataBase::callback_event(void* data, int argc, char** argv, char** azColName
 
 
 //----------------------------------------------------------------
-//!  Return list of all persons from DB to person_list_ member of class
+//!  Return vector of all persons from DB to person_vector_ member of class
 //!
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
-std::list<Person> DataBase::get_all_persons()
+std::vector<Person> DataBase::get_all_persons()
 {
     std::string sql_cmd = "SELECT * FROM CREDS;";
     execute_sql(sql_cmd, "CREDS");
 
-    return persons_list_;
+    return persons_vector_;
 }
 
+
+
+std::vector<Event> DataBase::get_all_events()
+{
+    std::string sql_cmd = "SELECT * FROM EVENTS;";
+    execute_sql(sql_cmd, "EVENTS");
+
+    return events_vector_;
+}
+
+
+// Event DataBase::get_event(Event& event)
+// {
+//     std::string sql_cmd = "SELECT * FROM EVENTS WH"
+// }
 
 
 //----------------------------------------------------------------
@@ -327,12 +342,12 @@ bool DataBase::person_exists(Person& person)
 {   
     std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}';", person.login_);
 
-    persons_list_.clear();
+    persons_vector_.clear();
     execute_sql(sql_cmd, "CREDS");
 
-    if (persons_list_.size() > 0)
+    if (persons_vector_.size() > 0)
     {
-        person.id_ = persons_list_.begin()->id_;
+        person.id_ = persons_vector_.begin()->id_;
         return true;
     }
 
@@ -392,95 +407,6 @@ void DataBase::remove_event(Event& event)
 
     spdlog::info("Person {} removed successfully", event.get_name());
 }
-
-
-
-// //----------------------------------------------------------------
-// //!  Fill member "persons_list_" with returned info from DB
-// //!
-// //!  @note          Depends of CREDS structure!!!
-// //!  @copyright     AlexZ
-// //----------------------------------------------------------------
-
-// int DataBase::callback_person(void* data, int argc, char** argv, char** azColName) 
-// {
-//     if (data)
-//     {
-//         spdlog::warn("Reveived data: {}", (const char*)data ? (const char*)data : "");
-//         return 0;
-//     }
-
-//     Person temp(atoi(argv[0]), argv[1], argv[2]);
-
-//     DataBase::get_instance().persons_list_.push_back(temp);
-
-//     return 0;
-// }
-
-
-
-// //----------------------------------------------------------------
-// //!  Get all persons from DB to person_list_ member of class
-// //!
-// //!  @copyright     AlexZ
-// //----------------------------------------------------------------
-
-// void DataBase::request_all_persons()
-// {
-//     std::string sql_cmd = "SELECT * FROM CREDS;";
-
-//     sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, NULL, NULL);
-// }
-
-
-
-// //----------------------------------------------------------------
-// //!  Print list of persons, returned from database
-// //!
-// //!  @copyright     AlexZ
-// //----------------------------------------------------------------
-
-// void DataBase::print_persons_list()
-// {
-//     std::cout << "Persons:\n";
-
-//     // for (const auto& item : get_instance().persons_list_)    
-//     for (const auto& item : persons_list_)      // Не выводит
-//     {
-//         std::cout << item;
-//     }
-
-//     std::cout << std::endl;
-// }
-
-
-
-// //----------------------------------------------------------------
-// //!  Check if person exist in database by login
-// //!
-// //!  @return        true (if exists), false (if not)
-// //!  @note          If person exists, method set person.id_ to actual in database.
-// //!  @copyright     AlexZ
-// //----------------------------------------------------------------
-
-// bool DataBase::person_exists(Person& person)
-// {   
-//     std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}';", person.login_);
-
-//     persons_list_.clear();
-//     sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, NULL, NULL);
-
-//     if (persons_list_.size() > 0)
-//     {
-//         person.id_ = persons_list_.begin()->id_;
-//         return true;
-//     }
-
-//     else
-//     {
-//         return false;
-//     }
-// }
 
 
 

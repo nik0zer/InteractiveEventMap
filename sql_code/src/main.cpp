@@ -16,9 +16,9 @@ int main()
     main_base.add_person(per1);
     main_base.add_person(per2);
     main_base.remove_person(per1);
-    std::list<Person> person_list = main_base.get_all_persons();
+    std::vector<Person> person_vector = main_base.get_all_persons();
 
-    for (auto& item : person_list)
+    for (auto& item : person_vector)
     {
         std::cout << item.get_login() << ", ";
     }
@@ -26,8 +26,8 @@ int main()
     std::cout << std::endl;
     
 
-    // DataBase::get_instance().print_persons_list();
-    // main_base.print_persons_list();     // Почему пустой список??
+    // DataBase::get_instance().print_persons_vector();
+    // main_base.print_persons_vector();     // Почему пустой список??
     system("rm main.db");
 
     return(0);
