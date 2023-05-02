@@ -47,6 +47,7 @@ for(int it = 0; it < events_.size(); it++)
   if (!s_text.isEmpty()) {
       
     lw->addItem(s_text);
+    lw->addItem(QString::fromStdString(events_[it].get_address()));
     int r = lw->count() - 1;
     lw->setCurrentRow(r);
   }
@@ -59,3 +60,5 @@ for(int it = 0; it < events_.size(); it++)
 }
 
 Dialog::~Dialog(){};
+
+#include "moc_Dialod.cpp"

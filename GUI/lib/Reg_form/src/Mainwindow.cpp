@@ -1,5 +1,4 @@
 #include "Mainwindow.h"
-//#include "ui_mainwindow.h"
 #include "auth_window.h"
 #include "reg_window.h"
 #include <QtDebug>
@@ -50,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :                                       
 void MainWindow::authorizeUser() // работает
 {
     std::vector<Person> pers = getPersonVec();
+
+    //if (Database::get_instance().person_verify(person));
 
     for (int it = 0; it < pers.size(); it++)
     {
@@ -113,7 +114,3 @@ void MainWindow::updateEventVec()
 }
 
 
-/*void MainWindow::wipeDB()
-{
-    mw_db.removeDatabase("authorisation");
-}*/
