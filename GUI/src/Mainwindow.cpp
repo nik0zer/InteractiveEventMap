@@ -5,7 +5,7 @@
 #include <QString>
 #include <QtSql/QtSql>
 #include "../include/skeleton.h"
-#include "../include/pearsons.h"
+#include "sql_tools.h"
 #include <string>
 #include <iostream>
 #include <stdlib.h>
@@ -79,7 +79,7 @@ void MainWindow::registerWindowShow()
 
 void MainWindow::registerUser()
 {
-    auto pers = getPersonVec();
+    /*auto pers = getPersonVec();
     for (int it = 0; it < pers.size(); it++)
     {
         if (QString::fromStdString(pers[it].get_login()) == ui_Reg.getName())
@@ -98,7 +98,14 @@ void MainWindow::registerUser()
        ui_App.show();
     }
 
-    else{printf("пароли не совпадают!\n");}
+    else{printf("пароли не совпадают!\n");}*/
+
+    auto& Base = DataBase::get_instance();
+
+    QString name = ui_Reg.getName();
+    QString password = ui_Reg.getPass(); 
+
+    auto per = Person(name.toStdString(), password.toStdString());
 }
 
 

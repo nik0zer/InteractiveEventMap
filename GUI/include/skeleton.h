@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <vector>
-#include "../include/pearsons.h"
+#include "sql_tools.h"
 #include "listwidget.h"
 
  

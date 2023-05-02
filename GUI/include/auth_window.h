@@ -1,8 +1,7 @@
-#ifndef AUTH_WINDOW_H
-#define AUTH_WINDOW_H
+#pragma once
 
 #include <QWidget>
-#include "../include/pearsons.h"
+#include "sql_tools.h"
 #include <list>
  
  
@@ -37,4 +36,3 @@ std::vector<Person> get_all_persons();
 
 
 
-#endif

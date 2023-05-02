@@ -38,8 +38,6 @@ class Person
     friend std::ostream& operator<< (std::ostream &out, const Person &person);
 };
 
-
-
 class Event
 {
     int         id_;

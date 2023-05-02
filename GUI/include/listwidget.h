@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QListWidget>
-#include "../include/pearsons.h"
+#include "sql_tools.h"
 #include <vector>
  
 class ListWidget : public QWidget {
