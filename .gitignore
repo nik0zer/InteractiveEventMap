@@ -1,7 +1,5 @@
 client_build
-client_build/*
 server_build
-server_build/*
 build
-build/*
-vcpkg_installed/*
+vcpkg_installed
+.vscode
