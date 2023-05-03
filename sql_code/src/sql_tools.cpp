@@ -453,7 +453,7 @@ bool DataBase::person_exists(Person& person)
 void DataBase::add_event(Event& event)
 {
     DataBase::get_instance().fill_reserved_events_id();
-    
+
     std::string sql_cmd = fmt::format("INSERT INTO EVENTS VALUES({}, '{}', '{}', '{}', '{}', '{}', '{}', {});", 
                                         std::to_string(get_next_id(reserved_events_id_)), 
                                         event.get_name(),
@@ -570,4 +570,15 @@ void DataBase::print_all_events()
     {
         std::cout << item << std::endl;
     }
+}
+
+
+
+void DataBase::rename_event(std::string old_name, std::string new_name)
+{
+    std::string sql_cmd = fmt::format("UPDATE EVENTS SET NAME='{}' WHERE NAME='{}';",
+                                        new_name,
+                                        old_name);
+
+    execute_sql(sql_cmd, "EVENTS");
 }
