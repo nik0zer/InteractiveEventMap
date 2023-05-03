@@ -44,7 +44,7 @@ class Person
         {
           std::getline(input_stream, temp);
           data_vector.push_back(temp);
-          spdlog::info("Readed part = '{}'", temp);
+          // spdlog::info("Readed part = '{}'", temp);
         }
 
         id_ = std::atoi(data_vector[0].c_str());
@@ -106,7 +106,7 @@ class Event
         {
           std::getline(input_stream, temp);
           data_vector.push_back(temp);
-          spdlog::info("Readed part = '{}'", temp);
+          // spdlog::info("Readed part = '{}'", temp);
         }
 
         id_ = std::atoi(data_vector[0].c_str());
@@ -187,6 +187,7 @@ class DataBase
     bool                person_verify(Person& person);               // Накрутить хеш
     std::vector<Person> get_all_persons();
     std::vector<Event>  get_all_events();
+    Event               get_event(std::string name);
     Event               get_event(Event& event); // Requires Name, Date, Time
 };
 
