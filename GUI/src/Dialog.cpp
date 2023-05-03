@@ -37,7 +37,8 @@ void Dialog::update()
   lw->addItem(QString::fromStdString(event_.get_name()));
   lw->addItem(QString::fromStdString(event_.get_address()));
   lw->addItem(QString::fromStdString(event_.get_time()));
-  lw->addItem(QString::fromStdString(event_.get_owner()));
+  lw->addItem(QString::fromStdString(event_.get_info()));
+  lw->addItem(QString::fromStdString(event_.get_date()));
 }
 
 Dialog::~Dialog(){};

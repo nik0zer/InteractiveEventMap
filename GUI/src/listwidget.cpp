@@ -67,12 +67,11 @@ void ListWidget::addItem() {
 
     auto event = Event(1, s_name.toStdString(), s_info.toStdString(), s_address.toStdString(), s_date.toStdString(), s_time.toStdString(), "", std::time(nullptr));
    // std::cout << event << std::endl;
-    auto& Base = DataBase::get_instance();
-    Base.add_event(event);
-
-    lw->addItem(s_name);
-    int r = lw->count() - 1;
+    DataBase::get_instance().add_event(event);
+    
+    int r = lw->count(); //-1
     lw->setCurrentRow(r);
+    lw->addItem(s_name);
   }
 }
 
@@ -80,7 +79,6 @@ void ListWidget::addItem() {
 void ListWidget::renameItem()
 {
   QListWidgetItem *curitem = lw->currentItem();
-  
   int r = lw->row(curitem);
   QString c_text = curitem->text();
   QString r_text = QInputDialog::getText(this, "Item", 
@@ -116,10 +114,15 @@ void ListWidget::clearItems(){
   }
 }
 
-void ListWidget::see(){
+void ListWidget::see()
+{
+    //int r = lw->currentRow();
+    QListWidgetItem *curitem = lw->currentItem();
+    int r = lw->row(curitem);
+    auto qstr = curitem->text();
+    auto str = qstr.toStdString();
+    std::cout << str << std::endl;
 
-
-    int r = lw->currentRow();
     DataBase::get_instance();
     auto events = DataBase::get_instance().get_all_events();
 
@@ -129,7 +132,6 @@ void ListWidget::see(){
       dg->update();
       dg->show();
   }
-
 }
 
 void ListWidget::updateEventsList()
