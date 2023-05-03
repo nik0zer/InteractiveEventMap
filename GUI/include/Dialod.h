@@ -1,3 +1,6 @@
+#ifndef DIALOD_H
+#define DIALOD_H
+
 #pragma once 
 #include <QDialog>
 #include <QApplication>
@@ -17,3 +20,5 @@ public:
     void setEvent(Event event) {event_ = event;};
     void update();
 };
+
+#endif

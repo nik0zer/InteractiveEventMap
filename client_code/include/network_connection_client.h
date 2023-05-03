@@ -29,7 +29,8 @@
 enum ERRORS
 {
     END_OF_FILE = 2,
-    BAD_FILE_DESCRIPTOR = 9
+    BAD_FILE_DESCRIPTOR = 9,
+    SOCKET_NON_SOCKET = 88
 };
 
 

@@ -9,9 +9,12 @@
 #include <vector>
 #include <vector>
 #include <ctime>
-#include "network_connection.h"
 #include "sqlite3.h"
 #include <spdlog/spdlog.h>
+
+#ifndef NETWORK_CONNECTION_SERVER_H
+#include "network_connection_client.h"
+#endif
 
 
 class Person;

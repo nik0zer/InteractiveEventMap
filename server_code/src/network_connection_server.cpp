@@ -89,7 +89,7 @@ void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
             }
         }
         
-        throw(e);
+        throw;
         return;
     }
     catch(const std::exception& e)
@@ -181,11 +181,8 @@ void ClientConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadDa
                 _socket_ptr->close();
                 _socket_ptr_mutex.unlock();
             }
-            
-            throw(e);
-            return;
         }
-        
+        throw;
         return;
     }
     catch(const std::exception& e)

@@ -28,7 +28,8 @@
 enum
 {
     MAX_OF_CLIENTS = 4,
-    BAD_FILE_DESCRIPTOR = 9
+    BAD_FILE_DESCRIPTOR = 9,
+    SOCKET_NON_SOCKET = 88
 };
 
 /**

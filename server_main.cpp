@@ -4,6 +4,7 @@
 
 void handler(ReadData read_data)
 {
+    std::cout<<"\nname:\n"<<read_data.data_name()<<"\nbuffer:\n"<<read_data.data_str()<<std::endl;
     if(DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str()) == 0)
     {
         return;
@@ -26,6 +27,10 @@ void handler(ReadData read_data)
 void client_session(ClientConnection client_connection)
 {
     client_connection.thread_cycle_read(handler);
+    while(client_connection.is_socket_open())
+    {
+        
+    }
 }
 
 
