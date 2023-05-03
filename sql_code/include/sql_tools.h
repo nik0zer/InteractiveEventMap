@@ -110,13 +110,13 @@ class Event
           // spdlog::info("Readed part = '{}'", temp);
         }
 
-        id_ = std::atoi(data_vector[0].c_str());
-        name_ = data_vector[1];
-        info_ = data_vector[2];
-        address_ = data_vector[3];
-        date_ = data_vector[4];
-        time_ = data_vector[5];
-        owner_ = data_vector[6];
+        id_             = std::atoi(data_vector[0].c_str());
+        name_           = data_vector[1];
+        info_           = data_vector[2];
+        address_        = data_vector[3];
+        date_           = data_vector[4];
+        time_           = data_vector[5];
+        owner_          = data_vector[6];
         last_edit_time_ = std::atol(data_vector[7].c_str());
 
     }
@@ -183,13 +183,13 @@ class DataBase
     DataBase& operator=(const DataBase&) = delete;
 
 
-    // Person
+    // Person base
     void                add_person(Person& new_person);    // Насколько нужно эти методы объявлять константными?
     void                remove_person(Person& person);
     bool                person_exists(Person& person);
 
 
-    // Event part
+    // Event base
     void                add_event(Event& event);
     void                remove_event(Event& event);
 
