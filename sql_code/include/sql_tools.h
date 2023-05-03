@@ -88,7 +88,7 @@ class Event
 };
 
 
-
+ 
 class DataBase
 {
     sqlite3*              ptr_;                     // Pointer to DataBase
@@ -138,13 +138,19 @@ class DataBase
     void                execute_sql(const std::string& sql_cmd, const std::string& table);
 
 
-    // Logic
+    // Server interaction
+    void                update_database();
+    time_t              get_last_edit_time_persons();
+    time_t              get_last_edit_time_events();
+    void                parse_cmd(std::string cmd, std::string data);
+
+
+    // Logic (for buttons)
     bool                person_verify(Person& person);               // Накрутить хеш, если будет время
     std::vector<Person> get_all_persons();
     std::vector<Event>  get_all_events();
     Event               get_event(std::string name);
     Event               get_event(Event& event); // Requires Name, Date, Time
-    void                parse_cmd(std::string cmd, std::string data);
     void                print_all_events();
     void                rename_event(std::string old_name, std::string new_name);
 };

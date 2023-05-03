@@ -180,7 +180,7 @@ void DataBase::create_tables(sqlite3* DB)
     if (!DB)
     {
         std::string error_msg = "DB doesn't exists, can't create tables!";
-        spdlog::critical("{}: {}", error_msg, sqlite3_errmsg(DB));
+        spdlog::error("{}: {}", error_msg, sqlite3_errmsg(DB));
 
         throw std::runtime_error(error_msg);
     }
@@ -242,7 +242,7 @@ DataBase::~DataBase()
     }
     else
     {
-        spdlog::critical("Can't close Database!");
+        spdlog::error("Can't close Database!");
     }
 }
 
@@ -286,6 +286,82 @@ DataBase& DataBase::get_instance()
     static DataBase base;
 
     return base;
+}
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Server interaction
+// ---------------------------------------------------------------------------------------------------------------------
+
+
+
+void DataBase::update_database()
+{
+    time_t persons_actual_time = get_last_edit_time_persons();
+    time_t events_actual_time  = get_last_edit_time_events();
+
+    // send_to_server("send_me_actual_persons", "time")
+    // send_to_server("send_me_actual_events", "time")
+
+    // call parse_cmd после получения ответа    
+}
+
+
+
+time_t DataBase::get_last_edit_time_persons()
+{
+    std::string sql_cmd = "SELECT * FROM CREDS WHERE LAST_EDIT_TIME = (MAX(LAST_EDIT_TIME) FROM CREDS);";
+    execute_sql(sql_cmd, "CREDS");
+
+    if (events_vector_.size() == 0)
+    {
+        spdlog::critical("No persons found for get last edit time");
+        return 0;
+    }
+
+    return events_vector_[0].get_last_edit_time();
+}
+
+
+
+time_t DataBase::get_last_edit_time_events()
+{
+    std::string sql_cmd = "SELECT * FROM EVENTS WHERE LAST_EDIT_TIME = (MAX(LAST_EDIT_TIME) FROM EVENTS);";
+    execute_sql(sql_cmd, "EVENTS");
+
+    if (events_vector_.size() == 0)
+    {
+        spdlog::critical("No events found for get last edit time");
+        return 0;
+    }
+
+    return events_vector_[0].get_last_edit_time();
+}
+
+
+
+void DataBase::parse_cmd(std::string cmd, std::string data)
+{
+    if (cmd == "update_event")
+    {
+        Event new_event(data);
+        Event old_event = get_event(new_event.get_name());
+
+        DataBase::get_instance().remove_event(old_event);
+        DataBase::get_instance().add_event(new_event);
+    }
+    else if (cmd == "update_person")
+    {
+        Person new_person(data);
+
+        DataBase::get_instance().remove_person(new_person);
+        DataBase::get_instance().add_person(new_person);
+    }
+    else
+    {
+        spdlog::error("Unknown cmd to parse from server = '{}'", cmd);
+    }
 }
 
 
@@ -537,6 +613,7 @@ void DataBase::add_event(Event& event)
 }
 
 
+
 //----------------------------------------------------------------
 //!  Remove person to CREDS database
 //!
@@ -551,6 +628,7 @@ void DataBase::remove_event(Event& event)
                                         event.get_name());
 
     execute_sql(sql_cmd, "EVENTS");
+    // need remove id
 
     spdlog::info("Event {} removed successfully", event.get_name());
 }
@@ -673,18 +751,3 @@ void DataBase::print_all_events()
     }
 }
 
-
-
-void DataBase::parse_cmd(std::string cmd, std::string data)
-{
-    if (cmd == "add_event")
-    {
-        Event temp(data);
-        add_event(temp);
-    }
-    else if (cmd == "add_person")
-    {
-        Person temp(data);
-        add_person(temp);
-    }
-}
