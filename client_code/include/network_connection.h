@@ -8,6 +8,19 @@
 #include <mutex>
 #include <vector>
 
+#define ENABLE_READ_DATA_HANDLER 1
+#if ENABLE_READ_DATA_HANDLER
+#define READ_DATA_HANDLER(...) __VA_ARGS__
+#else 
+#define READ_DATA_HANDLER(...)
+#endif
+
+#if !ENABLE_READ_DATA_HANDLER
+#define READ_DATA_ARRAY(...) __VA_ARGS__
+#else 
+#define READ_DATA_ARRAY(...)
+#endif
+
 
 /**
  * @brief Enum with error codes
@@ -134,7 +147,7 @@ class ServerConnection
      * @param buffer_ptr pointer to buffer with data
      */
     void send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr);
-    void _thread_read_data();
+    void _thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
     template<typename T> void _thread_send_data(std::string name, T data)
     {
       try
@@ -192,7 +205,7 @@ class ServerConnection
      * @brief read data from server to read array
      * 
      */
-    void read_data();
+    void read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
 
     /**
      * @brief delete elem from read data array by iterator
@@ -206,20 +219,20 @@ class ServerConnection
      * 
      * @return boost::thread reading thread
      */
-    boost::thread thread_read_data();
+    boost::thread thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
 
     /**
      * @brief cyclically reads server messages
      * 
      */
-    void cycle_read();
+    void cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
 
     /**
      * @brief cyclically reads server messages in separated thread
      * 
      * @return boost::thread cyclically reading thread
      */
-    boost::thread thread_cycle_read();
+    boost::thread thread_cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
 
     /**
      * @brief send message to server in a separated thread

@@ -19,15 +19,15 @@ file(GLOB HEADERS_TO_MOC GUI/include/ *.h)
 add_executable(InteractiveEventMap_client ${CLIENT_SRC})
 add_executable(InteractiveEventMap_server ${SERVER_SRC})
 add_executable(InteractiveEventMap_sql    ${SQL_SRC})
-add_executable(InteractiveEventMap_gui    ${GUI_SRC} ${SQL_SRC} )
+# add_executable(InteractiveEventMap_gui    ${GUI_SRC} ${SQL_SRC} )
 add_executable(InteractiveEventMap_gui_sql ${GUI_SRC} "sql_code/src/sql_tools.cpp" )
 
 
-target_include_directories(InteractiveEventMap_server PRIVATE "server_code/include")
-target_include_directories(InteractiveEventMap_client PRIVATE "client_code/include")
-target_include_directories(InteractiveEventMap_sql PRIVATE    "sql_code/include")
-target_include_directories(InteractiveEventMap_gui PRIVATE    "GUI/include")
-target_include_directories(InteractiveEventMap_gui_sql PRIVATE    "GUI/include" "sql_code/include")
+target_include_directories(InteractiveEventMap_server PUBLIC "server_code/include")
+target_include_directories(InteractiveEventMap_client PUBLIC "client_code/include")
+target_include_directories(InteractiveEventMap_sql PUBLIC    "sql_code/include")
+# target_include_directories(InteractiveEventMap_gui PUBLIC    "GUI/include")
+target_include_directories(InteractiveEventMap_gui_sql PUBLIC    "GUI/include" "sql_code/include")
 
 
 find_package(Boost REQUIRED)
@@ -36,16 +36,16 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 
-target_link_libraries(InteractiveEventMap_gui PRIVATE Qt6::Core Qt6::Widgets)
-target_link_libraries(InteractiveEventMap_client PRIVATE Boost::boost Boost::thread) 
-target_link_libraries(InteractiveEventMap_server PRIVATE Boost::boost Boost::thread)
-target_link_libraries(InteractiveEventMap_sql PRIVATE Boost::boost Boost::thread unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
-target_link_libraries(InteractiveEventMap_gui_sql PRIVATE unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
-target_link_libraries(InteractiveEventMap_gui_sql PRIVATE Qt6::Core Qt6::Widgets)
+# target_link_libraries(InteractiveEventMap_gui PUBLIC Qt6::Core Qt6::Widgets)
+target_link_libraries(InteractiveEventMap_client PUBLIC Boost::boost Boost::thread) 
+target_link_libraries(InteractiveEventMap_server PUBLIC Boost::boost Boost::thread)
+target_link_libraries(InteractiveEventMap_sql PUBLIC Boost::boost Boost::thread unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
+target_link_libraries(InteractiveEventMap_gui_sql PUBLIC unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
+target_link_libraries(InteractiveEventMap_gui_sql PUBLIC Qt6::Core Qt6::Widgets)
 
-qt6_wrap_cpp(PROCESSED_MOCS                                                                                                                                                                                                                                                                    
-             ${HEADERS_TO_MOC}                                                   
-             TARGET InteractiveEventMap_gui
-             OPTIONS --no-notes)
+# qt6_wrap_cpp(PROCESSED_MOCS                                                                                                                                                                                                                                                                    
+#              ${HEADERS_TO_MOC}                                                   
+#              TARGET InteractiveEventMap_gui
+#              OPTIONS --no-notes)
 
-target_sources(InteractiveEventMap_gui PRIVATE ${PROCESSED_MOCS})
+# target_sources(InteractiveEventMap_gui PUBLIC ${PROCESSED_MOCS})
