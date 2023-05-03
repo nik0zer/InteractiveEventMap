@@ -109,8 +109,8 @@ DataBase::DataBase()
     create_tables(ptr_);
     // fill_reserved_persons_id();
     // fill_reserved_events_id();
-    // update_d
 }
+
 
 
 void DataBase::fill_reserved_persons_id()
@@ -125,6 +125,7 @@ void DataBase::fill_reserved_persons_id()
 }
 
 
+
 void DataBase::fill_reserved_events_id()
 {
     std::string sql_cmd = "SELECT * FROM EVENTS;";
@@ -135,8 +136,6 @@ void DataBase::fill_reserved_events_id()
         reserved_events_id_.insert(item.get_id());
     }
 }
-
-
 
 
 
@@ -189,7 +188,6 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
         sqlite3_free(messaggeError);
     }
 }
-
 
 
 
@@ -480,13 +478,12 @@ void DataBase::add_event(Event& event)
 
 void DataBase::remove_event(Event& event)
 {
-    std::string sql_cmd = fmt::format("DELETE FROM EVENTS WHERE NAME = '{}' AND INFO = '{}';", 
-                                        event.get_name(),
-                                        event.get_info());
+    std::string sql_cmd = fmt::format("DELETE FROM EVENTS WHERE NAME = '{}';", 
+                                        event.get_name());
 
     execute_sql(sql_cmd, "EVENTS");
 
-    spdlog::info("Person {} removed successfully", event.get_name());
+    spdlog::info("Event {} removed successfully", event.get_name());
 }
 
 
