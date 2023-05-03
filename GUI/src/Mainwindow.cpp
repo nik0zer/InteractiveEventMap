@@ -1,0 +1,155 @@
+#include "../include/Mainwindow.h"
+#include "../include/auth_window.h"
+#include "../include/reg_window.h"
+#include <QtDebug>
+#include <QString>
+#include <QtSql/QtSql>
+#include "../include/skeleton.h"
+#include "sql_tools.h"
+#include <string>
+#include <iostream>
+#include <stdlib.h>
+#include <vector>
+#include <list>
+#include <iostream>
+
+
+MainWindow::~MainWindow(){};
+
+MainWindow::MainWindow(QWidget *parent) :                                               //реализация конструктора главного окна
+    QMainWindow(parent)                                                               //список инициализаци
+{
+    ////////////////////////////////////////////
+    // создаем main UI
+    //////////////////////////////////////////////
+    auth_window window;
+    
+    
+ 
+    window.setWindowTitle("Auth_window");
+      
+
+    /*user_counter = 0;
+    m_loginSuccesfull = false;*/
+    connect(&ui_Auth, SIGNAL(login_button_clicked()),  this, SLOT(authorizeUser()));  //соединение сигнала кнопки авторизации экземпляра окна авторизации
+                                                                                       //со слотом-обработчиком авторизации
+
+    connect(&ui_Auth,SIGNAL(destroyed()),this, SLOT(show()));                           //соединение сигнала уничтожения экземпляра окна авторизации
+                                                                                           //с методом отображения главного окна
+
+    connect(&ui_Auth,SIGNAL(register_button_clicked()), this,SLOT(registerWindowShow())); //соединение сигнала кнопки регистрации экземпляра окна авторизации
+                                                                                          //со слотом вызывающим окно регистрации
+
+    connect(&ui_Reg,SIGNAL(register_button_clicked2()),this,SLOT(registerUser()));       //соединение кнопки регистрации экземпляра окна авторизации
+                                                                                        //со слотом-обработчиком регистраци
+    connect(&ui_Reg,SIGNAL(destroyed()), &ui_Auth, SLOT(show()));
+ 
+   // connect(&ui_Auth,SIGNAL(destroyed()), this, SLOT(AuthAquired()));
+}
+
+void MainWindow::authorizeUser() // работает
+{
+    auto& Base = DataBase::get_instance();
+
+    QString name = ui_Auth.getLogin();
+    QString password = ui_Auth.getPass();
+
+    auto per = Person(name.toStdString(), password.toStdString());
+
+    if (Base.person_exists(per))
+    {
+        ui_Auth.hide();
+        ui_App.show();
+    }
+    else
+    {
+        std::cout << "You are not registered" << std::endl;
+    }
+
+    // for (int it = 0; it < pers.size(); it++)
+    // {
+    //     if (QString::fromStdString(pers[it].get_login()) == ui_Auth.getLogin())
+    //     {
+    //         if (QString::fromStdString(pers[it].get_password()) == ui_Auth.getPass())
+    //         {
+    //             printf("You are in authorized users))\n");
+    //             ui_Auth.hide();
+    //             updateEventVec();
+    //             ui_App.show();
+    //         }
+
+    //         else{printf("bad password\n");}
+    //     }
+
+    //     else {printf("please go to register window");}
+    // }
+}
+
+void MainWindow::registerWindowShow()
+{
+    ui_Auth.hide();
+    ui_Reg.show();
+}
+
+void MainWindow::registerUser()
+{
+    /*auto pers = getPersonVec();
+    for (int it = 0; it < pers.size(); it++)
+    {
+        if (QString::fromStdString(pers[it].get_login()) == ui_Reg.getName())
+        {
+            printf("логин занят\n");
+            return;
+        } 
+        else{continue;}
+    }
+
+    if(ui_Reg.checkPass())
+    {
+       printf("you are registered\n");
+       ui_Reg.hide();
+       updateEventVec();
+       ui_App.show();
+    }
+
+    else{printf("пароли не совпадают!\n");}*/
+
+
+
+    auto& Base = DataBase::get_instance();
+
+    /*std::cout << "print all pearsons" << std::endl;
+    for (auto& item : Base.get_all_persons())
+    {
+        std::cout << item.get_login() << std::endl;
+    }*/
+
+    QString name = ui_Reg.getName();
+    QString password = ui_Reg.getPass(); 
+
+    auto per = Person(name.toStdString(), password.toStdString());
+
+    if (!Base.person_exists(per))
+    {
+        if(ui_Reg.checkPass())
+        {
+            Base.add_person(per);
+            ui_Reg.hide();
+            ui_App.show();
+            printf(">>>>>>>>>>>>> you are registered <<<<<<<<<<<<< \n");
+        }  
+        else 
+        {
+            printf(">>>>>>>>>>>>>> wrong password <<<<<<<<<<<<<<<< \n");
+        } 
+    }
+}
+
+
+void MainWindow::display()                                                              //реализация пользотвальского метода отображения главного окна
+{
+    ui_Auth.show();                                                                     //отобразить окно авторизации(НЕ главное окно)
+}
+
+
+#include <moc_Mainwindow.cpp>
