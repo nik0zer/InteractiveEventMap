@@ -88,7 +88,7 @@ class Event
 };
 
 
- 
+
 class DataBase
 {
     sqlite3*              ptr_;                     // Pointer to DataBase
@@ -96,6 +96,10 @@ class DataBase
     std::set<int>         reserved_events_id_;      // set of already using ids of events
     std::vector<Person>   persons_vector_;            // List for answer from DataBase for person's creds     // Почему падает, если поле объявить статическим
     std::vector<Event>    events_vector_;             // List for answer from DataBase for events
+
+    bool                  i_am_server;
+    
+
 
     // Initialize
     DataBase();
@@ -158,6 +162,11 @@ class DataBase
 
 #endif
 
+
+
+// Добавить в структуру флаг и коннект
+// person(time) + event(time)
+// see_all_events
 
 // Написать взаимодействие с сервером
 // Убрать костыль fill_reserved_id
