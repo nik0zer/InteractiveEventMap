@@ -10,7 +10,89 @@
 
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Realisation for class "DataBase"
+// Constructions for communicate to server
+// 
+// Operator std::string convert object to string, parsing by \n
+// Construcotr of msg - construct the object from msg by parsing msg by \n
+// ---------------------------------------------------------------------------------------------------------------------
+
+
+
+Person::operator std::string() const 
+{
+    std::string str = std::to_string(id_) + "\n";
+    str += login_ + "\n";
+    str += password_ + "\n";
+    str += std::to_string(last_edit_time_) + "\n";
+    return str;
+}
+
+
+
+Person::Person(std::string msg)
+{
+    std::vector<std::string> data_vector;
+    std::string temp;
+    std::stringstream input_stream(msg);
+
+    for (int i = 0; i < 4; i++)
+    {
+        std::getline(input_stream, temp);
+        data_vector.push_back(temp);
+        // spdlog::info("Readed part = '{}'", temp);
+    }
+
+    id_ = std::atoi(data_vector[0].c_str());
+    login_ = data_vector[1];
+    password_ = data_vector[2];
+    last_edit_time_ = std::atol(data_vector[3].c_str());
+
+}
+
+
+
+Event::operator std::string() const 
+{
+    std::string str = std::to_string(id_) + "\n";
+    str += name_ + "\n";
+    str += info_ + "\n";
+    str += address_ + "\n";
+    str += date_ + "\n";
+    str += time_ + "\n";
+    str += owner_ + "\n";
+    str += std::to_string(last_edit_time_) + "\n";
+    return str;
+}
+
+
+
+Event::Event(std::string msg)
+{
+    std::vector<std::string> data_vector;
+    std::string temp;
+    std::stringstream input_stream(msg);
+
+    for (int i = 0; i < 8; i++)
+    {
+        std::getline(input_stream, temp);
+        data_vector.push_back(temp);
+    }
+
+
+    id_             = std::atoi(data_vector[0].c_str());
+    name_           = data_vector[1];
+    info_           = data_vector[2];
+    address_        = data_vector[3];
+    date_           = data_vector[4];
+    time_           = data_vector[5];
+    owner_          = data_vector[6];
+    last_edit_time_ = std::atol(data_vector[7].c_str());
+}
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Initial part of DataBase
 // ---------------------------------------------------------------------------------------------------------------------
 
 
@@ -107,7 +189,34 @@ DataBase::DataBase()
 {
     ptr_ = open_db("main.db");
     create_tables(ptr_);
-    // update_d
+    // fill_reserved_persons_id();
+    // fill_reserved_events_id();
+}
+
+
+
+void DataBase::fill_reserved_persons_id()
+{
+    std::string sql_cmd = "SELECT * FROM CREDS;";
+    execute_sql(sql_cmd, "CREDS");
+
+    for (auto& item : persons_vector_)
+    {
+        reserved_persons_id_.insert(item.get_id());
+    }
+}
+
+
+
+void DataBase::fill_reserved_events_id()
+{
+    std::string sql_cmd = "SELECT * FROM EVENTS;";
+    execute_sql(sql_cmd, "EVENTS");
+
+    for (auto& item : events_vector_)
+    {
+        reserved_events_id_.insert(item.get_id());
+    }
 }
 
 
@@ -137,19 +246,16 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
 
     if (table == "CREDS")
     {
-        spdlog::info("SQL in creds");
         persons_vector_.clear();
         sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, 0, &messaggeError);
     }
     else if (table == "EVENTS")
     {
-        spdlog::info("SQL in events");
         events_vector_.clear();
         sqlite3_exec(ptr_, sql_cmd.c_str(), callback_event, 0, &messaggeError);
     }
     else
     {
-        spdlog::info("SQL not in table");
         sqlite3_exec(ptr_, sql_cmd.c_str(), nullptr, 0, &messaggeError);
     }
 
@@ -161,7 +267,6 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
         sqlite3_free(messaggeError);
     }
 }
-
 
 
 
@@ -180,6 +285,8 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
 
 void DataBase::add_person(Person& person)
 {
+    DataBase::get_instance().fill_reserved_persons_id();
+
     if (person_exists(person))
     {
         spdlog::warn("Person already exists ({})", person.login_);
@@ -333,10 +440,13 @@ std::vector<Event> DataBase::get_all_events()
 }
 
 
+
 Event DataBase::get_event(Event& event)
 {
-    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE NAME='{}';",
-                                        event.get_name());
+    std::string sql_cmd = fmt::format("SELECT * FROM EVENTS WHERE NAME='{}' AND DATE='{}' AND TIME='{}';",
+                                        event.get_name(),
+                                        event.get_date(),
+                                        event.get_time());
 
     execute_sql(sql_cmd, "EVENTS");
     if (events_vector_.size() == 0)
@@ -349,6 +459,28 @@ Event DataBase::get_event(Event& event)
     }
     
     spdlog::critical("There are multyple found of event (name = {})", event.get_name());
+
+    return Event("");
+}
+
+
+
+Event DataBase::get_event(std::string name)
+{
+    std::string sql_cmd = fmt::format("SELECT * FROM EVENTS WHERE NAME='{}';", name);
+
+    execute_sql(sql_cmd, "EVENTS");
+    if (events_vector_.size() == 0)
+    {
+        spdlog::warn("Event not found (name = '{}')", name);
+        return Event("");
+    }
+    if (events_vector_.size() == 1)
+    {
+        return events_vector_[0];
+    }
+    
+    spdlog::critical("There are multyple found of event (name = {})", name);
 
     return Event("");
 }
@@ -387,16 +519,18 @@ bool DataBase::person_exists(Person& person)
 // ---------------------------------------------------------------------------------------------------------------------
 
 
-// //----------------------------------------------------------------
-// //!  Add event to CREDS database
-// //!
-// //!  @param  [in]   person - person to search in DB
-// //!  @note          Depends of EVENTS structure!!!
-// //!  @copyright     AlexZ
-// //----------------------------------------------------------------
+//----------------------------------------------------------------
+//!  Add event to CREDS database
+//!
+//!  @param  [in]   person - person to search in DB
+//!  @note          Depends of EVENTS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
 
 void DataBase::add_event(Event& event)
 {
+    DataBase::get_instance().fill_reserved_events_id();
+
     std::string sql_cmd = fmt::format("INSERT INTO EVENTS VALUES({}, '{}', '{}', '{}', '{}', '{}', '{}', {});", 
                                         std::to_string(get_next_id(reserved_events_id_)), 
                                         event.get_name(),
@@ -413,23 +547,22 @@ void DataBase::add_event(Event& event)
 }
 
 
-// //----------------------------------------------------------------
-// //!  Remove person to CREDS database
-// //!
-// //!  @param  [in]   person - person to search in DB
-// //!  @note          Depends of CREDS structure!!!
-// //!  @copyright     AlexZ
-// //----------------------------------------------------------------
+//----------------------------------------------------------------
+//!  Remove person to CREDS database
+//!
+//!  @param  [in]   person - person to search in DB
+//!  @note          Depends of CREDS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
 
 void DataBase::remove_event(Event& event)
 {
-    std::string sql_cmd = fmt::format("DELETE FROM EVENTS WHERE NAME = '{}' AND INFO = '{}';", 
-                                        event.get_name(),
-                                        event.get_info());
+    std::string sql_cmd = fmt::format("DELETE FROM EVENTS WHERE NAME = '{}';", 
+                                        event.get_name());
 
     execute_sql(sql_cmd, "EVENTS");
 
-    spdlog::info("Person {} removed successfully", event.get_name());
+    spdlog::info("Event {} removed successfully", event.get_name());
 }
 
 
@@ -466,7 +599,7 @@ bool DataBase::person_verify(Person& person)
 
 std::ostream& operator<< (std::ostream &out, const Person &person)
 {
-    out << person.id_ << "    " << person.login_ << "    " << person.password_;
+    out << person.id_ << "    " << person.login_ << "    " << person.password_ << "    " << person.last_edit_time_;
 
     return out;
 }
@@ -482,110 +615,46 @@ std::ostream& operator<< (std::ostream &out, const Person &person)
 
 std::ostream& operator<< (std::ostream &out, const Event &event)
 {
-    out << event.id_ << "    " << event.name_ << "    " << event.address_ << "    " << event.info_;
+    out << event.id_ << "    " << event.name_ << "    " << event.info_ << "    " << event.address_
+                     << "    " << event.date_ << "    " << event.time_ << "    " << event.owner_ << "    " << event.last_edit_time_;
 
     return out;
 }
 
 
 
+void DataBase::parse_cmd(std::string cmd, std::string data)
+{
+    if (cmd == "add_event")
+    {
+        Event temp(data);
+        add_event(temp);
+    }
+    else if (cmd == "add_person")
+    {
+        Person temp(data);
+        add_person(temp);
+    }
+}
+
+
+void DataBase::print_all_events()
+{
+    std::cout << "All events:\n";
+
+    for (const auto& item : get_all_events())
+    {
+        std::cout << item << std::endl;
+    }
+}
 
 
 
+void DataBase::rename_event(std::string old_name, std::string new_name)
+{
+    std::string sql_cmd = fmt::format("UPDATE EVENTS SET NAME='{}' WHERE NAME='{}';",
+                                        new_name,
+                                        old_name);
 
-
-
-
-
-
-
-
-
-
-
-// int test_db(sqlite3* DB) 
-// {
-//     if (!DB) 
-//     {
-//         std::cout << "Error! Null DB in " <<  __func__ << std::endl;
-//         return -1;
-//     }
-
-
-//     std::string query = "SELECT * FROM CREDS;";
-//     std::string sql   = "INSERT INTO CREDS VALUES(1, 'STEVE', 'STEVE');"
-//                         "INSERT INTO CREDS VALUES(2, 'ATEVE', 'STEVE');";
-
-  
-//     std::cout << "STATE OF CREDS BEFORE INSERT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
-
-  
-//     char* messaggeError;
-//     int exit;
-    
-
-//     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messaggeError);
-
-//     if (exit != SQLITE_OK) 
-//     {
-//         std::cerr << "Error Insert" << std::endl;
-//         sqlite3_free(messaggeError);
-//         exit = 0;
-//     }
-
-//     else
-//     {
-//         std::cout << "Records created Successfully!" << std::endl;
-//     }
-  
-
-//     std::cout << "\nSTATE OF TABLE AFTER INSERT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
-  
-
-//     sql = "DELETE FROM CREDS WHERE ID = 2;";
-//     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messaggeError);
-
-
-//     if (exit != SQLITE_OK) 
-//     {
-//         std::cerr << "Error DELETE" << std::endl;
-//         sqlite3_free(messaggeError);
-//     }
-
-//     else
-//     {
-//         std::cout << "Record deleted Successfully!" << std::endl;
-//     }
-  
-
-//     std::cout << "STATE OF TABLE AFTER DELETE OF ELEMENT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
-
-
-//     std::cout << "End of test_db\n";
-//     return 0;
-// }
-
-
-
-// void main_test() 
-// {
-//     sqlite3* DB;
-//     const std::string path_to_database = "example.db";
-
-//     std::ofstream outfile(path_to_database);
-//     std::remove(path_to_database.c_str());
-
-//     open_db(path_to_database);
-//     create_tables(DB);
-
-//     // if (test_db(DB) != 0) {std::cout << "Error in test_db\n"; return;}
-
-//     sqlite3_close(DB);
-
-//     std::remove(path_to_database.c_str());
-// }
-
-
+    execute_sql(sql_cmd, "EVENTS");
+}

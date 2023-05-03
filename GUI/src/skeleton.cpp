@@ -17,7 +17,7 @@ Skeleton::Skeleton(QWidget *parent)
   this->setAutoFillBackground(true);
   this->setPalette(pal);
         
-  QPixmap quitpix("../../Icons/Quit.jpg");
+  QPixmap quitpix("../Icons/Quit.png");
  
   QAction *quit = new QAction("&Quit", this);
 
@@ -26,13 +26,10 @@ Skeleton::Skeleton(QWidget *parent)
         
   connect(quit2, &QAction::triggered, qApp, &QApplication::quit);
 
-  //std::vector<Event> events = parent-> getEventVector();
   list = new ListWidget(this);
   
-  
-  setCentralWidget(list); // помещаем созданный виджет в центр виджета QMainWindow
- 
-  statusBar()->showMessage("Ready"); // показываем в нижней панели приложения сообщение "Ready"
+  setCentralWidget(list); 
+  statusBar()->showMessage("Ready"); 
 }
 
 #include <moc_skeleton.cpp>

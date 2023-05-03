@@ -16,28 +16,17 @@ class ListWidget : public QWidget {
     QPushButton *rename;
     QPushButton *remove;
     QPushButton *removeAll; 
-    QPushButton *seeEvent; 
-
-    std::vector<Event> events_;
-
-    
-
- 
+    QPushButton *seeEvent;
+    QPushButton *AllEvents; 
+  
   public:
     ListWidget(QWidget *parent = 0);
-    void setEventVector(std::vector<Event> events);
     void updateEventsList();
-    
- 
+     
   private slots:
     void addItem();
     void renameItem();
     void removeItem();
-    void clearItems();
     void see();
- 
-  
-
-
-
+    void seeAllEvents();
 };

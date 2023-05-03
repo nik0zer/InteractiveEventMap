@@ -10,8 +10,8 @@
 
 auth_window::~auth_window(){};
 
-auth_window::auth_window(QWidget *parent) :                                 //реализация конструктора
-    QWidget(parent)                                                        //список инициализации  
+auth_window::auth_window(QWidget *parent) :                               
+    QWidget(parent)                                                          
 {
     QGridLayout *grid = new QGridLayout(); 
     grid->setSpacing(2);                 
@@ -19,11 +19,9 @@ auth_window::auth_window(QWidget *parent) :                                 //р
     QLabel *welcome = new QLabel(QString("Authentificate yourself"));
     QLabel *name = new QLabel(QString("Name:"));
     QLabel *password = new QLabel(QString("Password:"));
-    //QLabel *confirm = new QLabel(QString("Confirm:"));
 
     QLineEdit *nameLineEdit = new QLineEdit();
     QLineEdit *passwordLineEdit = new QLineEdit();
-    //QLineEdit *confirmLineEdit = new QLineEdit();
     
     QPushButton* log = new QPushButton("Log In", this);
     QPushButton* reg = new QPushButton("Register", this);
@@ -43,42 +41,29 @@ auth_window::auth_window(QWidget *parent) :                                 //р
     connect(nameLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(on_nameLineEdit_textEdited()));
     connect(passwordLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(on_passwordLineEdit_textEdited()));
     
-    setLayout(grid);                                                      //вызов функции размещения GUI
+    setLayout(grid);                                                      
 }
 
-void auth_window::on_registerPushButton_clicked()                         //реализация слота нажатия кнопки регистрации
+void auth_window::on_registerPushButton_clicked()                         
 {
     emit register_button_clicked();
-    printf("register\n");
 }
 
-void auth_window::on_loginPushButton_clicked()                              //реализация слота нажатия кнопки авторизации
+void auth_window::on_loginPushButton_clicked()                              
 {
     emit login_button_clicked();
-    
-    printf("login\n");
 }
 
 void auth_window::on_nameLineEdit_textEdited()
 {
     QLineEdit *clickedLine = qobject_cast<QLineEdit*>(sender());
     auth_window::m_username = clickedLine->text();
-
-    //распечатка в строку
-    //QTextStream out(stdout); 
-    //out << m_username;
-    
 }
 
 void auth_window::on_passwordLineEdit_textEdited()
 {
     QLineEdit *clickedLine = qobject_cast<QLineEdit*>(sender());
     auth_window::m_userpass = clickedLine->text();
-
-    //распечатка в строку
-    //QTextStream out(stdout); 
-    //out << m_userpass;
-    
 }
 
 QString auth_window::getLogin()

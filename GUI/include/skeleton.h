@@ -16,11 +16,5 @@ class Skeleton : public QMainWindow {
   ListWidget *list;
  
   public:
-    Skeleton(QWidget *parent = 0);
-    void setEventVector(std::vector<Event> events){events_ = events;};
-    std::vector<Event> getEventVector() {return events_;};
-    void updateEventsList(); 
-
-  
-    
+    Skeleton(QWidget *parent = 0); 
 };
