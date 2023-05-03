@@ -9,27 +9,17 @@ Dialog::Dialog(QDialog* parent) : QDialog(parent)
 {
   auto& Base = DataBase::get_instance();
 
-
-    QBoxLayout* layout = new QHBoxLayout(this);
+  QBoxLayout* layout = new QHBoxLayout(this);
     
-
-    /*QPushButton* okBtn = new QPushButton( "OK" );
-    connect( okBtn, SIGNAL( clicked() ), SLOT( accept() ) );
-    layout->addWidget( okBtn );
-
-    QPushButton* applyBtn = new QPushButton( "Apply" );
-    connect( applyBtn, SIGNAL( clicked() ), SIGNAL( applied() ) );
-    layout->addWidget( applyBtn);*/
-
-    QPushButton* cancelBtn = new QPushButton( "Cancel" );
-    connect( cancelBtn, SIGNAL( clicked() ), SLOT( reject() ) );
+  QPushButton* cancelBtn = new QPushButton( "Cancel" );
+  connect(cancelBtn, SIGNAL(clicked()), SLOT(reject()));
     
-    lw = new QListWidget(this);
+  lw = new QListWidget(this);
 
-    layout->addWidget(lw);
-    layout->addWidget(cancelBtn);
+  layout->addWidget(lw);
+  layout->addWidget(cancelBtn);
 
-    setLayout( layout );
+  setLayout(layout);
 }
 
 void Dialog::update()

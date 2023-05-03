@@ -98,11 +98,18 @@ void ListWidget::renameItem() ////////// делаем
 
 void ListWidget::removeItem() /////делаем 
 {  
-  int r = lw->currentRow();
- 
-  if (r != -1) {   
+  QListWidgetItem *curitem = lw->currentItem();
+  int r = lw->row(curitem);
+  auto q_ev_name = curitem->text();
+  auto ev_name = q_ev_name.toStdString();
+  auto ev = Event(ev_name, "", "");
+
+  if (r != -1) 
+  {   
     QListWidgetItem *item = lw->takeItem(r);
     delete item;
+
+    DataBase::get_instance().remove_event(ev);
   }
 }
 
@@ -112,7 +119,6 @@ void ListWidget::see()
     int r = lw->row(curitem);
     auto q_ev_name = curitem->text();
     auto ev_name = q_ev_name.toStdString();
-    //std::cout << str << std::endl;
 
     DataBase::get_instance();
     auto event =  DataBase::get_instance().get_event(ev_name);
@@ -134,15 +140,13 @@ void ListWidget::updateEventsList()
     QString c_text = QString::fromStdString(events[it].get_name());
     QString s_text = c_text.simplified();
     
-    if (!s_text.isEmpty()) {
-        
+    if (!s_text.isEmpty()) 
+    {   
       lw->addItem(s_text);
       int r = lw->count() - 1;
       lw->setCurrentRow(r);
     }
   }
-
-
     printf("here\n");
 }
 
