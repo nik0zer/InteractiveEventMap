@@ -92,6 +92,45 @@ Event::Event(std::string msg)
 
 
 // ---------------------------------------------------------------------------------------------------------------------
+// std::cout operators <<
+// ---------------------------------------------------------------------------------------------------------------------
+
+
+
+//----------------------------------------------------------------
+//!  Redefinition of operator << for class Person
+//!
+//!  @note          Depends of CREDS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
+std::ostream& operator<< (std::ostream &out, const Person &person)
+{
+    out << person.id_ << "    " << person.login_ << "    " << person.password_ << "    " << person.last_edit_time_;
+
+    return out;
+}
+
+
+
+//----------------------------------------------------------------
+//!  Redefinition of operator << for class Event
+//!
+//!  @note          Depends of CREDS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
+std::ostream& operator<< (std::ostream &out, const Event &event)
+{
+    out << event.id_ << "    " << event.name_ << "    " << event.info_ << "    " << event.address_
+                     << "    " << event.date_ << "    " << event.time_ << "    " << event.owner_ << "    " << event.last_edit_time_;
+
+    return out;
+}
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Initial part of DataBase
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -195,6 +234,20 @@ DataBase::DataBase()
 
 
 
+DataBase::~DataBase()
+{
+    if (sqlite3_close(ptr_) == SQLITE_OK)
+    {
+        spdlog::info("Database closed");
+    }
+    else
+    {
+        spdlog::critical("Can't close Database!");
+    }
+}
+
+
+
 void DataBase::fill_reserved_persons_id()
 {
     std::string sql_cmd = "SELECT * FROM CREDS;";
@@ -237,6 +290,12 @@ DataBase& DataBase::get_instance()
 
 
 
+// ---------------------------------------------------------------------------------------------------------------------
+// SQL part
+// ---------------------------------------------------------------------------------------------------------------------
+
+
+
 void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
 {
     // Reserve pointer for collect errors of sql commands
@@ -270,8 +329,92 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
 
 
 
+//----------------------------------------------------------------
+//!  Fill member "persons_vector_" with returned info from DB
+//!
+//!  @note          Depends of CREDS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
+int DataBase::callback_person(void* data, int argc, char** argv, char** azColName) 
+{
+    spdlog::info("Called callback of PERSON");
+
+    if (data)
+    {
+        spdlog::warn("Received data: {}", (const char*)data ? (const char*)data : "");
+        return 0;
+    }
+
+    Person temp(atoi(argv[0]), argv[1], argv[2], atol(argv[3]));
+
+    DataBase::get_instance().persons_vector_.push_back(temp);
+
+    return 0;
+}
+
+
+
+//----------------------------------------------------------------
+//!  Fill member "events_vector_" with returned info from DB
+//!
+//!  @note          Depends of CREDS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
+int DataBase::callback_event(void* data, int argc, char** argv, char** azColName) 
+{
+    spdlog::info("Called callback of EVENT");
+    
+    if (data)
+    {
+        spdlog::warn("Reveived data: {}", (const char*)data ? (const char*)data : "");
+        return 0;
+    }
+
+    Event temp(atoi(argv[0]), argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], atol(argv[7]));
+
+    DataBase::get_instance().events_vector_.push_back(temp);
+
+    return 0;
+}
+
+
+
+//----------------------------------------------------------------
+//!  DataBase class have field reserved_persons_id_ vector. So we need the
+//!  next id for adding new person.
+//!
+//!  @return        int next_id
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
+int DataBase::get_next_id(std::set<int>& id_set)
+{
+    int i;
+    for (i = 1; id_set.size() != 0 && id_set.find(i) != id_set.end(); i++) ;
+    id_set.insert(i);
+
+    return i;
+}
+
+
+
+void DataBase::remove_id(std::set<int>& id_set, const int& i)
+{
+    if (id_set.find(i) == id_set.end())
+    {
+        spdlog::warn("Invalid id={} to remove from reserved_person_id_");
+        return;
+    }
+    id_set.erase(i);   
+    spdlog::info("Reserved id={} removed", i);
+}
+
+
+
 // ---------------------------------------------------------------------------------------------------------------------
-// Person part of interaction with DataBase
+// Base person options with DataBase
 // ---------------------------------------------------------------------------------------------------------------------
 
 
@@ -332,85 +475,107 @@ void DataBase::remove_person(Person& person)
 
 
 //----------------------------------------------------------------
-//!  DataBase class have field reserved_persons_id_ vector. So we need the
-//!  next id for adding new person.
+//!  Check if person exist in database by login
 //!
-//!  @return        int next_id
+//!  @return        true (if exists), false (if not)
+//!  @note          If person exists, method set person.id_ to actual in database.
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
-int DataBase::get_next_id(std::set<int>& id_set)
-{
-    int i;
-    for (i = 1; id_set.size() != 0 && id_set.find(i) != id_set.end(); i++) ;
-    id_set.insert(i);
+bool DataBase::person_exists(Person& person)
+{   
+    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}';", person.login_);
 
-    return i;
-}
+    persons_vector_.clear();
+    execute_sql(sql_cmd, "CREDS");
 
-
-
-void DataBase::remove_id(std::set<int>& id_set, const int& i)
-{
-    if (id_set.find(i) == id_set.end())
+    if (persons_vector_.size() > 0)
     {
-        spdlog::warn("Invalid id={} to remove from reserved_person_id_");
-        return;
+        person.id_ = persons_vector_.begin()->id_;
+        return true;
     }
-    id_set.erase(i);   
-    spdlog::info("Reserved id={} removed", i);
+
+    else
+    {
+        return false;
+    }
 }
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Base event options with DataBase
+// ---------------------------------------------------------------------------------------------------------------------
 
 
 
 //----------------------------------------------------------------
-//!  Fill member "persons_vector_" with returned info from DB
+//!  Add event to CREDS database
 //!
+//!  @param  [in]   person - person to search in DB
+//!  @note          Depends of EVENTS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
+
+void DataBase::add_event(Event& event)
+{
+    DataBase::get_instance().fill_reserved_events_id();
+
+    std::string sql_cmd = fmt::format("INSERT INTO EVENTS VALUES({}, '{}', '{}', '{}', '{}', '{}', '{}', {});", 
+                                        std::to_string(get_next_id(reserved_events_id_)), 
+                                        event.get_name(),
+                                        event.get_info(),
+                                        event.get_address(),
+                                        event.get_date(),
+                                        event.get_time(),
+                                        event.get_owner(),
+                                        std::to_string(std::time(nullptr)));
+
+    execute_sql(sql_cmd, "EVENTS");
+
+    spdlog::info("{:30} ... {}", "Adding event '" + event.get_name() + "'", "OK");
+}
+
+
+//----------------------------------------------------------------
+//!  Remove person to CREDS database
+//!
+//!  @param  [in]   person - person to search in DB
 //!  @note          Depends of CREDS structure!!!
 //!  @copyright     AlexZ
 //----------------------------------------------------------------
 
-int DataBase::callback_person(void* data, int argc, char** argv, char** azColName) 
+void DataBase::remove_event(Event& event)
 {
-    spdlog::info("Called callback of PERSON");
+    std::string sql_cmd = fmt::format("DELETE FROM EVENTS WHERE NAME = '{}';", 
+                                        event.get_name());
 
-    if (data)
-    {
-        spdlog::warn("Received data: {}", (const char*)data ? (const char*)data : "");
-        return 0;
-    }
+    execute_sql(sql_cmd, "EVENTS");
 
-    Person temp(atoi(argv[0]), argv[1], argv[2], atol(argv[3]));
-
-    DataBase::get_instance().persons_vector_.push_back(temp);
-
-    return 0;
+    spdlog::info("Event {} removed successfully", event.get_name());
 }
 
 
 
-//----------------------------------------------------------------
-//!  Fill member "events_vector_" with returned info from DB
-//!
-//!  @note          Depends of CREDS structure!!!
-//!  @copyright     AlexZ
-//----------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+// Logic
+// ---------------------------------------------------------------------------------------------------------------------
 
-int DataBase::callback_event(void* data, int argc, char** argv, char** azColName) 
+
+
+bool DataBase::person_verify(Person& person)
 {
-    spdlog::info("Called callback of EVENT");
-    
-    if (data)
-    {
-        spdlog::warn("Reveived data: {}", (const char*)data ? (const char*)data : "");
-        return 0;
-    }
+    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}' AND PASSWORD='{}';",
+                                        person.get_login(), person.get_password());
 
-    Event temp(atoi(argv[0]), argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], atol(argv[7]));
+    execute_sql(sql_cmd, "CREDS");
 
-    DataBase::get_instance().events_vector_.push_back(temp);
+    if (persons_vector_.size() == 0) return false;
+    if (persons_vector_.size() == 1) return true;
 
-    return 0;
+    spdlog::critical("Found more than 1 person in verify func (person login = {})", person.get_login());
+
+    return true;
 }
 
 
@@ -486,139 +651,26 @@ Event DataBase::get_event(std::string name)
 }
 
 
-//----------------------------------------------------------------
-//!  Check if person exist in database by login
-//!
-//!  @return        true (if exists), false (if not)
-//!  @note          If person exists, method set person.id_ to actual in database.
-//!  @copyright     AlexZ
-//----------------------------------------------------------------
 
-bool DataBase::person_exists(Person& person)
-{   
-    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}';", person.login_);
-
-    persons_vector_.clear();
-    execute_sql(sql_cmd, "CREDS");
-
-    if (persons_vector_.size() > 0)
-    {
-        person.id_ = persons_vector_.begin()->id_;
-        return true;
-    }
-
-    else
-    {
-        return false;
-    }
-}
-
-
-// ---------------------------------------------------------------------------------------------------------------------
-// Person part of interaction with DataBase
-// ---------------------------------------------------------------------------------------------------------------------
-
-
-//----------------------------------------------------------------
-//!  Add event to CREDS database
-//!
-//!  @param  [in]   person - person to search in DB
-//!  @note          Depends of EVENTS structure!!!
-//!  @copyright     AlexZ
-//----------------------------------------------------------------
-
-void DataBase::add_event(Event& event)
+void DataBase::rename_event(std::string old_name, std::string new_name)
 {
-    DataBase::get_instance().fill_reserved_events_id();
-
-    std::string sql_cmd = fmt::format("INSERT INTO EVENTS VALUES({}, '{}', '{}', '{}', '{}', '{}', '{}', {});", 
-                                        std::to_string(get_next_id(reserved_events_id_)), 
-                                        event.get_name(),
-                                        event.get_info(),
-                                        event.get_address(),
-                                        event.get_date(),
-                                        event.get_time(),
-                                        event.get_owner(),
-                                        std::to_string(std::time(nullptr)));
+    std::string sql_cmd = fmt::format("UPDATE EVENTS SET NAME='{}' WHERE NAME='{}';",
+                                        new_name,
+                                        old_name);
 
     execute_sql(sql_cmd, "EVENTS");
-
-    spdlog::info("{:30} ... {}", "Adding event '" + event.get_name() + "'", "OK");
-}
-
-
-//----------------------------------------------------------------
-//!  Remove person to CREDS database
-//!
-//!  @param  [in]   person - person to search in DB
-//!  @note          Depends of CREDS structure!!!
-//!  @copyright     AlexZ
-//----------------------------------------------------------------
-
-void DataBase::remove_event(Event& event)
-{
-    std::string sql_cmd = fmt::format("DELETE FROM EVENTS WHERE NAME = '{}';", 
-                                        event.get_name());
-
-    execute_sql(sql_cmd, "EVENTS");
-
-    spdlog::info("Event {} removed successfully", event.get_name());
 }
 
 
 
-bool DataBase::person_verify(Person& person)
+void DataBase::print_all_events()
 {
-    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LOGIN='{}' AND PASSWORD='{}';",
-                                        person.get_login(), person.get_password());
+    std::cout << "All events:\n";
 
-    execute_sql(sql_cmd, "CREDS");
-
-    if (persons_vector_.size() == 0) return false;
-    if (persons_vector_.size() == 1) return true;
-
-    spdlog::critical("Found more than 1 person in verify func (person login = {})", person.get_login());
-
-    return true;
-}
-
-
-
-// ---------------------------------------------------------------------------------------------------------------------
-// std::cout operators <<
-// ---------------------------------------------------------------------------------------------------------------------
-
-
-
-//----------------------------------------------------------------
-//!  Redefinition of operator << for class Person
-//!
-//!  @note          Depends of CREDS structure!!!
-//!  @copyright     AlexZ
-//----------------------------------------------------------------
-
-std::ostream& operator<< (std::ostream &out, const Person &person)
-{
-    out << person.id_ << "    " << person.login_ << "    " << person.password_ << "    " << person.last_edit_time_;
-
-    return out;
-}
-
-
-
-//----------------------------------------------------------------
-//!  Redefinition of operator << for class Event
-//!
-//!  @note          Depends of CREDS structure!!!
-//!  @copyright     AlexZ
-//----------------------------------------------------------------
-
-std::ostream& operator<< (std::ostream &out, const Event &event)
-{
-    out << event.id_ << "    " << event.name_ << "    " << event.info_ << "    " << event.address_
-                     << "    " << event.date_ << "    " << event.time_ << "    " << event.owner_ << "    " << event.last_edit_time_;
-
-    return out;
+    for (const auto& item : get_all_events())
+    {
+        std::cout << item << std::endl;
+    }
 }
 
 
@@ -635,26 +687,4 @@ void DataBase::parse_cmd(std::string cmd, std::string data)
         Person temp(data);
         add_person(temp);
     }
-}
-
-
-void DataBase::print_all_events()
-{
-    std::cout << "All events:\n";
-
-    for (const auto& item : get_all_events())
-    {
-        std::cout << item << std::endl;
-    }
-}
-
-
-
-void DataBase::rename_event(std::string old_name, std::string new_name)
-{
-    std::string sql_cmd = fmt::format("UPDATE EVENTS SET NAME='{}' WHERE NAME='{}';",
-                                        new_name,
-                                        old_name);
-
-    execute_sql(sql_cmd, "EVENTS");
 }

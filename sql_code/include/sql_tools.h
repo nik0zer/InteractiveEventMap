@@ -14,6 +14,7 @@
 
 
 class Person;
+class Event;
 class DataBase;
 
 
@@ -26,10 +27,10 @@ class Person
 
   public:
 
-    int         get_id() {return id_;}
-    std::string get_login() {return login_;}
-    std::string get_password() {return password_;}
-    time_t      get_last_edit_time() {return last_edit_time_;}
+    int         get_id()              {return id_;}
+    std::string get_login()           {return login_;}
+    std::string get_password()        {return password_;}
+    time_t      get_last_edit_time()  {return last_edit_time_;}
 
 
     // Constructors
@@ -45,6 +46,8 @@ class Person
     friend DataBase;
     friend std::ostream& operator<< (std::ostream &out, const Person &person);
 };
+
+
 
 class Event
 {
@@ -96,33 +99,26 @@ class DataBase
 
     // Initialize
     DataBase();
-    sqlite3*   open_db(const std::string path);
-    void       create_tables(sqlite3* DB);
-
-    // Destructor
-    ~DataBase()
-    {
-        if (sqlite3_close(ptr_) == SQLITE_OK)
-        {
-            spdlog::info("Database closed");
-        }
-        else
-        {
-            spdlog::critical("Can't close Database!");
-        }
-    }
+    ~DataBase();
+    sqlite3*            open_db(const std::string path);
+    void                create_tables(sqlite3* DB);
 
     // ID
-    int        get_next_id(std::set<int>& id_set);
-    void       remove_id(std::set<int>& id_set, const int& i);
+    void                fill_reserved_persons_id();
+    void                fill_reserved_events_id();
+    int                 get_next_id(std::set<int>& id_set);
+    void                remove_id(std::set<int>& id_set, const int& i);
+
+    // SQL callbacks
+    static int          callback_person(void* data, int argc, char** argv, char** azColName);
+    static int          callback_event(void* data, int argc, char** argv, char** azColName);
 
 
   public:
-    void       fill_reserved_persons_id();
-    void       fill_reserved_events_id();
 
     // Singleton:
-    static DataBase& get_instance();
+    static DataBase&    get_instance();
+
     DataBase(DataBase&) = delete;
     DataBase& operator=(const DataBase&) = delete;
 
@@ -140,11 +136,10 @@ class DataBase
 
     // SQL:
     void                execute_sql(const std::string& sql_cmd, const std::string& table);
-    static int          callback_person(void* data, int argc, char** argv, char** azColName);
-    static int          callback_event(void* data, int argc, char** argv, char** azColName);
+
 
     // Logic
-    bool                person_verify(Person& person);               // Накрутить хеш
+    bool                person_verify(Person& person);               // Накрутить хеш, если будет время
     std::vector<Person> get_all_persons();
     std::vector<Event>  get_all_events();
     Event               get_event(std::string name);
@@ -158,4 +153,6 @@ class DataBase
 #endif
 
 
+// Написать взаимодействие с сервером
 // Убрать костыль fill_reserved_id
+// Подобавлять везде const &
