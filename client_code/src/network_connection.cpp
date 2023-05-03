@@ -1,4 +1,5 @@
 #include "network_connection.h"
+#include <iterator>
 
 ServerConnection::ServerConnection(std::string server_ip, int port)
 {
@@ -70,21 +71,46 @@ void ServerConnection::read_data()
     }
 
     boost::asio::streambuf data_buffer;
-    std::istream data_stream(&data_buffer);
-    std::shared_ptr<std::string> data_str_ptr(new std::string());
+    std::shared_ptr<std::vector<char>> data_ptr(new std::vector<char>());
+    uint32_t data_size;
     std::string name;
     
     try
     {
-        boost::asio::read_until(*_socket_ptr, data_buffer, "\n");
+        boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(sizeof(uint32_t)));
+        bytes_from_uint32_t name_size; 
+        for(int i = 0; i < sizeof(uint32_t) && data_buffer.sgetc() != EOF; i++)
+        {
+            name_size.bytes[i] = data_buffer.sgetc();
+            data_buffer.snextc();
+        }
 
-        data_stream >> name;
-        data_stream.ignore(1);
-        std::getline(data_stream, (*data_str_ptr), '\n');
+        boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(name_size.uint));
+
+        name = std::string((std::istreambuf_iterator<char>(&data_buffer)), std::istreambuf_iterator<char>());
+
+        boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(sizeof(uint32_t)));
+        bytes_from_uint32_t data_size; 
+
+        for(int i = 0; i < sizeof(uint32_t) && data_buffer.sgetc() != EOF; i++)
+        {
+            data_size.bytes[i] = data_buffer.sgetc();
+            data_buffer.snextc();
+        }
+
+        boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(data_size.uint));
+
+        for(int i = 0; i < data_size.uint && data_buffer.sgetc() != EOF; i++)
+        {
+            data_ptr->push_back(data_buffer.sgetc());
+            data_buffer.snextc();
+        }
+
+
     }
     catch(boost::system::system_error e)
     {
-        std::cout << e.what() << " system_error" << std::endl;
+        std::cerr << e.what() << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             if(_socket_ptr->is_open())
@@ -102,7 +128,7 @@ void ServerConnection::read_data()
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
         throw e;
         return;
     }
@@ -112,7 +138,7 @@ void ServerConnection::read_data()
         return;
     }
 
-    ReadData _read_data(name, data_str_ptr);
+    ReadData _read_data(name, data_size, data_ptr);
     read_data_mutex.lock();
     read_data_array.push_back(_read_data);
     read_data_mutex.unlock();
@@ -138,9 +164,14 @@ std::string ReadData::data_name()
     return _data_name;
 }
 
-std::string ReadData::data_str()
+std::shared_ptr<std::vector<char>> ReadData::data_str_ptr()
 {
-    return (*_data_str_ptr);
+    return (_data_str_ptr);
+}
+
+uint32_t ReadData::data_size()
+{
+    return this->_data_size;
 }
 
 void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffer_ptr)
@@ -155,7 +186,7 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
         }
         catch(const std::exception& e)
         {
-            std::cout<<e.what()<<std::endl;
+            std::cerr<<e.what()<<std::endl;
             throw e;
             return;
         }
@@ -177,7 +208,7 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     }
     catch(boost::system::system_error e)
     {
-        std::cout << e.what() << " system_error" << std::endl;
+        std::cerr << e.what() << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             if(_socket_ptr->is_open())
@@ -222,7 +253,32 @@ void ServerConnection::_thread_read_data()
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
     }
+}
+
+void ServerConnection::cycle_read()
+{
+    while(true)
+    {
+        try
+        {
+            read_data();
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr<<e.what()<<std::endl;
+            return;
+        }
+        catch(...)
+        {
+            return;
+        }
+    }
+}
+
+boost::thread ServerConnection::thread_cycle_read()
+{
+    return boost::thread(&ServerConnection::cycle_read, this);
 }
 

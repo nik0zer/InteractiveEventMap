@@ -14,7 +14,6 @@ Client::Client(int client_id, std::shared_ptr<boost::thread> client_session_ptr,
 Server::Server(int port)
 {
     _port  = port;
-    std::cout<<port<<std::endl;
     _endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), _port);
     
     for(int i = 0; i < MAX_OF_CLIENTS; i++)
@@ -32,22 +31,13 @@ void Server::client_waiting(void client_session(ClientConnection ClientConnectio
         acceptor.accept(*socket_ptr);
 
         std::shared_ptr<boost::thread> thread_ptr(new boost::thread(client_session, ClientConnection(socket_ptr)));
-        std::cout<<"num_of_free_id: "<<free_client_id.size()<<std::endl;
         clients.push_back(Client(free_client_id[0], thread_ptr, socket_ptr));
         
         free_client_id.erase(free_client_id.begin());
-        std::cout<<"num_of_free_id_after_erase: "<<free_client_id.size()<<std::endl;
-        for(auto i = free_client_id.begin(); i != free_client_id.end(); i++)
-        {
-            std::cout<<*i<<" ";
-        }
-        std::cout<<std::endl;
-        
 
         if(!free_client_id.size())
         {
             client_update();
-            std::cout<<"num_of_free_id_after_update: "<<free_client_id.size()<<std::endl;
         }
     }
 }
@@ -87,7 +77,7 @@ void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     }
     catch(boost::system::system_error e)
     {
-        std::cout << e.what() << " system_error" << std::endl;
+        std::cerr << e.what() << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             if(_socket_ptr->is_open())
@@ -103,7 +93,7 @@ void ClientConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
         throw e;
         return;
     }
@@ -126,9 +116,9 @@ std::string ReadData::data_name()
     return _data_name;
 }
 
-std::string ReadData::data_str()
+std::shared_ptr<std::vector<char>> ReadData::data_str_ptr()
 {
-    return (*_data_str_ptr);
+    return _data_str_ptr;
 }
 
 boost::thread ClientConnection::thread_read_data()
@@ -140,27 +130,47 @@ void ClientConnection::read_data()
 {
     std::lock_guard<std::mutex> lock(_read_mutex);
 
-    if(!(_socket_ptr->is_open()))
-    {
-        throw std::exception();
-        return;
-    }
-    
     boost::asio::streambuf data_buffer;
-    std::istream data_stream(&data_buffer);
-    std::shared_ptr<std::string> data_str_ptr(new std::string());
+    std::shared_ptr<std::vector<char>> data_ptr(new std::vector<char>());
+    uint32_t data_size;
     std::string name;
     
     try
     {
-        boost::asio::read_until(*_socket_ptr, data_buffer, "\n");
-        data_stream >> name;
-        data_stream.ignore(1);
-        std::getline(data_stream, (*data_str_ptr), '\n');
+        boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(sizeof(uint32_t)));
+        bytes_from_uint32_t name_size; 
+        for(int i = 0; i < sizeof(uint32_t) && data_buffer.sgetc() != EOF; i++)
+        {
+            name_size.bytes[i] = data_buffer.sgetc();
+            data_buffer.snextc();
+        }
+
+        boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(name_size.uint));
+
+        name = std::string((std::istreambuf_iterator<char>(&data_buffer)), std::istreambuf_iterator<char>());
+
+        boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(sizeof(uint32_t)));
+        bytes_from_uint32_t data_size; 
+
+        for(int i = 0; i < sizeof(uint32_t) && data_buffer.sgetc() != EOF; i++)
+        {
+            data_size.bytes[i] = data_buffer.sgetc();
+            data_buffer.snextc();
+        }
+
+        boost::asio::read(*_socket_ptr, data_buffer, boost::asio::transfer_exactly(data_size.uint));
+
+        for(int i = 0; i < data_size.uint && data_buffer.sgetc() != EOF; i++)
+        {
+            data_ptr->push_back(data_buffer.sgetc());
+            data_buffer.snextc();
+        }
+
+
     }
     catch(boost::system::system_error e)
     {
-        std::cout << e.what() << " system_error" << std::endl;
+        std::cerr << e.what() << std::endl;
         if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
         {
             if(_socket_ptr->is_open())
@@ -169,13 +179,16 @@ void ClientConnection::read_data()
                 _socket_ptr->close();
                 _socket_ptr_mutex.unlock();
             }
+            
+            throw(e);
+            return;
         }
-        throw e;
+        
         return;
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
         throw e;
         return;
     }
@@ -185,10 +198,11 @@ void ClientConnection::read_data()
         return;
     }
 
-    ReadData _read_data(name, data_str_ptr);
+    ReadData _read_data(name, data_size, data_ptr);
     read_data_mutex.lock();
     read_data_array.push_back(_read_data);
-    read_data_mutex.unlock(); 
+    read_data_mutex.unlock();
+    
 }
 
 void ClientConnection::cycle_read()
@@ -201,7 +215,7 @@ void ClientConnection::cycle_read()
         }
         catch(const std::exception& e)
         {
-            std::cout<<e.what()<<std::endl;
+            std::cerr<<e.what()<<std::endl;
             return;
         }
         catch(...)
@@ -236,7 +250,12 @@ void ClientConnection::_thread_read_data()
     }
     catch(const std::exception& e)
     {
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
     }
+}
+
+uint32_t ReadData::data_size()
+{
+    return this->_data_size;
 }
 
