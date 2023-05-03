@@ -15,14 +15,19 @@ int main()
     Event ev2("2", "2", "2");
     Event ev3("3", "3", "3");
     DataBase::get_instance().add_event(ev1);
-    // DataBase::get_instance().add_event(ev2);
-    // DataBase::get_instance().add_event(ev3);
+    DataBase::get_instance().add_event(ev2);
+    DataBase::get_instance().add_event(ev3);
+
+    for (auto& item : DataBase::get_instance().get_events_to_sync(0))
+    {
+        std::cout << item << std::endl;
+    }
 
     // std::cout << "Ev1 = " << ev1 << std::endl;
 
     // Event found = DataBase::get_instance().get_event("1");
     // std::cout << "Found = " << found << std::endl;
-    DataBase::get_instance().print_all_events();
+    // DataBase::get_instance().print_all_events();
     // DataBase::get_instance().~DataBase();
 
     // std::cout << "All events\n";
