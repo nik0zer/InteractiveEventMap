@@ -5,11 +5,24 @@
 
 int main() 
 {
-    Person per("Name", "date");
-    std::string test_str = std::string(per);
-    Person per1(test_str);
+    std::cout << "All events\n";
+    for (const auto& item : DataBase::get_instance().get_all_events())
+    {
+        std::cout << item << std::endl;
+    }
 
-    std::cout << per1;
+    Event ev1("1", "1", "1");
+    Event ev2("2", "2", "2");
+    Event ev3("3", "3", "3");
+    DataBase::get_instance().add_event(ev1);
+    DataBase::get_instance().add_event(ev2);
+    DataBase::get_instance().add_event(ev3);
+
+    std::cout << "All events\n";
+    for (const auto& item : DataBase::get_instance().get_all_events())
+    {
+        std::cout << item << std::endl;
+    }
 
     // DataBase& main_base = DataBase::get_instance();
     // Person per1("Name 1", "Psw 1");
@@ -45,7 +58,6 @@ int main()
 
     // DataBase::get_instance().print_persons_vector();
     // main_base.print_persons_vector();     // Почему пустой список??
-    system("rm main.db");
 
     return(0);
 
