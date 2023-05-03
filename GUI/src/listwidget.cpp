@@ -27,7 +27,7 @@ ListWidget::ListWidget(QWidget *parent)
   rename = new QPushButton("Rename event", this);
   remove = new QPushButton("Remove event", this);
   seeEvent = new QPushButton("See event", this);
-  AllEvents = new QPushButton("See all event", this);
+  AllEvents = new QPushButton("Synchronize", this);
 
   vbox->setSpacing(3);
   vbox->addStretch(1);
