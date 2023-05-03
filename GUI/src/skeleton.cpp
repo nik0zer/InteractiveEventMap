@@ -26,7 +26,6 @@ Skeleton::Skeleton(QWidget *parent)
         
   connect(quit2, &QAction::triggered, qApp, &QApplication::quit);
 
-  //std::vector<Event> events = parent-> getEventVector();
   list = new ListWidget(this);
   
   

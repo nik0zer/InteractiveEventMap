@@ -14,9 +14,9 @@ int main(int argc, char *argv[]) {
  // Person per("first", "12345"); 
   //DataBase::get_instance().add_person(per);
 
-  Event event(10, "DF", "openAirFestival", "MIPT", "30.04.2023", "18:00", "MIPT DIR", std::time(nullptr));
-  DataBase::get_instance().add_event(event);
-
+  // Event event(10, "DF", "openAirFestival", "MIPT", "30.04.2023", "18:00", "MIPT DIR", std::time(nullptr));
+  // DataBase::get_instance().add_event(event);
+ 
   MainWindow window(nullptr);
   /*window.setPersonVec(pers);
   window.setEventVec(events);*/

@@ -3,6 +3,8 @@
 #include <QVBoxLayout>
 #include <QInputDialog>
 #include <QLabel>
+#include <ctime>
+#include <iostream>
  
 ListWidget::ListWidget(QWidget *parent)
     : QWidget(parent) {
@@ -24,7 +26,6 @@ ListWidget::ListWidget(QWidget *parent)
   add = new QPushButton("Add event", this);
   rename = new QPushButton("Rename event", this);
   remove = new QPushButton("Remove event", this);
-  removeAll = new QPushButton("Remove All", this);
   seeEvent = new QPushButton("See event", this);
 
   vbox->setSpacing(3);
@@ -32,7 +33,6 @@ ListWidget::ListWidget(QWidget *parent)
   vbox->addWidget(add);
   vbox->addWidget(rename);
   vbox->addWidget(remove);
-  vbox->addWidget(removeAll);
   vbox->addWidget(seeEvent);
   vbox->addStretch(1);
  
@@ -43,20 +43,34 @@ ListWidget::ListWidget(QWidget *parent)
   connect(add, &QPushButton::clicked, this, &ListWidget::addItem);
   connect(rename, &QPushButton::clicked, this, &ListWidget::renameItem);
   connect(remove, &QPushButton::clicked, this, &ListWidget::removeItem);
-  connect(removeAll, &QPushButton::clicked, this, &ListWidget::clearItems);
   connect(seeEvent, &QPushButton::clicked, this, &ListWidget::see);
   
   setLayout(hbox);
 }
  
-void ListWidget::addItem() {
+void ListWidget::addItem() { 
     
-  QString c_text = QInputDialog::getText(this, "Item", "Enter new item");
-  QString s_text = c_text.simplified();
+  QString c_name = QInputDialog::getText(this, "Event", "Enter new event name");
+  QString s_name = c_name.simplified();
   
-  if (!s_text.isEmpty()) {
+  
+  if (!s_name.isEmpty()) {
       
-    lw->addItem(s_text);
+    QString c_info = QInputDialog::getText(this, "Event", "Enter new event info");
+    QString s_info = c_info.simplified();
+    QString c_address = QInputDialog::getText(this, "Event", "Enter new event address");
+    QString s_address = c_address.simplified();
+    QString c_date = QInputDialog::getText(this, "Event", "Enter new event date");
+    QString s_date = c_date.simplified();
+    QString c_time = QInputDialog::getText(this, "Event", "Enter new event time");
+    QString s_time = c_time.simplified();
+
+    auto event = Event(1, s_name.toStdString(), s_info.toStdString(), s_address.toStdString(), s_date.toStdString(), s_time.toStdString(), "", std::time(nullptr));
+   // std::cout << event << std::endl;
+    auto& Base = DataBase::get_instance();
+    Base.add_event(event);
+
+    lw->addItem(s_name);
     int r = lw->count() - 1;
     lw->setCurrentRow(r);
   }
@@ -103,10 +117,12 @@ void ListWidget::clearItems(){
 }
 
 void ListWidget::see(){
+
+
     int r = lw->currentRow();
-    auto& Base = DataBase::get_instance();
-    auto events = Base.get_all_events();
-    
+    DataBase::get_instance();
+    auto events = DataBase::get_instance().get_all_events();
+
     if (r != -1) { 
       Dialog *dg = new Dialog();
       dg->setEvent(events[r]);
@@ -118,23 +134,24 @@ void ListWidget::see(){
 
 void ListWidget::updateEventsList()
 {
-  
-for(int it = 0; it < events_.size(); it++)
-{
-  QString c_text = QString::fromStdString(events_[it].get_name());
-  QString s_text = c_text.simplified();
-  
-  if (!s_text.isEmpty()) {
-      
-    lw->addItem(s_text);
-    int r = lw->count() - 1;
-    lw->setCurrentRow(r);
+  auto events = DataBase::get_instance().get_all_events();
+
+  for(int it = 0; it < events.size(); it++)
+  {
+    QString c_text = QString::fromStdString(events[it].get_name());
+    QString s_text = c_text.simplified();
+    
+    if (!s_text.isEmpty()) {
+        
+      lw->addItem(s_text);
+      int r = lw->count() - 1;
+      lw->setCurrentRow(r);
+    }
   }
-}
 
 
-  printf("here\n");
-  
+    printf("here\n");
+    
 
 }
 
