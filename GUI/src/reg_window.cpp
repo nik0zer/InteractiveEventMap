@@ -9,8 +9,8 @@
 
 reg_window::~reg_window(){};
 
-reg_window::reg_window(QWidget *parent) :                               //реализация конструктора окна регистрации
-    QWidget(parent)                                                    //список инициализации
+reg_window::reg_window(QWidget *parent) :                               
+    QWidget(parent)                                                   
 {
     QGridLayout *grid = new QGridLayout(); 
     grid->setSpacing(2);                 
@@ -47,11 +47,9 @@ reg_window::reg_window(QWidget *parent) :                               //реа
     setLayout(grid);
 }
 
-
-
-void reg_window::on_registerPushButton_clicked2()                        //реализация слота нажатия кнопки регистрации
+void reg_window::on_registerPushButton_clicked2()                        
 {
-    emit register_button_clicked2(); // нужно будет реализовать
+    emit register_button_clicked2(); 
 }
 
 void reg_window::on_nameLineEdit_textEdited()
@@ -59,26 +57,18 @@ void reg_window::on_nameLineEdit_textEdited()
     
     QLineEdit *clickedLine = qobject_cast<QLineEdit*>(sender());
     reg_window::m_userName = clickedLine->text();
-
-    //распечатка в строку
-    //QTextStream out(stdout); 
-    //out << m_userName;
 }
 
 void reg_window::on_passwordLineEdit_textEdited()
 {
     QLineEdit *clickedLine = qobject_cast<QLineEdit*>(sender());
     reg_window::m_userPass = clickedLine->text();
-    //QTextStream out(stdout); 
-    //out << m_userPass;
 }
 
 void reg_window::on_confirmLineEdit_textEdited()
 {
     QLineEdit *clickedLine = qobject_cast<QLineEdit*>(sender());
     reg_window::m_confirmation = clickedLine->text();
-    //QTextStream out(stdout); 
-    //out << m_confirmation;
 }
 
 QString reg_window::getName()

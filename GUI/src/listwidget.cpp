@@ -77,26 +77,30 @@ void ListWidget::addItem()
   }
 }
 
-void ListWidget::renameItem() ////////// делаем 
+void ListWidget::renameItem() 
 {
   QListWidgetItem *curitem = lw->currentItem();
   int r = lw->row(curitem);
-  QString c_text = curitem->text();
-  QString r_text = QInputDialog::getText(this, "Item", 
-      "Enter new item", QLineEdit::Normal, c_text);
+  auto q_ev_name = curitem->text();
+  auto ev_name = q_ev_name.toStdString();
+
+  QString r_name = QInputDialog::getText(this, "Item", 
+      "Enter new item", QLineEdit::Normal, q_ev_name);
   
-  QString s_text = r_text.simplified();
+  QString s_name= r_name.simplified();
   
-  if (!s_text.isEmpty()) {
-      
+  if (!s_name.isEmpty()) 
+  { 
     QListWidgetItem *item = lw->takeItem(r);
     delete item;
-    lw->insertItem(r, s_text);
+    lw->insertItem(r, s_name);
     lw->setCurrentRow(r);
+
+    DataBase::get_instance().rename_event(ev_name, s_name.toStdString());
   }
 }
 
-void ListWidget::removeItem() /////делаем 
+void ListWidget::removeItem() 
 {  
   QListWidgetItem *curitem = lw->currentItem();
   int r = lw->row(curitem);
@@ -115,19 +119,20 @@ void ListWidget::removeItem() /////делаем
 
 void ListWidget::see()
 {
-    QListWidgetItem *curitem = lw->currentItem();
-    int r = lw->row(curitem);
-    auto q_ev_name = curitem->text();
-    auto ev_name = q_ev_name.toStdString();
+  QListWidgetItem *curitem = lw->currentItem();
+  int r = lw->row(curitem);
+  auto q_ev_name = curitem->text();
+  auto ev_name = q_ev_name.toStdString();
 
-    DataBase::get_instance();
-    auto event =  DataBase::get_instance().get_event(ev_name);
+  DataBase::get_instance();
+  auto event =  DataBase::get_instance().get_event(ev_name);
 
-    if (event.get_name() != "") { 
-      Dialog *dg = new Dialog();
-      dg->setEvent(event);
-      dg->update();
-      dg->show();
+  if (event.get_name() != "") 
+  { 
+    Dialog *dg = new Dialog();
+    dg->setEvent(event);
+    dg->update();
+    dg->show();
   }
 }
 
