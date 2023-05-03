@@ -11,7 +11,8 @@
 int main(int argc, char *argv[])
 {
     ServerConnection server_connection(IP, PORT);
-    server_connection.send_data("name", "data");
+    server_connection.send_data("send_me_actual_persons", DataBase::get_instance().get_last_edit_time_persons);
+    server_connection.send_data("send_me_actual_events", DataBase::get_instance().get_last_edit_time_events);
 
     
     QApplication app(argc, argv);  

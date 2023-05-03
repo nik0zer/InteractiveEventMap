@@ -142,7 +142,7 @@ class DataBase
     void                update_database();
     time_t              get_last_edit_time_persons();
     time_t              get_last_edit_time_events();
-    void                parse_cmd(std::string cmd, std::string data);
+    int                parse_cmd(std::string cmd, std::string data);
 
 
     // Logic (for buttons)

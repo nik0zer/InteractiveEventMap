@@ -341,7 +341,7 @@ time_t DataBase::get_last_edit_time_events()
 
 
 
-void DataBase::parse_cmd(std::string cmd, std::string data)
+int DataBase::parse_cmd(std::string cmd, std::string data)
 {
     if (cmd == "update_event")
     {
@@ -350,6 +350,7 @@ void DataBase::parse_cmd(std::string cmd, std::string data)
 
         DataBase::get_instance().remove_event(old_event);
         DataBase::get_instance().add_event(new_event);
+        return 0;
     }
     else if (cmd == "update_person")
     {
@@ -357,11 +358,14 @@ void DataBase::parse_cmd(std::string cmd, std::string data)
 
         DataBase::get_instance().remove_person(new_person);
         DataBase::get_instance().add_person(new_person);
+        return 0;
     }
     else
     {
         spdlog::error("Unknown cmd to parse from server = '{}'", cmd);
+        return 1;
     }
+    
 }
 
 
