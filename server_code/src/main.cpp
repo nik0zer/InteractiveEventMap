@@ -4,13 +4,16 @@
 #include <boost/chrono.hpp>
 #include "network_connection.h"
 
+void handler(ReadData read_data)
+{
+    std::cout<<"\nname:\n"<<read_data.data_name()<<"\nbuffer:\n"<<read_data.data_str();
+}
 
-typedef std::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 
 void client_session(ClientConnection client_connection)
  {
     std::cout<<"client_session"<<std::endl;
-    boost::thread thr =  client_connection.thread_cycle_read();
+    boost::thread thr = client_connection.thread_cycle_read(handler);
     while (true)
      {
         if(!client_connection.is_socket_open())
@@ -36,7 +39,8 @@ void client_session(ClientConnection client_connection)
 
 int main()
 {
-    
+    Server server(2001);
+    server.client_waiting(client_session);
 }
 
 

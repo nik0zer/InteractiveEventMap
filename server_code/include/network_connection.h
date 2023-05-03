@@ -1,6 +1,20 @@
 #ifndef NETWORK_CONNECTION_H
 #define NETWORK_CONNECTION_H
 
+#define ENABLE_READ_DATA_HANDLER 1
+#if ENABLE_READ_DATA_HANDLER
+#define READ_DATA_HANDLER(...) __VA_ARGS__
+#else 
+#define READ_DATA_HANDLER(...)
+#endif
+
+#if !ENABLE_READ_DATA_HANDLER
+#define READ_DATA_ARRAY(...) __VA_ARGS__
+#else 
+#define READ_DATA_ARRAY(...)
+#endif
+
+
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/chrono.hpp>
@@ -122,7 +136,7 @@ class ClientConnection
         std::mutex _socket_ptr_mutex;
 
 
-        void _thread_read_data();
+        void _thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
         template<typename T> void _thread_send_data(std::string name, T data)
         {
             try
@@ -214,27 +228,27 @@ class ClientConnection
          * @brief read data from server to read array
          * 
          */
-        void read_data();
+        void read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
 
         /**
          * @brief cyclically reads server messages
          * 
          */
-        void cycle_read();
+        void cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
 
         /**
          * @brief cyclically reads server messages in separated thread
          * 
          * @return boost::thread cyclically reading thread
          */
-        boost::thread thread_cycle_read();
+        boost::thread thread_cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
 
         /**
          * @brief read data in a separated tread
          * 
          * @return boost::thread reading thread
          */
-        boost::thread thread_read_data();
+        boost::thread thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)));
 
         /**
          * @brief delete elem from read data array by iterator

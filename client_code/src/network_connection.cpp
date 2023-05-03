@@ -7,6 +7,7 @@ ServerConnection::ServerConnection(std::string server_ip, int port)
     _port = port;
     _is_connected = false;
     _socket_ptr = std::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
+    connect_to_server();
 }
 
 ServerConnection::ServerConnection(boost::asio::ip::address server_ip, int port)
@@ -15,6 +16,7 @@ ServerConnection::ServerConnection(boost::asio::ip::address server_ip, int port)
     _port = port;
     _is_connected = false;
     _socket_ptr = std::shared_ptr<boost::asio::ip::tcp::socket>(new boost::asio::ip::tcp::socket(_io_service));
+    connect_to_server();
 }
 
 void ServerConnection::connect_to_server()
@@ -27,7 +29,7 @@ void ServerConnection::connect_to_server()
     catch(const std::exception& e)
     {
         std::cerr << e.what() << '\n';
-        return;
+        throw;
     }
     _is_connected = true;
 }
@@ -61,7 +63,7 @@ void ServerConnection::set_new_server_ip(std::string server_ip, int port)
     set_new_server_ip(boost::asio::ip::address::from_string(server_ip), port);
 }
 
-void ServerConnection::read_data()
+void ServerConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
     std::lock_guard<std::mutex> lock(_read_mutex);
 
@@ -139,15 +141,17 @@ void ServerConnection::read_data()
     }
 
     ReadData _read_data(name, data_size, data_ptr);
+    READ_DATA_ARRAY(
     read_data_mutex.lock();
     read_data_array.push_back(_read_data);
-    read_data_mutex.unlock();
-    
+    read_data_mutex.unlock();)
+
+    READ_DATA_HANDLER(boost::thread(read_data_handler, _read_data);)
 }
 
-boost::thread ServerConnection::thread_read_data()
+boost::thread ServerConnection::thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
-    return boost::thread(&ServerConnection::_thread_read_data, this);
+    return boost::thread(&ServerConnection::_thread_read_data, this, READ_DATA_HANDLER(read_data_handler));
 }
 
 //dont use destructor if thread funcs is used in the moment
@@ -245,11 +249,11 @@ void ServerConnection::read_data_array_delete_elem(std::vector<ReadData> :: iter
     read_data_mutex.unlock();
 }
 
-void ServerConnection::_thread_read_data()
+void ServerConnection::_thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
     try
     {
-        read_data();
+        read_data(READ_DATA_HANDLER(read_data_handler));
     }
     catch(const std::exception& e)
     {
@@ -257,13 +261,13 @@ void ServerConnection::_thread_read_data()
     }
 }
 
-void ServerConnection::cycle_read()
+void ServerConnection::cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
     while(true)
     {
         try
         {
-            read_data();
+            read_data(READ_DATA_HANDLER(read_data_handler));
         }
         catch(const std::exception& e)
         {
@@ -277,9 +281,9 @@ void ServerConnection::cycle_read()
     }
 }
 
-boost::thread ServerConnection::thread_cycle_read()
+boost::thread ServerConnection::thread_cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
-    return boost::thread(&ServerConnection::cycle_read, this);
+    return boost::thread(&ServerConnection::cycle_read, this, READ_DATA_HANDLER(read_data_handler));
 }
 
 std::string ReadData::data_str()

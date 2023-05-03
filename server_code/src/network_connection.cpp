@@ -121,12 +121,12 @@ std::shared_ptr<std::vector<char>> ReadData::data_str_ptr()
     return _data_str_ptr;
 }
 
-boost::thread ClientConnection::thread_read_data()
+boost::thread ClientConnection::thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
-    return boost::thread(&ClientConnection::_thread_read_data, this);
+    return boost::thread(&ClientConnection::_thread_read_data, this, READ_DATA_HANDLER(read_data_handler));
 }
 
-void ClientConnection::read_data()
+void ClientConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
     std::lock_guard<std::mutex> lock(_read_mutex);
 
@@ -199,19 +199,21 @@ void ClientConnection::read_data()
     }
 
     ReadData _read_data(name, data_size, data_ptr);
+    READ_DATA_ARRAY(
     read_data_mutex.lock();
     read_data_array.push_back(_read_data);
-    read_data_mutex.unlock();
+    read_data_mutex.unlock();)
+    READ_DATA_HANDLER(boost::thread(read_data_handler, _read_data);)
     
 }
 
-void ClientConnection::cycle_read()
+void ClientConnection::cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
     while(true)
     {
         try
         {
-            read_data();
+            read_data(READ_DATA_HANDLER(read_data_handler));
         }
         catch(const std::exception& e)
         {
@@ -225,9 +227,9 @@ void ClientConnection::cycle_read()
     }
 }
 
-boost::thread ClientConnection::thread_cycle_read()
+boost::thread ClientConnection::thread_cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
-    return boost::thread(&ClientConnection::cycle_read, this);
+    return boost::thread(&ClientConnection::cycle_read, this, READ_DATA_HANDLER(read_data_handler));
 }
 
 void ClientConnection::read_data_array_delete_elem(std::vector<ReadData> :: iterator i)
@@ -242,11 +244,11 @@ bool ClientConnection::is_socket_open()
     return _socket_ptr->is_open();
 }
 
-void ClientConnection::_thread_read_data()
+void ClientConnection::_thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
 {
     try
     {
-        read_data();
+        read_data(READ_DATA_HANDLER(read_data_handler));
     }
     catch(const std::exception& e)
     {
