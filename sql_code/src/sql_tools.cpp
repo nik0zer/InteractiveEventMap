@@ -10,7 +10,89 @@
 
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Realisation for class "DataBase"
+// Constructions for communicate to server
+// 
+// Operator std::string convert object to string, parsing by \n
+// Construcotr of msg - construct the object from msg by parsing msg by \n
+// ---------------------------------------------------------------------------------------------------------------------
+
+
+
+Person::operator std::string() const 
+{
+    std::string str = std::to_string(id_) + "\n";
+    str += login_ + "\n";
+    str += password_ + "\n";
+    str += std::to_string(last_edit_time_) + "\n";
+    return str;
+}
+
+
+
+Person::Person(std::string msg)
+{
+    std::vector<std::string> data_vector;
+    std::string temp;
+    std::stringstream input_stream(msg);
+
+    for (int i = 0; i < 4; i++)
+    {
+        std::getline(input_stream, temp);
+        data_vector.push_back(temp);
+        // spdlog::info("Readed part = '{}'", temp);
+    }
+
+    id_ = std::atoi(data_vector[0].c_str());
+    login_ = data_vector[1];
+    password_ = data_vector[2];
+    last_edit_time_ = std::atol(data_vector[3].c_str());
+
+}
+
+
+
+Event::operator std::string() const 
+{
+    std::string str = std::to_string(id_) + "\n";
+    str += name_ + "\n";
+    str += info_ + "\n";
+    str += address_ + "\n";
+    str += date_ + "\n";
+    str += time_ + "\n";
+    str += owner_ + "\n";
+    str += std::to_string(last_edit_time_) + "\n";
+    return str;
+}
+
+
+
+Event::Event(std::string msg)
+{
+    std::vector<std::string> data_vector;
+    std::string temp;
+    std::stringstream input_stream(msg);
+
+    for (int i = 0; i < 8; i++)
+    {
+        std::getline(input_stream, temp);
+        data_vector.push_back(temp);
+    }
+
+
+    id_             = std::atoi(data_vector[0].c_str());
+    name_           = data_vector[1];
+    info_           = data_vector[2];
+    address_        = data_vector[3];
+    date_           = data_vector[4];
+    time_           = data_vector[5];
+    owner_          = data_vector[6];
+    last_edit_time_ = std::atol(data_vector[7].c_str());
+}
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Initial part of DataBase
 // ---------------------------------------------------------------------------------------------------------------------
 
 
@@ -164,19 +246,16 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
 
     if (table == "CREDS")
     {
-        spdlog::info("SQL in creds");
         persons_vector_.clear();
         sqlite3_exec(ptr_, sql_cmd.c_str(), callback_person, 0, &messaggeError);
     }
     else if (table == "EVENTS")
     {
-        spdlog::info("SQL in events");
         events_vector_.clear();
         sqlite3_exec(ptr_, sql_cmd.c_str(), callback_event, 0, &messaggeError);
     }
     else
     {
-        spdlog::info("SQL not in table");
         sqlite3_exec(ptr_, sql_cmd.c_str(), nullptr, 0, &messaggeError);
     }
 
@@ -440,13 +519,13 @@ bool DataBase::person_exists(Person& person)
 // ---------------------------------------------------------------------------------------------------------------------
 
 
-// //----------------------------------------------------------------
-// //!  Add event to CREDS database
-// //!
-// //!  @param  [in]   person - person to search in DB
-// //!  @note          Depends of EVENTS structure!!!
-// //!  @copyright     AlexZ
-// //----------------------------------------------------------------
+//----------------------------------------------------------------
+//!  Add event to CREDS database
+//!
+//!  @param  [in]   person - person to search in DB
+//!  @note          Depends of EVENTS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
 
 void DataBase::add_event(Event& event)
 {
@@ -468,13 +547,13 @@ void DataBase::add_event(Event& event)
 }
 
 
-// //----------------------------------------------------------------
-// //!  Remove person to CREDS database
-// //!
-// //!  @param  [in]   person - person to search in DB
-// //!  @note          Depends of CREDS structure!!!
-// //!  @copyright     AlexZ
-// //----------------------------------------------------------------
+//----------------------------------------------------------------
+//!  Remove person to CREDS database
+//!
+//!  @param  [in]   person - person to search in DB
+//!  @note          Depends of CREDS structure!!!
+//!  @copyright     AlexZ
+//----------------------------------------------------------------
 
 void DataBase::remove_event(Event& event)
 {
