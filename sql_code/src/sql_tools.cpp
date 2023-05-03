@@ -107,8 +107,36 @@ DataBase::DataBase()
 {
     ptr_ = open_db("main.db");
     create_tables(ptr_);
+    // fill_reserved_persons_id();
+    // fill_reserved_events_id();
     // update_d
 }
+
+
+void DataBase::fill_reserved_persons_id()
+{
+    std::string sql_cmd = "SELECT * FROM CREDS;";
+    execute_sql(sql_cmd, "CREDS");
+
+    for (auto& item : persons_vector_)
+    {
+        reserved_persons_id_.insert(item.get_id());
+    }
+}
+
+
+void DataBase::fill_reserved_events_id()
+{
+    std::string sql_cmd = "SELECT * FROM EVENTS;";
+    execute_sql(sql_cmd, "EVENTS");
+
+    for (auto& item : events_vector_)
+    {
+        reserved_events_id_.insert(item.get_id());
+    }
+}
+
+
 
 
 
@@ -180,6 +208,8 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
 
 void DataBase::add_person(Person& person)
 {
+    DataBase::get_instance().fill_reserved_persons_id();
+
     if (person_exists(person))
     {
         spdlog::warn("Person already exists ({})", person.login_);
@@ -422,6 +452,8 @@ bool DataBase::person_exists(Person& person)
 
 void DataBase::add_event(Event& event)
 {
+    DataBase::get_instance().fill_reserved_events_id();
+    
     std::string sql_cmd = fmt::format("INSERT INTO EVENTS VALUES({}, '{}', '{}', '{}', '{}', '{}', '{}', {});", 
                                         std::to_string(get_next_id(reserved_events_id_)), 
                                         event.get_name(),
@@ -533,7 +565,7 @@ void DataBase::parse_cmd(std::string cmd, std::string data)
 void DataBase::print_all_events()
 {
     std::cout << "All events:\n";
-    
+
     for (const auto& item : get_all_events())
     {
         std::cout << item << std::endl;
