@@ -17,7 +17,7 @@ Skeleton::Skeleton(QWidget *parent)
   this->setAutoFillBackground(true);
   this->setPalette(pal);
         
-  QPixmap quitpix("../../Icons/Quit.jpg");
+  QPixmap quitpix("../Icons/Quit.png");
  
   QAction *quit = new QAction("&Quit", this);
 

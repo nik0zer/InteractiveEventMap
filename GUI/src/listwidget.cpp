@@ -27,7 +27,7 @@ ListWidget::ListWidget(QWidget *parent)
   rename = new QPushButton("Rename event", this);
   remove = new QPushButton("Remove event", this);
   seeEvent = new QPushButton("See event", this);
-  seeAllEvents = new QPushButton("See all event", this);
+  AllEvents = new QPushButton("See all event", this);
 
   vbox->setSpacing(3);
   vbox->addStretch(1);
@@ -35,7 +35,7 @@ ListWidget::ListWidget(QWidget *parent)
   vbox->addWidget(rename);
   vbox->addWidget(remove);
   vbox->addWidget(seeEvent);
-  vbox->addWidget(seeAllEvent);
+  vbox->addWidget(AllEvents);
   vbox->addStretch(1);
  
   hbox->addWidget(lw);
@@ -46,7 +46,7 @@ ListWidget::ListWidget(QWidget *parent)
   connect(rename, &QPushButton::clicked, this, &ListWidget::renameItem);
   connect(remove, &QPushButton::clicked, this, &ListWidget::removeItem);
   connect(seeEvent, &QPushButton::clicked, this, &ListWidget::see);
-  connect(seeEvent, &QPushButton::clicked, this, &ListWidget::seeAllEvent);
+  connect(AllEvents, &QPushButton::clicked, this, &ListWidget::seeAllEvents);
   
   setLayout(hbox);
 }
@@ -157,18 +157,11 @@ void ListWidget::updateEventsList()
 
 
     printf("here\n");
-    
-
 }
 
-void ListWidget::seeAllEvent()
+void ListWidget::seeAllEvents()
 {
-  auto events = DataBase::get_all_events();
-
-  for (auto& item : events)
-  {
-    std::cout << item.get_
-  } 
+  DataBase::get_instance().print_all_events();
 }
 
 #include <moc_listwidget.cpp>

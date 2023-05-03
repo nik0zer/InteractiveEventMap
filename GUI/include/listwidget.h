@@ -17,7 +17,7 @@ class ListWidget : public QWidget {
     QPushButton *remove;
     QPushButton *removeAll; 
     QPushButton *seeEvent;
-    QPushButton *seeAllEvent; 
+    QPushButton *AllEvents; 
 
     std::vector<Event> events_;
 
@@ -36,7 +36,7 @@ class ListWidget : public QWidget {
     void removeItem();
     void clearItems();
     void see();
-    void seeAllEvent();
+    void seeAllEvents();
  
   
 
