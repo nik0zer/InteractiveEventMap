@@ -9,6 +9,7 @@
 #include <vector>
 #include <vector>
 #include <ctime>
+#include "network_connection.h"
 #include "sqlite3.h"
 #include <spdlog/spdlog.h>
 
@@ -98,6 +99,7 @@ class DataBase
     std::vector<Event>    events_vector_;             // List for answer from DataBase for events
 
     bool                  i_am_server;
+    
     
 
 
