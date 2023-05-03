@@ -27,6 +27,7 @@ ListWidget::ListWidget(QWidget *parent)
   rename = new QPushButton("Rename event", this);
   remove = new QPushButton("Remove event", this);
   seeEvent = new QPushButton("See event", this);
+  seeAllEvents = new QPushButton("See all event", this);
 
   vbox->setSpacing(3);
   vbox->addStretch(1);
@@ -34,6 +35,7 @@ ListWidget::ListWidget(QWidget *parent)
   vbox->addWidget(rename);
   vbox->addWidget(remove);
   vbox->addWidget(seeEvent);
+  vbox->addWidget(seeAllEvent);
   vbox->addStretch(1);
  
   hbox->addWidget(lw);
@@ -44,6 +46,7 @@ ListWidget::ListWidget(QWidget *parent)
   connect(rename, &QPushButton::clicked, this, &ListWidget::renameItem);
   connect(remove, &QPushButton::clicked, this, &ListWidget::removeItem);
   connect(seeEvent, &QPushButton::clicked, this, &ListWidget::see);
+  connect(seeEvent, &QPushButton::clicked, this, &ListWidget::seeAllEvent);
   
   setLayout(hbox);
 }
@@ -69,9 +72,10 @@ void ListWidget::addItem() {
    // std::cout << event << std::endl;
     DataBase::get_instance().add_event(event);
     
-    int r = lw->count(); //-1
-    lw->setCurrentRow(r);
     lw->addItem(s_name);
+
+    int r = lw->count() - 1;
+    lw->setCurrentRow(r);
   }
 }
 
@@ -116,19 +120,19 @@ void ListWidget::clearItems(){
 
 void ListWidget::see()
 {
-    //int r = lw->currentRow();
+    
     QListWidgetItem *curitem = lw->currentItem();
     int r = lw->row(curitem);
-    auto qstr = curitem->text();
-    auto str = qstr.toStdString();
-    std::cout << str << std::endl;
+    auto q_ev_name = curitem->text();
+    auto ev_name = q_ev_name.toStdString();
+    //std::cout << str << std::endl;
 
     DataBase::get_instance();
-    auto events = DataBase::get_instance().get_all_events();
+    auto event =  DataBase::get_instance().get_event(ev_name);
 
-    if (r != -1) { 
+    if (event.get_name() != "") { 
       Dialog *dg = new Dialog();
-      dg->setEvent(events[r]);
+      dg->setEvent(event);
       dg->update();
       dg->show();
   }
@@ -155,6 +159,16 @@ void ListWidget::updateEventsList()
     printf("here\n");
     
 
+}
+
+void ListWidget::seeAllEvent()
+{
+  auto events = DataBase::get_all_events();
+
+  for (auto& item : events)
+  {
+    std::cout << item.get_
+  } 
 }
 
 #include <moc_listwidget.cpp>
