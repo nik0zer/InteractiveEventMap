@@ -335,8 +335,10 @@ std::vector<Event> DataBase::get_all_events()
 
 Event DataBase::get_event(Event& event)
 {
-    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE NAME='{}';",
-                                        event.get_name());
+    std::string sql_cmd = fmt::format("SELECT * FROM EVENTS WHERE NAME='{}' AND DATE='{}' AND TIME='{}';",
+                                        event.get_name(),
+                                        event.get_date(),
+                                        event.get_time());
 
     execute_sql(sql_cmd, "EVENTS");
     if (events_vector_.size() == 0)
@@ -450,6 +452,27 @@ bool DataBase::person_verify(Person& person)
 }
 
 
+Event DataBase::get_event(std::string name)
+{
+    std::string sql_cmd = fmt::format("SELECT * FROM EVENTS WHERE NAME='{}';", name);
+
+    execute_sql(sql_cmd, "EVENTS");
+    if (events_vector_.size() == 0)
+    {
+        spdlog::warn("Event not found (name = '{}')", name);
+        return Event("");
+    }
+    if (events_vector_.size() == 1)
+    {
+        return events_vector_[0];
+    }
+    
+    spdlog::critical("There are multyple found of event (name = {})", name);
+
+    return Event("");
+}
+
+
 
 // ---------------------------------------------------------------------------------------------------------------------
 // std::cout operators <<
@@ -466,7 +489,7 @@ bool DataBase::person_verify(Person& person)
 
 std::ostream& operator<< (std::ostream &out, const Person &person)
 {
-    out << person.id_ << "    " << person.login_ << "    " << person.password_;
+    out << person.id_ << "    " << person.login_ << "    " << person.password_ << "    " << person.last_edit_time_;
 
     return out;
 }
@@ -482,7 +505,8 @@ std::ostream& operator<< (std::ostream &out, const Person &person)
 
 std::ostream& operator<< (std::ostream &out, const Event &event)
 {
-    out << event.id_ << "    " << event.name_ << "    " << event.address_ << "    " << event.info_;
+    out << event.id_ << "    " << event.name_ << "    " << event.info_ << "    " << event.address_
+                     << "    " << event.date_ << "    " << event.time_ << "    " << event.owner_ << "    " << event.last_edit_time_;
 
     return out;
 }
