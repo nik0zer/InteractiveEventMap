@@ -1,3 +1,5 @@
+#ifndef SKELETON_H
+#define SKELETON_H
 #pragma once
  
 #include <QMainWindow>
@@ -18,3 +20,5 @@ class Skeleton : public QMainWindow {
   public:
     Skeleton(QWidget *parent = 0); 
 };
+
+#endif

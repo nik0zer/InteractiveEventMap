@@ -1,3 +1,6 @@
+#ifndef LISTWIDGET_H
+#define LISTWIDGET_H
+
 #pragma once
  
 #include <QWidget>
@@ -30,3 +33,5 @@ class ListWidget : public QWidget {
     void see();
     void seeAllEvents();
 };
+
+#endif

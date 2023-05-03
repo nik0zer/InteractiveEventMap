@@ -122,11 +122,9 @@ void ServerConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadDa
                 _socket_ptr->close();
                 _socket_ptr_mutex.unlock();
             }
-            
-            throw(e);
-            return;
         }
         
+        throw;
         return;
     }
     catch(const std::exception& e)
@@ -223,9 +221,8 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
                 _socket_ptr_mutex.unlock();
             }
             
-            throw(e);
-            return;
         }
+        throw;
         return;
     }
     catch(const std::exception& e)

@@ -1,3 +1,5 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 #pragma once 
 #include <QMainWindow>
 #include <QString>
@@ -44,3 +46,5 @@ private slots:
     void registerWindowShow();
     void registerUser();
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef AUTH_H
+#define AUTH_H
+
 #pragma once
 
 #include <QWidget>
@@ -30,4 +33,4 @@ private:
 };
 
 
-
+#endif
