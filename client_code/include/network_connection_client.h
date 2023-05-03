@@ -1,5 +1,5 @@
-#ifndef NETWORK_CONNECTION_H
-#define NETWORK_CONNECTION_H
+#ifndef NETWORK_CONNECTION_CLIENT_H
+#define NETWORK_CONNECTION_CLIENT_H
 
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>

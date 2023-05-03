@@ -1,4 +1,4 @@
-#include "network_connection.h"
+#include "network_connection_server.h"
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/chrono.hpp>

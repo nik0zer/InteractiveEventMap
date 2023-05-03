@@ -23,7 +23,7 @@ add_executable(InteractiveEventMap_server "server_main.cpp" ${SERVER_SRC} ${SQL_
 # add_executable(InteractiveEventMap_gui_sql ${GUI_SRC} "sql_code/src/sql_tools.cpp" )
 
 
-target_include_directories(InteractiveEventMap_server PUBLIC "server_code/include" "sql_code/include")
+target_include_directories(InteractiveEventMap_server PUBLIC "server_code/include" "client_code/include" "sql_code/include")
 target_include_directories(InteractiveEventMap_client PUBLIC "client_code/include" "sql_code/include" "GUI/include")
 # target_include_directories(InteractiveEventMap_sql PUBLIC    "sql_code/include")
 # target_include_directories(InteractiveEventMap_gui PUBLIC    "GUI/include")

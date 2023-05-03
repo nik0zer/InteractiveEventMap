@@ -2,7 +2,7 @@
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/chrono.hpp>
-#include "network_connection.h"
+#include "network_connection_client.h"
 
 // void handler(ReadData read_data)
 // {

@@ -1,4 +1,4 @@
-#include "network_connection.h"
+#include "network_connection_client.h"
 #include <iterator>
 
 ServerConnection::ServerConnection(std::string server_ip, int port)
