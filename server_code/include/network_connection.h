@@ -27,7 +27,8 @@
  */
 enum
 {
-    MAX_OF_CLIENTS = 4
+    MAX_OF_CLIENTS = 4,
+    BAD_FILE_DESCRIPTOR = 9
 };
 
 /**

@@ -113,7 +113,8 @@ void ServerConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadDa
     catch(boost::system::system_error e)
     {
         std::cerr << e.what() << std::endl;
-        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE 
+        || e.code().value() == BAD_FILE_DESCRIPTOR)
         {
             if(_socket_ptr->is_open())
             {
@@ -154,7 +155,6 @@ boost::thread ServerConnection::thread_read_data(READ_DATA_HANDLER(void read_dat
     return boost::thread(&ServerConnection::_thread_read_data, this, READ_DATA_HANDLER(read_data_handler));
 }
 
-//dont use destructor if thread funcs is used in the moment
 ServerConnection::~ServerConnection()
 {
     if(_is_connected)
@@ -213,7 +213,8 @@ void ServerConnection::send_buffer(std::shared_ptr<boost::asio::streambuf> buffe
     catch(boost::system::system_error e)
     {
         std::cerr << e.what() << std::endl;
-        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE)
+        if(e.code().value() == EPIPE || e.code().value() == ECONNRESET || e.code().value() == END_OF_FILE 
+        || e.code().value() == BAD_FILE_DESCRIPTOR)
         {
             if(_socket_ptr->is_open())
             {

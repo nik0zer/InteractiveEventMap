@@ -26,7 +26,6 @@ void client_session(ClientConnection client_connection)
             std::string b("123 notok");
             std::string a("123");
             client_connection.send_data(a, b);
-            client_connection.send_data(a, b);
         }
         catch(...)
         {
