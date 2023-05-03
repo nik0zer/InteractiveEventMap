@@ -2,6 +2,7 @@
 #define SQL_TOOLS
 
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <set>
 #include <string>
@@ -33,6 +34,35 @@ class Person
     Person();
     Person(int id, std::string login, std::string psw, time_t time): id_(id), login_(login), password_(psw), last_edit_time_(time){}
     Person(std::string login, std::string psw): Person(-1, login, psw, std::time(nullptr)){}
+    Person(std::string msg): Person("", "")
+    {
+        std::vector<std::string> data_vector;
+        std::string temp;
+        std::stringstream input_stream(msg);
+
+        for (int i = 0; i < 4; i++)
+        {
+          std::getline(input_stream, temp);
+          data_vector.push_back(temp);
+          spdlog::info("Readed part = '{}'", temp);
+        }
+
+        id_ = std::atoi(data_vector[0].c_str());
+        login_ = data_vector[1];
+        password_ = data_vector[2];
+        last_edit_time_ = std::atol(data_vector[3].c_str());
+
+    }
+
+
+    operator std::string() const 
+    {
+      std::string str = std::to_string(id_) + "\n";
+      str += login_ + "\n";
+      str += password_ + "\n";
+      str += std::to_string(last_edit_time_) + "\n";
+      return str;
+    }
 
     friend DataBase;
     friend std::ostream& operator<< (std::ostream &out, const Person &person);
@@ -65,7 +95,44 @@ class Event
     Event(int id, std::string name, std::string info, std::string address, std::string date, std::string time, 
           std::string owner, time_t last_edit_time): id_(id), name_(name), info_(info), address_(address), date_(date),
           time_(time), owner_(owner), last_edit_time_(last_edit_time){}
-    Event(std::string name): Event(0, name, "", "", "", "", "", std::time(nullptr)){}
+    Event(std::string name, std::string date, std::string time): Event(0, name, "", "", date, time, "", std::time(nullptr)){}
+
+    Event(std::string msg): Event("", "", "")
+    {
+        std::vector<std::string> data_vector;
+        std::string temp;
+        std::stringstream input_stream(msg);
+
+        for (int i = 0; i < 8; i++)
+        {
+          std::getline(input_stream, temp);
+          data_vector.push_back(temp);
+          spdlog::info("Readed part = '{}'", temp);
+        }
+
+        id_ = std::atoi(data_vector[0].c_str());
+        name_ = data_vector[1];
+        info_ = data_vector[2];
+        address_ = data_vector[3];
+        date_ = data_vector[4];
+        time_ = data_vector[5];
+        owner_ = data_vector[6];
+        last_edit_time_ = std::atol(data_vector[7].c_str());
+
+    }
+
+    operator std::string() const 
+    {
+        std::string str = std::to_string(id_) + "\n";
+        str += name_ + "\n";
+        str += info_ + "\n";
+        str += address_ + "\n";
+        str += date_ + "\n";
+        str += time_ + "\n";
+        str += owner_ + "\n";
+        str += std::to_string(last_edit_time_) + "\n";
+        return str;
+    }
 
     friend DataBase;
     friend std::ostream& operator<< (std::ostream &out, const Event &event);
