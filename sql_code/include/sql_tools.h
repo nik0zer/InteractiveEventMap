@@ -33,7 +33,7 @@ class Person
 
 
     // Constructors
-    Person();
+    Person(){};
     Person(int id, std::string login, std::string psw, time_t time): id_(id), login_(login), password_(psw), last_edit_time_(time){}
     Person(std::string login, std::string psw): Person(-1, login, psw, std::time(nullptr)){}
     Person(std::string msg);
@@ -71,6 +71,7 @@ class Event
     time_t      get_last_edit_time()  {return last_edit_time_;}
 
 
+    Event(){}
     Event(int id, std::string name, std::string info, std::string address, std::string date, std::string time, 
           std::string owner, time_t last_edit_time): id_(id), name_(name), info_(info), address_(address), date_(date),
           time_(time), owner_(owner), last_edit_time_(last_edit_time){}
