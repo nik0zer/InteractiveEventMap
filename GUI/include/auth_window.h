@@ -4,7 +4,6 @@
 #include "sql_tools.h"
 #include <list>
  
- 
 class auth_window : public QWidget
 {
     Q_OBJECT
@@ -14,8 +13,7 @@ public:
     virtual ~auth_window();
     QString getLogin();
     QString getPass();
-   
- 
+
 signals:
     void login_button_clicked();
     void register_button_clicked();
@@ -28,11 +26,8 @@ private slots:
  
 private:
     QString m_username;
-    QString m_userpass;
-    
+    QString m_userpass;    
 };
-
-std::vector<Person> get_all_persons();
 
 
 

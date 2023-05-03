@@ -51,11 +51,10 @@ ListWidget::ListWidget(QWidget *parent)
   setLayout(hbox);
 }
  
-void ListWidget::addItem() { 
-    
+void ListWidget::addItem() 
+{    
   QString c_name = QInputDialog::getText(this, "Event", "Enter new event name");
   QString s_name = c_name.simplified();
-  
   
   if (!s_name.isEmpty()) {
       
@@ -69,7 +68,6 @@ void ListWidget::addItem() {
     QString s_time = c_time.simplified();
 
     auto event = Event(1, s_name.toStdString(), s_info.toStdString(), s_address.toStdString(), s_date.toStdString(), s_time.toStdString(), "", std::time(nullptr));
-   // std::cout << event << std::endl;
     DataBase::get_instance().add_event(event);
     
     lw->addItem(s_name);
@@ -79,8 +77,7 @@ void ListWidget::addItem() {
   }
 }
 
-
-void ListWidget::renameItem()
+void ListWidget::renameItem() ////////// делаем 
 {
   QListWidgetItem *curitem = lw->currentItem();
   int r = lw->row(curitem);
@@ -99,28 +96,18 @@ void ListWidget::renameItem()
   }
 }
 
-
-void ListWidget::removeItem() {
-    
+void ListWidget::removeItem() /////делаем 
+{  
   int r = lw->currentRow();
  
-  if (r != -1) {
-      
+  if (r != -1) {   
     QListWidgetItem *item = lw->takeItem(r);
     delete item;
-  }
-}
- 
-void ListWidget::clearItems(){
-    
-  if (lw->count() != 0) {
-    lw->clear();
   }
 }
 
 void ListWidget::see()
 {
-    
     QListWidgetItem *curitem = lw->currentItem();
     int r = lw->row(curitem);
     auto q_ev_name = curitem->text();

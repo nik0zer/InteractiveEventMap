@@ -28,10 +28,8 @@ Skeleton::Skeleton(QWidget *parent)
 
   list = new ListWidget(this);
   
-  
-  setCentralWidget(list); // помещаем созданный виджет в центр виджета QMainWindow
- 
-  statusBar()->showMessage("Ready"); // показываем в нижней панели приложения сообщение "Ready"
+  setCentralWidget(list); 
+  statusBar()->showMessage("Ready"); 
 }
 
 #include <moc_skeleton.cpp>
