@@ -69,6 +69,13 @@ class ReadData
     uint32_t data_size();
 
     /**
+     * @brief convert data to std::string
+     * 
+     * @return std::string with message data
+     */
+    std::string data_str();
+
+    /**
      * @brief Construct a new Read Data object
      * 
      * @param data_name name of message

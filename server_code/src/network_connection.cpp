@@ -259,3 +259,13 @@ uint32_t ReadData::data_size()
     return this->_data_size;
 }
 
+std::string ReadData::data_str()
+{
+    std::string data;
+    for(auto i : *_data_str_ptr)
+    {
+        data += i;
+    }
+    return data;
+}
+

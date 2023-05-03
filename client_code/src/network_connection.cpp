@@ -282,3 +282,13 @@ boost::thread ServerConnection::thread_cycle_read()
     return boost::thread(&ServerConnection::cycle_read, this);
 }
 
+std::string ReadData::data_str()
+{
+    std::string data;
+    for(auto i : *_data_str_ptr)
+    {
+        data += i;
+    }
+    return data;
+}
+
