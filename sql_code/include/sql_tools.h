@@ -9,6 +9,7 @@
 #include <vector>
 #include <vector>
 #include <ctime>
+#include "network_connection.h"
 #include "sqlite3.h"
 #include <spdlog/spdlog.h>
 
@@ -99,7 +100,8 @@ class DataBase
 
     bool                  i_am_server;
     
-
+    
+//
 
     // Initialize
     DataBase();
