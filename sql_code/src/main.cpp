@@ -10,19 +10,20 @@ int main()
     // {
     //     std::cout << item << std::endl;
     // }
-
+    
     Event ev1("1", "1", "1");
     Event ev2("2", "2", "2");
     Event ev3("3", "3", "3");
     DataBase::get_instance().add_event(ev1);
-    DataBase::get_instance().add_event(ev2);
-    DataBase::get_instance().add_event(ev3);
+    // DataBase::get_instance().add_event(ev2);
+    // DataBase::get_instance().add_event(ev3);
 
-    std::cout << "Ev1 = " << ev1 << std::endl;
+    // std::cout << "Ev1 = " << ev1 << std::endl;
 
-    Event found = DataBase::get_instance().get_event("1");
-    std::cout << "Found = " << found << std::endl;
+    // Event found = DataBase::get_instance().get_event("1");
+    // std::cout << "Found = " << found << std::endl;
     DataBase::get_instance().print_all_events();
+    // DataBase::get_instance().~DataBase();
 
     // std::cout << "All events\n";
     // for (const auto& item : DataBase::get_instance().get_all_events())

@@ -154,12 +154,27 @@ class DataBase
     sqlite3*   open_db(const std::string path);
     void       create_tables(sqlite3* DB);
 
+    // Destructor
+    ~DataBase()
+    {
+        if (sqlite3_close(ptr_) == SQLITE_OK)
+        {
+            spdlog::info("Database closed");
+        }
+        else
+        {
+            spdlog::critical("Can't close Database!");
+        }
+    }
+
     // ID
     int        get_next_id(std::set<int>& id_set);
     void       remove_id(std::set<int>& id_set, const int& i);
 
 
   public:
+    void       fill_reserved_persons_id();
+    void       fill_reserved_events_id();
 
     // Singleton:
     static DataBase& get_instance();
