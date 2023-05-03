@@ -370,6 +370,26 @@ int DataBase::parse_cmd(std::string cmd, std::string data)
 
 
 
+std::vector<Person> DataBase::get_persons_to_sync(time_t time)
+{
+    std::string sql_cmd = fmt::format("SELECT * FROM CREDS WHERE LAST_EDIT_TIME > {});", std::to_string(time));
+    execute_sql(sql_cmd, "CREDS");
+
+    return persons_vector_;
+}
+
+
+
+std::vector<Event> DataBase::get_events_to_sync(time_t time)
+{
+    std::string sql_cmd = fmt::format("SELECT * FROM EVENTS WHERE LAST_EDIT_TIME > {});", std::to_string(time));
+    execute_sql(sql_cmd, "EVENTS");
+
+    return events_vector_;
+}
+
+
+
 // ---------------------------------------------------------------------------------------------------------------------
 // SQL part
 // ---------------------------------------------------------------------------------------------------------------------

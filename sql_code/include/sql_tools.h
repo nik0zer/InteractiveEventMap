@@ -101,10 +101,6 @@ class DataBase
     std::vector<Person>   persons_vector_;            // List for answer from DataBase for person's creds     // Почему падает, если поле объявить статическим
     std::vector<Event>    events_vector_;             // List for answer from DataBase for events
 
-    bool                  i_am_server;
-    
-    
-//
 
     // Initialize
     DataBase();
@@ -149,9 +145,14 @@ class DataBase
 
     // Server interaction
     void                update_database();
+
     time_t              get_last_edit_time_persons();
     time_t              get_last_edit_time_events();
-    int                parse_cmd(std::string cmd, std::string data);
+
+    std::vector<Person> get_persons_to_sync(time_t time);
+    std::vector<Event>  get_events_to_sync(time_t time);
+
+    int                 parse_cmd(std::string cmd, std::string data);
 
 
     // Logic (for buttons)
