@@ -207,7 +207,11 @@ class DataBase
     Event               get_event(Event& event); // Requires Name, Date, Time
     void                parse_cmd(std::string cmd, std::string data);
     void                print_all_events();
+    void                rename_event(std::string old_name, std::string new_name);
 };
 
 
 #endif
+
+
+// Убрать костыль fill_reserved_id
