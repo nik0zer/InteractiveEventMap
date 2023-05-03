@@ -144,9 +144,9 @@ class Event
 
 class DataBase
 {
-    sqlite3*            ptr_;                     // Pointer to DataBase
-    std::set<int>       reserved_persons_id_;     // set of already using ids of persons
-    std::set<int>       reserved_events_id_;      // set of already using ids of events
+    sqlite3*              ptr_;                     // Pointer to DataBase
+    std::set<int>         reserved_persons_id_;     // set of already using ids of persons
+    std::set<int>         reserved_events_id_;      // set of already using ids of events
     std::vector<Person>   persons_vector_;            // List for answer from DataBase for person's creds     // Почему падает, если поле объявить статическим
     std::vector<Event>    events_vector_;             // List for answer from DataBase for events
 
@@ -190,6 +190,8 @@ class DataBase
     std::vector<Event>  get_all_events();
     Event               get_event(std::string name);
     Event               get_event(Event& event); // Requires Name, Date, Time
+    void                parse_cmd(std::string cmd, std::string data);
+    void                print_all_events();
 };
 
 

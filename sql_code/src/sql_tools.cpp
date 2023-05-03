@@ -333,6 +333,7 @@ std::vector<Event> DataBase::get_all_events()
 }
 
 
+
 Event DataBase::get_event(Event& event)
 {
     std::string sql_cmd = fmt::format("SELECT * FROM EVENTS WHERE NAME='{}' AND DATE='{}' AND TIME='{}';",
@@ -351,6 +352,28 @@ Event DataBase::get_event(Event& event)
     }
     
     spdlog::critical("There are multyple found of event (name = {})", event.get_name());
+
+    return Event("");
+}
+
+
+
+Event DataBase::get_event(std::string name)
+{
+    std::string sql_cmd = fmt::format("SELECT * FROM EVENTS WHERE NAME='{}';", name);
+
+    execute_sql(sql_cmd, "EVENTS");
+    if (events_vector_.size() == 0)
+    {
+        spdlog::warn("Event not found (name = '{}')", name);
+        return Event("");
+    }
+    if (events_vector_.size() == 1)
+    {
+        return events_vector_[0];
+    }
+    
+    spdlog::critical("There are multyple found of event (name = {})", name);
 
     return Event("");
 }
@@ -452,27 +475,6 @@ bool DataBase::person_verify(Person& person)
 }
 
 
-Event DataBase::get_event(std::string name)
-{
-    std::string sql_cmd = fmt::format("SELECT * FROM EVENTS WHERE NAME='{}';", name);
-
-    execute_sql(sql_cmd, "EVENTS");
-    if (events_vector_.size() == 0)
-    {
-        spdlog::warn("Event not found (name = '{}')", name);
-        return Event("");
-    }
-    if (events_vector_.size() == 1)
-    {
-        return events_vector_[0];
-    }
-    
-    spdlog::critical("There are multyple found of event (name = {})", name);
-
-    return Event("");
-}
-
-
 
 // ---------------------------------------------------------------------------------------------------------------------
 // std::cout operators <<
@@ -513,103 +515,27 @@ std::ostream& operator<< (std::ostream &out, const Event &event)
 
 
 
+void DataBase::parse_cmd(std::string cmd, std::string data)
+{
+    if (cmd == "add_event")
+    {
+        Event temp(data);
+        add_event(temp);
+    }
+    else if (cmd == "add_person")
+    {
+        Person temp(data);
+        add_person(temp);
+    }
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// int test_db(sqlite3* DB) 
-// {
-//     if (!DB) 
-//     {
-//         std::cout << "Error! Null DB in " <<  __func__ << std::endl;
-//         return -1;
-//     }
-
-
-//     std::string query = "SELECT * FROM CREDS;";
-//     std::string sql   = "INSERT INTO CREDS VALUES(1, 'STEVE', 'STEVE');"
-//                         "INSERT INTO CREDS VALUES(2, 'ATEVE', 'STEVE');";
-
-  
-//     std::cout << "STATE OF CREDS BEFORE INSERT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
-
-  
-//     char* messaggeError;
-//     int exit;
+void DataBase::print_all_events()
+{
+    std::cout << "All events:\n";
     
-
-//     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messaggeError);
-
-//     if (exit != SQLITE_OK) 
-//     {
-//         std::cerr << "Error Insert" << std::endl;
-//         sqlite3_free(messaggeError);
-//         exit = 0;
-//     }
-
-//     else
-//     {
-//         std::cout << "Records created Successfully!" << std::endl;
-//     }
-  
-
-//     std::cout << "\nSTATE OF TABLE AFTER INSERT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
-  
-
-//     sql = "DELETE FROM CREDS WHERE ID = 2;";
-//     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messaggeError);
-
-
-//     if (exit != SQLITE_OK) 
-//     {
-//         std::cerr << "Error DELETE" << std::endl;
-//         sqlite3_free(messaggeError);
-//     }
-
-//     else
-//     {
-//         std::cout << "Record deleted Successfully!" << std::endl;
-//     }
-  
-
-//     std::cout << "STATE OF TABLE AFTER DELETE OF ELEMENT" << std::endl;
-//     sqlite3_exec(DB, query.c_str(), DataBase::callback_person, NULL, NULL);
-
-
-//     std::cout << "End of test_db\n";
-//     return 0;
-// }
-
-
-
-// void main_test() 
-// {
-//     sqlite3* DB;
-//     const std::string path_to_database = "example.db";
-
-//     std::ofstream outfile(path_to_database);
-//     std::remove(path_to_database.c_str());
-
-//     open_db(path_to_database);
-//     create_tables(DB);
-
-//     // if (test_db(DB) != 0) {std::cout << "Error in test_db\n"; return;}
-
-//     sqlite3_close(DB);
-
-//     std::remove(path_to_database.c_str());
-// }
-
-
+    for (const auto& item : get_all_events())
+    {
+        std::cout << item << std::endl;
+    }
+}

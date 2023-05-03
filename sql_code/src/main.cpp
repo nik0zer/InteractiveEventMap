@@ -22,6 +22,7 @@ int main()
 
     Event found = DataBase::get_instance().get_event("1");
     std::cout << "Found = " << found << std::endl;
+    DataBase::get_instance().print_all_events();
 
     // std::cout << "All events\n";
     // for (const auto& item : DataBase::get_instance().get_all_events())
