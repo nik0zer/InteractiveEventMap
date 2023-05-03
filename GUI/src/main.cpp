@@ -5,14 +5,13 @@
 #include "sql_tools.h"
 #include <vector>
 
-int main(int argc, char *argv[]) 
-{
-  QApplication app(argc, argv);  
+// int main(int argc, char *argv[]) 
+// {
+//   QApplication app(argc, argv);  
  
-  MainWindow window(nullptr);
+//   MainWindow window(nullptr);
  
-  window.setWindowTitle("Auth_window");
-  window.display();
+//   window.display();
   
-  return app.exec();
-}
+//   return app.exec();
+// }
