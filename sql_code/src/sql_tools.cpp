@@ -51,7 +51,6 @@ Person::Person(std::string msg)
     login_ = data_vector[1];
     password_ = data_vector[2];
     last_edit_time_ = std::atol(data_vector[3].c_str());
-
 }
 
 
@@ -328,11 +327,11 @@ time_t DataBase::get_last_edit_time_persons()
 
     if (events_vector_.size() == 0)
     {
-        spdlog::critical("No persons found for get last edit time");
+        spdlog::warn("No persons found for get last edit time");
         return 0;
     }
-
-    return events_vector_[0].get_last_edit_time();
+    
+    return events_vector_[0].get_last_edit_time();      // Не эстетично
 }
 
 
