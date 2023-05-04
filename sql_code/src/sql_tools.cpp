@@ -17,10 +17,10 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #ifndef NETWORK_CONNECTION_SERVER_H
-void handler1(ReadData read_data)
-{
-    DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str());
-}
+    void handler1(ReadData read_data)
+    {
+        DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str());
+    }
 #endif
 
 Person::operator std::string() const 
