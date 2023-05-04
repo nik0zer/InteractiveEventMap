@@ -121,6 +121,10 @@ class DataBase
 
   public:
 
+    #ifndef NETWORK_CONNECTION_SERVER_H
+      ServerConnection connection;
+    #endif
+
     // Singleton:
     static DataBase&    get_instance();
 
@@ -171,7 +175,6 @@ class DataBase
 
 
 // Добавить в структуру флаг и коннект
-// person(time) + event(time)
 // see_all_events
 
 // Написать взаимодействие с сервером

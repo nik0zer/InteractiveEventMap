@@ -16,7 +16,10 @@
 // Construcotr of msg - construct the object from msg by parsing msg by \n
 // ---------------------------------------------------------------------------------------------------------------------
 
-
+void handler(ReadData read_data)
+{
+    DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str());
+}
 
 Person::operator std::string() const 
 {
@@ -303,6 +306,13 @@ void DataBase::update_database()
 
     // send_to_server("send_me_actual_persons", "time")
     // send_to_server("send_me_actual_events", "time")
+
+
+    #ifndef NETWORK_CONNECTION_SERVER_H
+        connection.thread_cycle_read(handler);
+        connection.send_data("send_me_actual_persons", "0");
+        connection.send_data("send_me_actual_events", "0");
+    #endif
 
     // call parse_cmd после получения ответа    
 }
@@ -703,6 +713,8 @@ std::vector<Person> DataBase::get_all_persons()
 
 std::vector<Event> DataBase::get_all_events()
 {
+    update_database();
+
     std::string sql_cmd = "SELECT * FROM EVENTS;";
     execute_sql(sql_cmd, "EVENTS");
 
