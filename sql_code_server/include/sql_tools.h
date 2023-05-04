@@ -12,10 +12,6 @@
 #include "sqlite3.h"
 #include <spdlog/spdlog.h>
 
-#ifndef NETWORK_CONNECTION_SERVER_H
-#include "network_connection_client.h"
-#endif
-
 
 class Person;
 class Event;
@@ -120,10 +116,6 @@ class DataBase
 
 
   public:
-
-    #ifndef NETWORK_CONNECTION_SERVER_H
-      ServerConnection* connection;
-    #endif
 
     // Singleton:
     static DataBase&    get_instance();

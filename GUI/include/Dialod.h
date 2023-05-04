@@ -6,7 +6,8 @@
 #include <QApplication>
 #include <QWidget>
 #include <vector>
-#include "../../sql_code/include/sql_tools.h"
+// #include "../../sql_code/include/sql_tools.h"
+#include "sql_tools.h"
 #include <QListWidget>
 
 class Dialog : public QDialog {
