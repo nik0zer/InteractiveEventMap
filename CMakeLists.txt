@@ -18,14 +18,14 @@ file(GLOB HEADERS_TO_MOC GUI/include/ *.h)
 
 add_executable(InteractiveEventMap_client "client_main.cpp" ${CLIENT_SRC} ${SQL_SRC} ${GUI_SRC})
 add_executable(InteractiveEventMap_server "server_main.cpp" ${SERVER_SRC} ${SQL_SRC})
-# add_executable(InteractiveEventMap_sql    ${SQL_SRC})
+add_executable(InteractiveEventMap_sql    "sql_code/src/sql_tools.cpp" "sql_code/src/main.cpp")
 # add_executable(InteractiveEventMap_gui    ${GUI_SRC} ${SQL_SRC} )
 # add_executable(InteractiveEventMap_gui_sql ${GUI_SRC} "sql_code/src/sql_tools.cpp" )
 
 
 target_include_directories(InteractiveEventMap_server PUBLIC "server_code/include" "client_code/include" "sql_code/include")
 target_include_directories(InteractiveEventMap_client PUBLIC "client_code/include" "sql_code/include" "GUI/include")
-# target_include_directories(InteractiveEventMap_sql PUBLIC    "sql_code/include")
+target_include_directories(InteractiveEventMap_sql PUBLIC    "sql_code/include" "client_code/include")
 # target_include_directories(InteractiveEventMap_gui PUBLIC    "GUI/include")
 # target_include_directories(InteractiveEventMap_gui_sql PUBLIC    "GUI/include" "sql_code/include")
 
@@ -41,7 +41,7 @@ target_link_libraries(InteractiveEventMap_client PUBLIC Boost::boost Boost::thre
  unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only Qt6::Core Qt6::Widgets) 
 target_link_libraries(InteractiveEventMap_server PUBLIC Boost::boost Boost::thread
  unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
-# target_link_libraries(InteractiveEventMap_sql PUBLIC Boost::boost Boost::thread unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
+target_link_libraries(InteractiveEventMap_sql PUBLIC Boost::boost Boost::thread unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
 # target_link_libraries(InteractiveEventMap_gui_sql PUBLIC unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
 # target_link_libraries(InteractiveEventMap_gui_sql PUBLIC Qt6::Core Qt6::Widgets)
 
