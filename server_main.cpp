@@ -2,7 +2,7 @@
 #include "sql_tools.h"
 #define PORT 2001
 
-void handler(ReadData read_data)
+void handler(ReadData read_data, ClientConnection* client_connection_ptr)
 {
     std::cout<<"\nname:\n"<<read_data.data_name()<<"\nbuffer:\n"<<read_data.data_str()<<std::endl;
     if(DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str()) == 0)
@@ -13,15 +13,24 @@ void handler(ReadData read_data)
     if(read_data.data_name() == "send_me_actual_persons")
     {
         //return std::vector<Event>
+        std::vector<Person> persons = DataBase::get_instance().get_persons_to_sync(std::atol(read_data.data_str().c_str()));
+        for(auto i : persons)
+        {
+            client_connection_ptr->send_data("update_person", i);
+        }
+        client_connection_ptr->send_data("send_me_actual_persons", std::to_string(DataBase::get_instance().get_last_edit_time_persons()));
     }
 
     if(read_data.data_name() == "send_me_actual_events")
     {
         //return std::vector<Event>
+        std::vector<Event> events =  DataBase::get_instance().get_events_to_sync(std::atol(read_data.data_str().c_str()));
+        for(auto i : events)
+        {
+            client_connection_ptr->send_data("update_event", i);
+        }
+        client_connection_ptr->send_data("send_me_actual_persons", std::to_string(DataBase::get_instance().get_last_edit_time_persons()));
     }
-
-
-
 }
 
 void client_session(ClientConnection client_connection)

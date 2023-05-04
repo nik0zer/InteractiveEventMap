@@ -122,12 +122,12 @@ std::shared_ptr<std::vector<char>> ReadData::data_str_ptr()
     return _data_str_ptr;
 }
 
-boost::thread ClientConnection::thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+boost::thread ClientConnection::thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ClientConnection* client_connection)))
 {
     return boost::thread(&ClientConnection::_thread_read_data, this, READ_DATA_HANDLER(read_data_handler));
 }
 
-void ClientConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+void ClientConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ClientConnection* client_connection)))
 {
     std::lock_guard<std::mutex> lock(_read_mutex);
 
@@ -202,11 +202,11 @@ void ClientConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadDa
     read_data_mutex.lock();
     read_data_array.push_back(_read_data);
     read_data_mutex.unlock();)
-    READ_DATA_HANDLER(boost::thread(read_data_handler, _read_data);)
+    READ_DATA_HANDLER(boost::thread(read_data_handler, _read_data, this);)
     
 }
 
-void ClientConnection::cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+void ClientConnection::cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ClientConnection* client_connection)))
 {
     while(true)
     {
@@ -226,7 +226,7 @@ void ClientConnection::cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadD
     }
 }
 
-boost::thread ClientConnection::thread_cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+boost::thread ClientConnection::thread_cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ClientConnection* client_connection)))
 {
     return boost::thread(&ClientConnection::cycle_read, this, READ_DATA_HANDLER(read_data_handler));
 }
@@ -243,7 +243,7 @@ bool ClientConnection::is_socket_open()
     return _socket_ptr->is_open();
 }
 
-void ClientConnection::_thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+void ClientConnection::_thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ClientConnection* client_connection)))
 {
     try
     {

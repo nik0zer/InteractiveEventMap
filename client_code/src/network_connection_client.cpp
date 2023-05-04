@@ -63,7 +63,7 @@ void ServerConnection::set_new_server_ip(std::string server_ip, int port)
     set_new_server_ip(boost::asio::ip::address::from_string(server_ip), port);
 }
 
-void ServerConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+void ServerConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ServerConnection* server_connection)))
 {
     std::lock_guard<std::mutex> lock(_read_mutex);
 
@@ -145,10 +145,10 @@ void ServerConnection::read_data(READ_DATA_HANDLER(void read_data_handler(ReadDa
     read_data_array.push_back(_read_data);
     read_data_mutex.unlock();)
 
-    READ_DATA_HANDLER(boost::thread(read_data_handler, _read_data);)
+    READ_DATA_HANDLER(boost::thread(read_data_handler, _read_data, this);)
 }
 
-boost::thread ServerConnection::thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+boost::thread ServerConnection::thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ServerConnection* server_connection)))
 {
     return boost::thread(&ServerConnection::_thread_read_data, this, READ_DATA_HANDLER(read_data_handler));
 }
@@ -247,7 +247,7 @@ void ServerConnection::read_data_array_delete_elem(std::vector<ReadData> :: iter
     read_data_mutex.unlock();
 }
 
-void ServerConnection::_thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+void ServerConnection::_thread_read_data(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ServerConnection* server_connection)))
 {
     try
     {
@@ -259,7 +259,7 @@ void ServerConnection::_thread_read_data(READ_DATA_HANDLER(void read_data_handle
     }
 }
 
-void ServerConnection::cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+void ServerConnection::cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ServerConnection* server_connection)))
 {
     while(true)
     {
@@ -279,7 +279,7 @@ void ServerConnection::cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadD
     }
 }
 
-boost::thread ServerConnection::thread_cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data)))
+boost::thread ServerConnection::thread_cycle_read(READ_DATA_HANDLER(void read_data_handler(ReadData read_data, ServerConnection* server_connection)))
 {
     return boost::thread(&ServerConnection::cycle_read, this, READ_DATA_HANDLER(read_data_handler));
 }

@@ -17,9 +17,33 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #ifndef NETWORK_CONNECTION_SERVER_H
-    void handler1(ReadData read_data)
+    void handler1(ReadData read_data, ServerConnection* server_connection_ptr)
     {
-        DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str());
+        std::cout<<"\nname:\n"<<read_data.data_name()<<"\nbuffer:\n"<<read_data.data_str()<<std::endl;
+    if(DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str()) == 0)
+    {
+        return;
+    }
+
+    if(read_data.data_name() == "send_me_actual_persons")
+    {
+        //return std::vector<Event>
+        std::vector<Person> persons = DataBase::get_instance().get_persons_to_sync(std::atol(read_data.data_str().c_str()));
+        for(auto i : persons)
+        {
+            server_connection_ptr->send_data("update_person", i);
+        }
+    }
+
+    if(read_data.data_name() == "send_me_actual_events")
+    {
+        //return std::vector<Event>
+        std::vector<Event> events =  DataBase::get_instance().get_events_to_sync(std::atol(read_data.data_str().c_str()));
+        for(auto i : events)
+        {
+            server_connection_ptr->send_data("update_event", i);
+        }
+    }
     }
 #endif
 
