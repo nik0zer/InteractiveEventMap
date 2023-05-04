@@ -122,7 +122,7 @@ class DataBase
   public:
 
     #ifndef NETWORK_CONNECTION_SERVER_H
-      ServerConnection connection;
+      ServerConnection* connection;
     #endif
 
     // Singleton:

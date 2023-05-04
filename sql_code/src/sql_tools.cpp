@@ -16,7 +16,7 @@
 // Construcotr of msg - construct the object from msg by parsing msg by \n
 // ---------------------------------------------------------------------------------------------------------------------
 
-void handler(ReadData read_data)
+void handler1(ReadData read_data)
 {
     DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str());
 }
@@ -309,9 +309,9 @@ void DataBase::update_database()
 
 
     #ifndef NETWORK_CONNECTION_SERVER_H
-        connection.thread_cycle_read(handler);
-        connection.send_data("send_me_actual_persons", "0");
-        connection.send_data("send_me_actual_events", "0");
+        connection->thread_cycle_read(handler1);
+        connection->send_data("send_me_actual_persons", "0");
+        connection->send_data("send_me_actual_events", "0");
     #endif
 
     // call parse_cmd после получения ответа    
