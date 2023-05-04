@@ -29,7 +29,7 @@ void client_session(ClientConnection client_connection)
     client_connection.thread_cycle_read(handler);
     while(client_connection.is_socket_open())
     {
-        
+
     }
 }
 
