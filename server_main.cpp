@@ -29,7 +29,7 @@ void handler(ReadData read_data, ClientConnection* client_connection_ptr)
         {
             client_connection_ptr->send_data("update_event", i);
         }
-        client_connection_ptr->send_data("send_me_actual_persons", std::to_string(DataBase::get_instance().get_last_edit_time_persons()));
+        client_connection_ptr->send_data("send_me_actual_events", std::to_string(DataBase::get_instance().get_last_edit_time_persons()));
     }
 }
 

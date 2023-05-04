@@ -7,6 +7,7 @@
 
 
 #include "sql_tools.h"
+#include <mutex>
 
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -16,9 +17,12 @@
 // Construcotr of msg - construct the object from msg by parsing msg by \n
 // ---------------------------------------------------------------------------------------------------------------------
 
+std::mutex update_mutex;
+
 #ifndef NETWORK_CONNECTION_SERVER_H
     void handler1(ReadData read_data, ServerConnection* server_connection_ptr)
     {
+        std::lock_guard<std::mutex> lock(update_mutex);
         std::cout<<"\nname:\n"<<read_data.data_name()<<"\nbuffer:\n"<<read_data.data_str()<<std::endl;
     if(DataBase::get_instance().parse_cmd(read_data.data_name(), read_data.data_str()) == 0)
     {
@@ -477,7 +481,7 @@ void DataBase::execute_sql(const std::string& sql_cmd, const std::string& table)
 
 int DataBase::callback_person(void* data, int argc, char** argv, char** azColName) 
 {
-    spdlog::info("Called callback of PERSON");
+    // spdlog::info("Called callback of PERSON");
 
     if (data)
     {
@@ -503,7 +507,7 @@ int DataBase::callback_person(void* data, int argc, char** argv, char** azColNam
 
 int DataBase::callback_event(void* data, int argc, char** argv, char** azColName) 
 {
-    spdlog::info("Called callback of EVENT");
+    // spdlog::info("Called callback of EVENT");
     
     if (data)
     {
