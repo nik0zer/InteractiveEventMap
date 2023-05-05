@@ -4,13 +4,15 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 project("interactive_event_map")
-SET(MYCOMPILE_FLAGS "-pthread")
+SET(MYCOMPILE_FLAGS "-pthread -std=c++20")
 
 SET(CMAKE_C_FLAGS    "${CMAKE_C_FLAGS} ${MYCOMPILE_FLAGS}")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${MYCOMPILE_FLAGS}")
 
 file(GLOB SERVER_SRC "server_code/src/*")
 file(GLOB CLIENT_SRC "client_code/src/*")
+file(GLOB SQL_NEW "sql_new/src/*")
+
 file(GLOB SQL_SRC_CLIENT    "sql_code_client/src/sql_tools.cpp")
 file(GLOB SQL_SRC_SERVER    "sql_code_server/src/sql_tools.cpp")
 file(GLOB GUI_SRC    "GUI/src/*" )
@@ -19,6 +21,7 @@ file(GLOB HEADERS_TO_MOC GUI/include/ *.h)
 
 add_executable(InteractiveEventMap_client "client_main.cpp" ${CLIENT_SRC} ${SQL_SRC_CLIENT} ${GUI_SRC})
 add_executable(InteractiveEventMap_server "server_main.cpp" ${SERVER_SRC} ${SQL_SRC_SERVER})
+add_executable(InteractiveEventMap_sql ${SQL_NEW})
 # add_executable(InteractiveEventMap_sql    "sql_code/src/sql_tools.cpp" "sql_code/src/main.cpp")
 # add_executable(InteractiveEventMap_gui    ${GUI_SRC} ${SQL_SRC} )
 # add_executable(InteractiveEventMap_gui_sql ${GUI_SRC} "sql_code/src/sql_tools.cpp" )
@@ -26,6 +29,7 @@ add_executable(InteractiveEventMap_server "server_main.cpp" ${SERVER_SRC} ${SQL_
 
 target_include_directories(InteractiveEventMap_server PUBLIC "server_code/include" "sql_code_server/include")
 target_include_directories(InteractiveEventMap_client PUBLIC "client_code/include" "sql_code_client/include" "GUI/include")
+target_include_directories(InteractiveEventMap_sql PUBLIC "sql_new/include")
 # target_include_directories(InteractiveEventMap_sql PUBLIC    "sql_code/include" "client_code/include")
 # target_include_directories(InteractiveEventMap_gui PUBLIC    "GUI/include")
 # target_include_directories(InteractiveEventMap_gui_sql PUBLIC    "GUI/include" "sql_code/include")
@@ -42,6 +46,11 @@ target_link_libraries(InteractiveEventMap_client PUBLIC Boost::boost Boost::thre
  unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only Qt6::Core Qt6::Widgets) 
 target_link_libraries(InteractiveEventMap_server PUBLIC Boost::boost Boost::thread
  unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
+
+target_link_libraries(InteractiveEventMap_sql PUBLIC unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
+
+find_path(SQLITE_MODERN_CPP_INCLUDE_DIRS "sqlite_modern_cpp.h")
+target_include_directories(InteractiveEventMap_sql PRIVATE ${SQLITE_MODERN_CPP_INCLUDE_DIRS})
 # target_link_libraries(InteractiveEventMap_sql PUBLIC Boost::boost Boost::thread unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
 # target_link_libraries(InteractiveEventMap_gui_sql PUBLIC unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
 # target_link_libraries(InteractiveEventMap_gui_sql PUBLIC Qt6::Core Qt6::Widgets)
