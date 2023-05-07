@@ -175,25 +175,18 @@ DataBase::~DataBase()
 void Table_Events::create_table_event(sqlite::database* db)
 {
     db_ = db;
+    *db << "CREATE TABLE IF NOT EXISTS EVENTS("
+                        "ID INT PRIMARY KEY NOT NULL, "
+                        "NAME                      TEXT    NOT NULL, "
+                        "INFO                      TEXT            , "
+                        "ADDRESS                   TEXT            , "
+                        "DATE                      TEXT            , "
+                        "TIME                      TEXT            , "
+                        "OWNER                     TEXT            , "
+                        "LAST_EDIT_TIME            INT     NOT NULL);";
 
-    std::string sql_cmd = "CREATE TABLE IF NOT EXISTS EVENTS("
-                            "ID INT PRIMARY KEY NOT NULL, "
-                            "NAME                      TEXT    NOT NULL, "
-                            "INFO                      TEXT            , "
-                            "ADDRESS                   TEXT            , "
-                            "DATE                      TEXT            , "
-                            "TIME                      TEXT            , "
-                            "OWNER                     TEXT            , "
-                            "LAST_EDIT_TIME            INT     NOT NULL);";
 
-    try
-    {
-        *db << sql_cmd;
-    }
-    catch(std::exception& e)
-    {
-        spdlog::error("Can't create table EVENT");
-    }
+    spdlog::info("Table EVENTS created");
 }
 
 
@@ -212,12 +205,15 @@ void Table_Events::print_all_events()
 
 void Table_Events::add_event(const Event& event)
 {
-    *db_ << "INSERT into EVENTS (NAME,INFO,ADDRESS,DATE,TIME,OWNER,LAST_EDIT_TIME) values (?,?,?,?,?,?,?,?);"
-         << event.get_name()
-         << event.get_info()
-         << event.get_address()
-         << event.get_date()
-         << event.get_time()
-         << event.get_owner()
-         << event.get_last_edit_time();
+    // *db_ << u"INSERT into EVENTS (NAME,INFO,ADDRESS,DATE,TIME,OWNER,LAST_EDIT_TIME) values (?,?,?,?,?,?,?);"
+    if (!db_) spdlog::critical("Zero db");
+    *db_ << u"INSERT into EVENTS (NAME) values (?)"
+        << u"hello";
+    //  << event.get_name()
+    //  << event.get_info()
+    //  << event.get_address()
+    //  << event.get_date()
+    //  << event.get_time()
+    //  << event.get_owner()
+    //  << event.get_last_edit_time();
 }
