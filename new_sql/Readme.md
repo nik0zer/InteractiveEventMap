@@ -33,6 +33,9 @@ std::vector<Event> get_all_events()                 const;
 void               update_event(const Event& event) const;
 
 void               rename_event(const std::string& old_name, const std::string& new_name) const;
+
+time_t             get_last_edit_time_events()      const;
+std::vector<Event> get_events_to_sync(time_t time)  const;
 ```
 
 
@@ -52,6 +55,9 @@ void               update_user(const User& user)                    const;
 void               update_user_password(const User& user)           const;
 
 void               update_user_password(const std::string& user_name, const std::string& new_password) const;
+
+time_t             get_last_edit_time_users()                       const;
+std::vector<User>  get_users_to_sync(time_t time)                   const;
 ```
 
 
