@@ -5,26 +5,39 @@
 #include "network_connection_client.h"
 #include <functional>
 
+enum
+{
+    NOT_CHECKED = -1,
+    VERIFIED = 1,
+    NOT_VERIFIED = 0
+};
+
 void handler(ReadData read_data, ServerConnection* server_connection);
 
 class ClientData
 {
     private:
     User _user;
-    ClientData(User user, std::string ip, int port) : _user(user), data_base(DataBase_Client::get_instance()), 
-    server_connection(ip, port) {server_connection.thread_cycle_read(handler);};
-    public:
-    ServerConnection server_connection;
 
+    time_t synch_time;
+    
+
+    ClientData() : data_base(DataBase_Client::get_instance()) {synch_time = 0;};
+    public:
+    std::shared_ptr<ServerConnection> server_connection_ptr;
+    int verification;
+    
+    void add_server_connection_ptr(std::shared_ptr<ServerConnection> server_connection_ptr);
     void update_events();
 
-    void verify_user();
+    int verify_user();
+    void registration(User user);
     void set_new_user(User user);
     DataBase_Client& data_base;
 
-    static ClientData& get_instance(User user, std::string ip, int port)
+    static ClientData& get_instance()
     {
-        static ClientData client_data(user, ip, port);
+        static ClientData client_data;
         return client_data;
     }
 };
