@@ -22,10 +22,12 @@ void handler(ReadData read_data, ClientConnection* client_connection)
         if(DataBase_Server::get_instance().verify_user(read_data.data_str()))
         {
             client_connection->send_data("VERIFIED", "");
+            std::cout<<"v"<<std::endl;
         }
         else
         {
             client_connection->send_data("NOT_VERIFIED", "");
+            std::cout<<"nv"<<std::endl;
         }
         return;
     }
