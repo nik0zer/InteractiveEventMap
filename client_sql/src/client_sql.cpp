@@ -22,7 +22,6 @@ void handler(ReadData read_data, ServerConnection* server_connection)
 void ClientData::set_new_user(User user)
 {
     _user = user;
-    verify_user();
 }
 
 void ClientData::registration(User user)
@@ -45,7 +44,9 @@ int ClientData::verify_user()
     {
         if(verification != NOT_CHECKED)
         {
-            return verification;
+            int verify_flag = verification;
+            verification = NOT_CHECKED;
+            return verify_flag;
         }
     }
 }
