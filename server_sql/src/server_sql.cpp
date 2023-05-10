@@ -1,5 +1,7 @@
 #include "server_sql.h"
 
+static std::mutex data_base_mutex;
+
 void client_session(ClientConnection client_connection)
 {
     client_connection.cycle_read(handler);
@@ -7,6 +9,7 @@ void client_session(ClientConnection client_connection)
 
 void handler(ReadData read_data, ClientConnection* client_connection)
 {
+    std::lock_guard<std::mutex> lock(data_base_mutex);
     if(read_data.data_name() == "DELETE")
     {
         DataBase_Server::get_instance().remove_event_by_name(((Event)read_data.data_str()).get_name());
@@ -14,7 +17,7 @@ void handler(ReadData read_data, ClientConnection* client_connection)
     }
     if(read_data.data_name() == "EVENT")
     {
-        DataBase_Server::get_instance().add_event(read_data.data_str());
+        DataBase_Server::get_instance().update_event(read_data.data_str());
         return;
     }
     if(read_data.data_name() == "USER")
