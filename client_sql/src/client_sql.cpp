@@ -2,6 +2,7 @@
 
 void handler(ReadData read_data, ServerConnection* server_connection)
 {
+    std::lock_guard<std::mutex> lock(ClientData::get_instance().verify_mutex);
     if(read_data.data_name() == "VERIFIED")
     {
         ClientData::get_instance().verification = VERIFIED;
@@ -42,12 +43,15 @@ int ClientData::verify_user()
     server_connection_ptr->send_data("VERIFY", _user);
     while(true)
     {
+        verify_mutex.lock();
         if(verification != NOT_CHECKED)
         {
             int verify_flag = verification;
             verification = NOT_CHECKED;
+            verify_mutex.unlock();
             return verify_flag;
         }
+        verify_mutex.unlock();
     }
 }
 

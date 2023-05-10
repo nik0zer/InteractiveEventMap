@@ -20,8 +20,12 @@ class Skeleton : public QMainWindow {
   public:
     Skeleton(QWidget *parent = 0);
 
-  private slots:
-    void  AboutDataShow();
+    static void  AboutDataShow();
+  
+  // signals:
+  //   void aboutButtonPressed();
+
+    
 };
 
 #endif

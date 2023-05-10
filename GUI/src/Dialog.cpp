@@ -7,8 +7,6 @@
 
 Dialog::Dialog(QDialog* parent) : QDialog(parent)
 {
-  auto& Base = DataBase::get_instance();
-
   QBoxLayout* layout = new QHBoxLayout(this);
     
   QPushButton* cancelBtn = new QPushButton( "Cancel" );
@@ -20,6 +18,11 @@ Dialog::Dialog(QDialog* parent) : QDialog(parent)
   layout->addWidget(cancelBtn);
 
   setLayout(layout);
+}
+
+void Dialog::setAbout()
+{
+  lw->addItem(QString::fromStdString("ABOUT OUR APP"));
 }
 
 void Dialog::update()

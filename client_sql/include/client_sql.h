@@ -24,6 +24,7 @@ class ClientData
 
     ClientData() : data_base(DataBase_Client::get_instance()) {synch_time = 0;};
     public:
+    std::mutex verify_mutex;
     std::shared_ptr<ServerConnection> server_connection_ptr;
     int verification;
     

@@ -73,6 +73,14 @@
         "charconv": "cpp",
         "forward_list": "cpp",
         "netfwd": "cpp",
-        "qmainwindow": "cpp"
+        "qmainwindow": "cpp",
+        "hash_map": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "coroutine": "cpp",
+        "numbers": "cpp",
+        "ranges": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp"
     }
 }

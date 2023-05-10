@@ -19,6 +19,7 @@ public:
     virtual ~Dialog();
     void setEvent(Event event) {event_ = event;};
     void update();
+    void setAbout();
 };
 
 #endif

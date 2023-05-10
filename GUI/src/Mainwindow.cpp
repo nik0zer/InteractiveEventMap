@@ -32,16 +32,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::authorizeUser() 
 {
-    
-
     QString name = ui_Auth.getLogin();
     QString password = ui_Auth.getPass();
 
     auto per = User(name.toStdString(), password.toStdString());
     ClientData::get_instance().set_new_user(per);
 
+    printf("here\n");
     if (ClientData::get_instance().verify_user())
     {
+        printf("here2\n");
         ui_Auth.hide();
         ui_App.show();
     }

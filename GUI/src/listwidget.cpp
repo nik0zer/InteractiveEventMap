@@ -46,7 +46,7 @@ ListWidget::ListWidget(QWidget *parent)
   connect(rename, &QPushButton::clicked, this, &ListWidget::renameItem);
   connect(remove, &QPushButton::clicked, this, &ListWidget::removeItem);
   connect(seeEvent, &QPushButton::clicked, this, &ListWidget::see);
-  connect(AllEvents, &QPushButton::clicked, this, &ListWidget::seeAllEvents);
+  connect(AllEvents, &QPushButton::clicked, this, &ListWidget::synhronize);
   
   setLayout(hbox);
 }
@@ -102,6 +102,7 @@ void ListWidget::renameItem()
 
 void ListWidget::removeItem() 
 {  
+  
   QListWidgetItem *curitem = lw->currentItem();
   int r = lw->row(curitem);
   auto q_ev_name = curitem->text();
@@ -124,7 +125,6 @@ void ListWidget::see()
   auto q_ev_name = curitem->text();
   auto ev_name = q_ev_name.toStdString();
 
-  DataBase::get_instance();
   auto event =  ClientData::get_instance().data_base.find_event_by_name(ev_name);
 
   if (event.get_name() != "") 
@@ -134,10 +134,16 @@ void ListWidget::see()
     dg->update();
     dg->show();
   }
+
+  updateEventsList();
 }
 
 void ListWidget::updateEventsList()
 {
+  if (lw->count() != 0) {
+    lw->clear();
+  }
+
   auto events = ClientData::get_instance().data_base.get_all_events();
 
   for(int it = 0; it < events.size(); it++)
@@ -152,12 +158,15 @@ void ListWidget::updateEventsList()
       lw->setCurrentRow(r);
     }
   }
-    printf("here\n");
+  printf("here\n");
 }
 
-void ListWidget::seeAllEvents()
+void ListWidget::synhronize()
 {
+  ClientData::get_instance().update_events();
   ClientData::get_instance().data_base.print_all_events();
+
+  updateEventsList();
 }
 
 #include <moc_listwidget.cpp>

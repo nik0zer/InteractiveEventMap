@@ -31,7 +31,7 @@ class ListWidget : public QWidget {
     void renameItem();
     void removeItem();
     void see();
-    void seeAllEvents();
+    void synhronize();
 };
 
 #endif
