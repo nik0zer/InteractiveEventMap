@@ -69,3 +69,9 @@ void ClientData::delete_event(Event event)
 {
     server_connection_ptr->send_data("DELETE", event);
 }
+
+void ClientData::rename_event(Event event, Event event_1)
+{
+    server_connection_ptr->send_data("DELETE", event);
+    server_connection_ptr->send_data("EVENT", event_1);
+}
