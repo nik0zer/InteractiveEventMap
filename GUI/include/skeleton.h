@@ -5,7 +5,7 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <vector>
-#include "sql_tools.h"
+#include "client_sql.h"
 #include "listwidget.h"
 
  
@@ -18,7 +18,10 @@ class Skeleton : public QMainWindow {
   ListWidget *list;
  
   public:
-    Skeleton(QWidget *parent = 0); 
+    Skeleton(QWidget *parent = 0);
+
+  private slots:
+    void  AboutDataShow();
 };
 
 #endif

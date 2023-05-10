@@ -4,7 +4,7 @@
 #pragma once
 
 #include <QWidget>
-#include "sql_tools.h"
+#include "client_sql.h"
 #include <list>
  
 class auth_window : public QWidget

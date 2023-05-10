@@ -17,11 +17,11 @@ file(GLOB CLIENT_SQL "client_sql/src/*")
 file(GLOB SERVER_SQL "server_sql/src/*")
 
 
-add_executable(InteractiveEventMap_sql ${SQL_NEW})
+# add_executable(InteractiveEventMap_sql ${SQL_NEW})
 add_executable(InteractiveEventMap_client "client_main.cpp" ${CLIENT_SRC} ${SQL_SRC_CLIENT})
 add_executable(InteractiveEventMap_server "server_main.cpp" ${SERVER_SRC} ${SQL_SRC_SERVER})
 add_executable(InteractiveEventMap_server_sql ${SERVER_SRC} ${SERVER_SQL} ${SQL_NEW})
-add_executable(InteractiveEventMap_client_sql ${CLIENT_SRC} ${CLIENT_SQL} ${SQL_NEW})
+add_executable(InteractiveEventMap_client_sql ${CLIENT_SRC} ${CLIENT_SQL} ${SQL_NEW} ${GUI_SRC})
 
 
 find_package(Boost REQUIRED)
@@ -32,17 +32,16 @@ find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 
 target_include_directories(InteractiveEventMap_server PUBLIC "server_code/include")
 target_include_directories(InteractiveEventMap_client PUBLIC "client_code/include")
-target_include_directories(InteractiveEventMap_sql PUBLIC "new_sql/include")
+# target_include_directories(InteractiveEventMap_sql PUBLIC "new_sql/include")
 target_include_directories(InteractiveEventMap_server_sql PUBLIC "new_sql/include" "server_code/include" "server_sql/include")
-target_include_directories(InteractiveEventMap_client_sql PUBLIC "new_sql/include" "client_code/include" "client_sql/include")
+target_include_directories(InteractiveEventMap_client_sql PUBLIC "new_sql/include" "client_code/include" "client_sql/include" "GUI/include")
 
 
 
 
-# target_link_libraries(InteractiveEventMap_gui PUBLIC Qt6::Core Qt6::Widgets)
 target_link_libraries(InteractiveEventMap_client PUBLIC Boost::boost Boost::thread
  unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only Qt6::Core Qt6::Widgets) 
-target_link_libraries(InteractiveEventMap_sql PUBLIC unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
+# target_link_libraries(InteractiveEventMap_sql PUBLIC unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
 target_link_libraries(InteractiveEventMap_server PUBLIC Boost::boost Boost::thread
  unofficial::sqlite3::sqlite3 spdlog::spdlog spdlog::spdlog_header_only)
  target_link_libraries(InteractiveEventMap_client_sql PUBLIC Boost::boost Boost::thread unofficial::sqlite3::sqlite3 
@@ -51,6 +50,6 @@ target_link_libraries(InteractiveEventMap_server_sql PUBLIC Boost::boost Boost::
 spdlog::spdlog spdlog::spdlog_header_only unofficial::sqlite3::sqlite3 Qt6::Core Qt6::Widgets)
 
 find_path(SQLITE_MODERN_CPP_INCLUDE_DIRS "sqlite_modern_cpp.h")
-target_include_directories(InteractiveEventMap_sql PUBLIC ${SQLITE_MODERN_CPP_INCLUDE_DIRS})
+# target_include_directories(InteractiveEventMap_sql PUBLIC ${SQLITE_MODERN_CPP_INCLUDE_DIRS})
 target_include_directories(InteractiveEventMap_client_sql PUBLIC ${SQLITE_MODERN_CPP_INCLUDE_DIRS})
 target_include_directories(InteractiveEventMap_server_sql PUBLIC ${SQLITE_MODERN_CPP_INCLUDE_DIRS})

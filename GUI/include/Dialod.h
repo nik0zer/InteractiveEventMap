@@ -6,8 +6,7 @@
 #include <QApplication>
 #include <QWidget>
 #include <vector>
-// #include "../../sql_code/include/sql_tools.h"
-#include "sql_tools.h"
+#include "client_sql.h"
 #include <QListWidget>
 
 class Dialog : public QDialog {
@@ -16,7 +15,7 @@ class Dialog : public QDialog {
 Event event_;
 QListWidget *lw;
 public:
-    Dialog( QDialog* parent = 0 );
+    Dialog(QDialog* parent = 0);
     virtual ~Dialog();
     void setEvent(Event event) {event_ = event;};
     void update();

@@ -20,8 +20,8 @@ public:
     virtual ~MainWindow();
     void display(); // прототип пользовательской функции отображения
     bool connectDB(); // прототип метода подключения к БД
-    void setPersonVec(std::vector<Person> pers){pers_ = pers;};
-    std::vector<Person> getPersonVec() {return pers_;};
+    void setPersonVec(std::vector<User> pers){pers_ = pers;};
+    std::vector<User> getPersonVec() {return pers_;};
     int getPersonVecLen() {return pers_.size();};
     void updateEventVec(); 
     void setEventVec(std::vector<Event> events){events_ = events;};
@@ -36,7 +36,7 @@ private:
     
     QString m_username; // строки для обработки 
     QString m_userpass; // пользовательского ввода
-    std::vector<Person> pers_;
+    std::vector<User> pers_;
     std::vector<Event> events_;
     
     int user_counter; // счетчик пользователей

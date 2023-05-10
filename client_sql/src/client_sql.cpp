@@ -22,7 +22,6 @@ void handler(ReadData read_data, ServerConnection* server_connection)
 void ClientData::set_new_user(User user)
 {
     _user = user;
-    verify_user();
 }
 
 void ClientData::registration(User user)

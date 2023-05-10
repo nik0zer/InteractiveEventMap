@@ -6,7 +6,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QListWidget>
-#include "sql_tools.h"
+#include "client_sql.h"
 #include <vector>
  
 class ListWidget : public QWidget {

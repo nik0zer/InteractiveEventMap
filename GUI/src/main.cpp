@@ -2,7 +2,7 @@
 #include "../include/Mainwindow.h"
 #include "../include/reg_window.h"
 #include "../include/auth_window.h"
-#include "sql_tools.h"
+#include "client_sql.h"
 #include <vector>
 
 // int main(int argc, char *argv[]) 

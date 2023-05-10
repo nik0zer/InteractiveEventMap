@@ -8,6 +8,7 @@
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QTextEdit>
+#include <QDialog>
  
 Skeleton::Skeleton(QWidget *parent)
     : QMainWindow(parent) {
@@ -23,8 +24,10 @@ Skeleton::Skeleton(QWidget *parent)
 
   QToolBar *toolbar = addToolBar("main toolbar");
   QAction *quit2 = toolbar->addAction(QIcon(quitpix), "Quit Application");
+  QAction *about = toolbar->addAction(QIcon(quitpix), "About Application");
         
   connect(quit2, &QAction::triggered, qApp, &QApplication::quit);
+  connect(about, &QAction::triggered, qApp, SLOT(AboutDataShow()));
 
   list = new ListWidget(this);
   
@@ -32,4 +35,8 @@ Skeleton::Skeleton(QWidget *parent)
   statusBar()->showMessage("Ready"); 
 }
 
+void Skeleton::AboutDataShow()
+{
+  // need to make
+}
 #include <moc_skeleton.cpp>

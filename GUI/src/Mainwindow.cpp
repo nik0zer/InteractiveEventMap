@@ -5,7 +5,7 @@
 #include <QString>
 #include <QtSql/QtSql>
 #include "../include/skeleton.h"
-#include "sql_tools.h"
+#include "client_sql.h"
 #include <string>
 #include <iostream>
 #include <stdlib.h>
@@ -32,14 +32,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::authorizeUser() 
 {
-    auto& Base = DataBase::get_instance();
+    
 
     QString name = ui_Auth.getLogin();
     QString password = ui_Auth.getPass();
 
-    auto per = Person(name.toStdString(), password.toStdString());
+    auto per = User(name.toStdString(), password.toStdString());
+    ClientData::get_instance().set_new_user(per);
 
-    if (Base.person_exists(per))
+    if (ClientData::get_instance().verify_user())
     {
         ui_Auth.hide();
         ui_App.show();
@@ -61,13 +62,16 @@ void MainWindow::registerUser()
     QString name = ui_Reg.getName();
     QString password = ui_Reg.getPass(); 
 
-    auto per = Person(name.toStdString(), password.toStdString());
+    auto per = User(name.toStdString(), password.toStdString());
+    ClientData::get_instance().set_new_user(per);
+    printf("here\n");
 
-    if (!DataBase::get_instance().person_exists(per))
+    if (!ClientData::get_instance().verify_user())
     {
+        printf("here2\n");
         if(ui_Reg.checkPass())
         {
-            DataBase::get_instance().add_person(per);
+            ClientData::get_instance().registration(per);
             ui_Reg.hide();
             ui_App.show();
             printf(">>>>>>>>>>>>> you are registered <<<<<<<<<<<<< \n");

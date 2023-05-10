@@ -1,5 +1,5 @@
-#include "../include/listwidget.h"
-#include "../include/Dialod.h"
+#include "listwidget.h"
+#include "Dialod.h"
 #include <QVBoxLayout>
 #include <QInputDialog>
 #include <QLabel>
@@ -14,12 +14,12 @@ ListWidget::ListWidget(QWidget *parent)
  
   QHBoxLayout *hbox = new QHBoxLayout(this);
  
-  auto& Base = DataBase::get_instance();
-  auto events = Base.get_all_events();
+  
+  auto events = ClientData::get_instance().data_base.get_all_events();
 
   lw = new QListWidget(this);
   
-  for(auto& item : Base.get_all_events())
+  for(auto& item : events)
   {lw->addItem(QString::fromStdString(item.get_name()));} 
   
  
@@ -68,7 +68,7 @@ void ListWidget::addItem()
     QString s_time = c_time.simplified();
 
     auto event = Event(1, s_name.toStdString(), s_info.toStdString(), s_address.toStdString(), s_date.toStdString(), s_time.toStdString(), "", std::time(nullptr));
-    DataBase::get_instance().add_event(event);
+    ClientData::get_instance().data_base.add_event(event);
     
     lw->addItem(s_name);
 
@@ -96,7 +96,7 @@ void ListWidget::renameItem()
     lw->insertItem(r, s_name);
     lw->setCurrentRow(r);
 
-    DataBase::get_instance().rename_event(ev_name, s_name.toStdString());
+    ClientData::get_instance().data_base.rename_event(ev_name, s_name.toStdString());
   }
 }
 
@@ -113,7 +113,7 @@ void ListWidget::removeItem()
     QListWidgetItem *item = lw->takeItem(r);
     delete item;
 
-    DataBase::get_instance().remove_event(ev);
+    ClientData::get_instance().data_base.remove_event_by_name(ev);
   }
 }
 
@@ -125,7 +125,7 @@ void ListWidget::see()
   auto ev_name = q_ev_name.toStdString();
 
   DataBase::get_instance();
-  auto event =  DataBase::get_instance().get_event(ev_name);
+  auto event =  ClientData::get_instance().data_base.find_event_by_name(ev_name);
 
   if (event.get_name() != "") 
   { 
@@ -138,7 +138,7 @@ void ListWidget::see()
 
 void ListWidget::updateEventsList()
 {
-  auto events = DataBase::get_instance().get_all_events();
+  auto events = ClientData::get_instance().data_base.get_all_events();
 
   for(int it = 0; it < events.size(); it++)
   {
@@ -157,7 +157,7 @@ void ListWidget::updateEventsList()
 
 void ListWidget::seeAllEvents()
 {
-  DataBase::get_instance().print_all_events();
+  ClientData::get_instance().data_base.print_all_events();
 }
 
 #include <moc_listwidget.cpp>
