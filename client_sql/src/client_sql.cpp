@@ -65,3 +65,7 @@ void ClientData::update_events()
     }
 }
 
+void ClientData::delete_event(Event event)
+{
+    server_connection_ptr->send_data("DELETE", event);
+}

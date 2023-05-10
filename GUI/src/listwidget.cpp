@@ -115,6 +115,7 @@ void ListWidget::removeItem()
     delete item;
 
     ClientData::get_instance().data_base.remove_event_by_name(ev);
+    ClientData::get_instance().delete_event(ev);
   }
 }
 

@@ -7,6 +7,11 @@ void client_session(ClientConnection client_connection)
 
 void handler(ReadData read_data, ClientConnection* client_connection)
 {
+    if(read_data.data_name() == "DELETE")
+    {
+        DataBase_Server::get_instance().remove_event_by_name(((Event)read_data.data_str()).get_name());
+        return;
+    }
     if(read_data.data_name() == "EVENT")
     {
         DataBase_Server::get_instance().add_event(read_data.data_str());
