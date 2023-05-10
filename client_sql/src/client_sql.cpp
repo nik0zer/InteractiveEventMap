@@ -44,7 +44,9 @@ int ClientData::verify_user()
     {
         if(verification != NOT_CHECKED)
         {
-            return verification;
+            int verify_flag = verification;
+            verification = NOT_CHECKED;
+            return verify_flag;
         }
     }
 }
