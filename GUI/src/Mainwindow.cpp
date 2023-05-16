@@ -12,13 +12,24 @@
 #include <vector>
 #include <list>
 #include <iostream>
-
+#include <QInputDialog>
+#include "client_sql.h"
 
 MainWindow::~MainWindow(){};
 
 MainWindow::MainWindow(QWidget *parent) :                                              
     QMainWindow(parent)                                                               
 {
+    int port = QInputDialog::getInt(this, "Port", "Enter port");
+    QString c_ip = QInputDialog::getText(this, "IP", "Enter IP");
+    QString s_ip = c_ip.simplified();
+    auto ip = s_ip.toStdString();
+
+    std::shared_ptr<ServerConnection> server_connection_ptr(new ServerConnection(ip, port));
+    ClientData& client_data = ClientData::get_instance();
+    client_data.add_server_connection_ptr(server_connection_ptr);
+
+
     auth_window window;
     
     window.setWindowTitle("Auth_window");
