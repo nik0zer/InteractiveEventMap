@@ -4,6 +4,7 @@
 
 #include <QToolBar>
 #include <QIcon>
+#include <QPixmap>
 #include <QAction>
 #include <QMenu>
 #include <QMenuBar>
