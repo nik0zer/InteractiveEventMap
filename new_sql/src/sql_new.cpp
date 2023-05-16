@@ -8,6 +8,9 @@
 
 #include "sql_new.h"
 
+#define MAX_RETRIES 5
+#define SUCCESS_TRY -1
+
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constructions for communication with server
@@ -138,16 +141,22 @@ DataBase::DataBase()
 
 DataBase::~DataBase()
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         delete db_;
         spdlog::info("Database closed");
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch(std::exception& e)
     {
         spdlog::error("Can't close Database!");
+        retry_attempt++;
     }
 }
+
 
 
 
@@ -161,6 +170,8 @@ void Table_Events::create_table_event(sqlite::database* db)
 {
     db_ = db;
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << "create table if not exists EVENTS ("
@@ -172,16 +183,19 @@ void Table_Events::create_table_event(sqlite::database* db)
                     "TIME                      TEXT               , "
                     "OWNER                     TEXT               , "
                     "LAST_EDIT_TIME            INT                , "
-                    "ARCHIVED                  INT               );";
+                    "ARCHIVED                  INT                );";
 
 
         spdlog::info("Table EVENTS created");
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
-                                                
+                retry_attempt++;
+
     }
 }
 
@@ -192,6 +206,8 @@ void Table_Events::add_event(const Event& event) const
     // *db_ << u"INSERT into EVENTS (NAME,INFO,ADDRESS,DATE,TIME,OWNER,LAST_EDIT_TIME) values (?,?,?,?,?,?,?);"
     if (!db_) spdlog::critical("Zero db in add event");
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {   
         int event_exists = 0;   // False
@@ -216,11 +232,14 @@ void Table_Events::add_event(const Event& event) const
             << event.get_archived();
 
         spdlog::info("Event '{}' added", event.get_name());
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -229,6 +248,8 @@ void Table_Events::add_event(const Event& event) const
 
 Event Table_Events::find_event_by_name(const std::string& name) const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         std::vector<Event> events_vec;
@@ -250,11 +271,14 @@ Event Table_Events::find_event_by_name(const std::string& name) const
             return events_vec[0];
         }
 
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 
@@ -266,6 +290,8 @@ Event Table_Events::find_event_by_name(const std::string& name) const
 
 Event Table_Events::find_event_by_id(const int& id) const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         std::vector<Event> events_vec;
@@ -287,11 +313,14 @@ Event Table_Events::find_event_by_id(const int& id) const
             return events_vec[0];
         }
 
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 
@@ -303,17 +332,22 @@ Event Table_Events::find_event_by_id(const int& id) const
 
 void Table_Events::remove_event_by_name(const std::string& name) const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"UPDATE EVENTS SET ARCHIVED=TRUE, LAST_EDIT_TIME=? WHERE NAME=?;" << std::time(nullptr) << name;
 
 
         spdlog::info("Event '{}' removed", name);
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -322,16 +356,21 @@ void Table_Events::remove_event_by_name(const std::string& name) const
 
 void Table_Events::remove_event_by_id(const int& id) const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"UPDATE EVENTS SET ARCHIVED=TRUE, LAST_EDIT_TIME=? WHERE ID=?;" << std::time(nullptr) << id;
 
         spdlog::info("Event with id '{}' removed", id);
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -343,6 +382,9 @@ void Table_Events::print_all_events() const
     std::vector<Event> events_vec;
     std::cout << "Print all events vector:\n";
 
+    
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {    
         *db_ << "SELECT * FROM EVENTS;" >> [&](int id, std::string name, std::string info, std::string address, 
@@ -356,11 +398,14 @@ void Table_Events::print_all_events() const
         {
             std::cout << item << std::endl;
         }
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -371,6 +416,8 @@ std::vector<Event> Table_Events::get_all_events() const
 {
     std::vector<Event> events_vec;
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {    
         *db_ << "SELECT * FROM EVENTS WHERE ARCHIVED=FALSE;" >> [&](int id, std::string name, std::string info, std::string address, 
@@ -379,11 +426,14 @@ std::vector<Event> Table_Events::get_all_events() const
             Event temp(id, name, info, address, date, time, owner, last_edit_time, archived);
             events_vec.push_back(temp);
         };
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 
@@ -395,10 +445,10 @@ std::vector<Event> Table_Events::get_all_events() const
 
 void Table_Events::update_event(const Event& event) const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
-        std::cout << "Updating event:\n" << event << std::endl;
-
         *db_ << u"UPDATE EVENTS SET "
                                         "NAME           = ?, "
                                         "INFO           = ?, "
@@ -421,11 +471,14 @@ void Table_Events::update_event(const Event& event) const
 
 
         spdlog::info("Event '{}' updated", event.get_name());
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -434,16 +487,21 @@ void Table_Events::update_event(const Event& event) const
 
 void Table_Events::rename_event(const std::string& old_name, const std::string& new_name) const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"UPDATE EVENTS SET NAME=? WHERE NAME=?" << new_name << old_name;
 
         spdlog::info("Event '{}' renamed -> '{}'", old_name, new_name);
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -454,16 +512,21 @@ time_t Table_Events::get_last_edit_time_events() const
 {
     long long last_edit_time = 0;
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"SELECT MAX(LAST_EDIT_TIME) FROM EVENTS" >> last_edit_time;
 
         spdlog::info("Last edit time of events = {}", last_edit_time);
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
     
@@ -476,6 +539,8 @@ std::vector<Event> Table_Events::get_events_to_sync(time_t time)    const
 {
     std::vector<Event> events_vec;
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"SELECT * FROM EVENTS WHERE LAST_EDIT_TIME >= ?;" << time >> [&](int id, std::string name, std::string info, std::string address, 
@@ -486,11 +551,14 @@ std::vector<Event> Table_Events::get_events_to_sync(time_t time)    const
         };
 
         spdlog::info("'{}' events found for sync", events_vec.size());
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 
@@ -509,6 +577,8 @@ void Table_Users::create_table_users(sqlite::database* db)
 {
     db_ = db;
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << "create table if not exists USERS ("
@@ -519,11 +589,14 @@ void Table_Users::create_table_users(sqlite::database* db)
                     "ARCHIVED                  INT                );";
 
         spdlog::info("Table USERS created");    
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -534,6 +607,8 @@ void Table_Users::add_user(const User& user) const
 {
     if (!db_) spdlog::critical("Zero db in add user");
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         int user_exists = 0;   // False
@@ -553,11 +628,14 @@ void Table_Users::add_user(const User& user) const
             << user.get_last_edit_time();
 
         spdlog::info("User '{}' added", user.get_login());
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -569,6 +647,8 @@ User Table_Users::find_user_by_login(const std::string& login) const
     std::vector<User> users_vec;
 
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"SELECT * FROM USERS WHERE LOGIN=?" << login >> [&](int id, std::string login, std::string password,
@@ -577,11 +657,14 @@ User Table_Users::find_user_by_login(const std::string& login) const
                     User temp(id, login, password, last_edit_time, archived);
                     users_vec.push_back(temp);
                 };
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 
@@ -609,6 +692,8 @@ User Table_Users::find_user_by_id(const int& id) const
     std::vector<User> users_vec;
 
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"SELECT * FROM USERS WHERE ID=?" << id >> [&](int id, std::string login, std::string password,
@@ -617,11 +702,14 @@ User Table_Users::find_user_by_id(const int& id) const
                     User temp(id, login, password, last_edit_time, archived);
                     users_vec.push_back(temp);
                 };
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 
@@ -646,16 +734,21 @@ User Table_Users::find_user_by_id(const int& id) const
 
 void Table_Users::remove_user_by_login(const std::string& login)  const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"UPDATE USERS SET ARCHIVED=TRUE, LAST_EDIT_TIME=? WHERE LOGIN=?;" << std::time(nullptr) << login;
 
         spdlog::info("User '{}' removed", login);
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -664,16 +757,21 @@ void Table_Users::remove_user_by_login(const std::string& login)  const
 
 void Table_Users::remove_user_by_id(const int& id)  const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"UPDATE USERS SET ARCHIVED=TRUE, LAST_EDIT_TIME=? WHERE ID=?;" << std::time(nullptr) << id;
 
         spdlog::info("User with id '{}' removed", id);
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 }
@@ -684,18 +782,23 @@ void Table_Users::print_all_users() const
 {
     std::cout << "Print all users:\n";
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << "SELECT LOGIN FROM USERS;" >> [&](std::string login) 
         {
             std::cout << login << std::endl;
         };
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
-                                                
+        retry_attempt++;
+
     }
 }
 
@@ -706,6 +809,8 @@ std::vector<User> Table_Users::get_all_users() const
     std::vector<User> users_vec;
     
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << "SELECT * FROM USERS;" >> [&](int id, std::string login, std::string password, size_t last_edit_time,
@@ -714,12 +819,15 @@ std::vector<User> Table_Users::get_all_users() const
             User temp(id, login, password, last_edit_time, archived);
             users_vec.push_back(temp);
         };
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
-                                                
+        retry_attempt++;
+
     }
 
     spdlog::info("Vector of all users returned");
@@ -730,6 +838,8 @@ std::vector<User> Table_Users::get_all_users() const
 
 bool Table_Users::verify_user(const User& user) const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         std::vector<User> users_vec;
@@ -750,10 +860,13 @@ bool Table_Users::verify_user(const User& user) const
             spdlog::info("User '{}' verified", user.get_login());
             return true;
         }
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
-                                                __FILE__, __FUNCTION__, __LINE__);
+                                                __FILE__, __FUNCTION__, __LINE__);                              
+        retry_attempt++;
     }
 
     spdlog::warn("No users found by name = '{}'", user.get_login());
@@ -764,17 +877,22 @@ bool Table_Users::verify_user(const User& user) const
 
 void Table_Users::update_user_password(const User& user) const
 {
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"UPDATE USERS SET PASSWORD=? WHERE LOGIN=?" << sha256(user.get_password()) << user.get_login();
 
         spdlog::info("Password for user '{}' updated", user.get_login());
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
-                                                
+        retry_attempt++;
+
     }
 }
 
@@ -801,16 +919,21 @@ time_t Table_Users::get_last_edit_time_users() const
 {
     long long last_edit_time = 0;
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"SELECT MAX(LAST_EDIT_TIME) FROM USERS" >> last_edit_time;
 
         spdlog::info("Last edit time of users = {}", last_edit_time);
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 
@@ -823,6 +946,8 @@ std::vector<User> Table_Users::get_users_to_sync(time_t time) const
 {
     std::vector<User> users_vec;
 
+    int retry_attempt = 0;
+    while (retry_attempt < MAX_RETRIES && retry_attempt != SUCCESS_TRY)
     try
     {
         *db_ << u"SELECT * FROM USERS WHERE LAST_EDIT_TIME >= ?;" << time >> 
@@ -833,11 +958,14 @@ std::vector<User> Table_Users::get_users_to_sync(time_t time) const
         };
 
         spdlog::info("'{}' users found for sync", users_vec.size());
+
+        retry_attempt = SUCCESS_TRY;
     }
     catch (const sqlite::sqlite_exception& e) {
 
         spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
                                                 __FILE__, __FUNCTION__, __LINE__);
+        retry_attempt++;
 
     }
 

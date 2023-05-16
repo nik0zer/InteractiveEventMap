@@ -340,13 +340,13 @@ class Table_Events
 
 
     //----------------------------------------------------------------
-    //!  @brief Print in std::cout names of all events in database
+    //!  @brief Print in std::cout names of ALL events in database (archived too)
     //----------------------------------------------------------------
     void    print_all_events()                              const;
 
 
     //----------------------------------------------------------------
-    //!  @brief Get vector of all events from database
+    //!  @brief Get vector of all events from database (not archived)
     //!  
     //!  @return std::vector<Event> 
     //----------------------------------------------------------------
@@ -456,7 +456,7 @@ class Table_Users
     
 
     //----------------------------------------------------------------
-    //!  @brief Print logins to std::cout 
+    //!  @brief Print logins to std::cout
     //----------------------------------------------------------------
     void               print_all_users()                                const;
 
