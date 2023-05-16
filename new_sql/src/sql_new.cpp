@@ -305,7 +305,7 @@ void Table_Events::remove_event_by_name(const std::string& name) const
 {
     try
     {
-        *db_ << u"UPDATE EVENTS SET ARCHIVED=TRUE WHERE NAME=?;" << name;
+        *db_ << u"UPDATE EVENTS SET ARCHIVED=TRUE, LAST_EDIT_TIME=? WHERE NAME=?;" << std::time(nullptr) << name;
 
 
         spdlog::info("Event '{}' removed", name);
@@ -324,7 +324,7 @@ void Table_Events::remove_event_by_id(const int& id) const
 {
     try
     {
-        *db_ << u"UPDATE EVENTS SET ARCHIVED=TRUE WHERE ID=?;" << id;
+        *db_ << u"UPDATE EVENTS SET ARCHIVED=TRUE, LAST_EDIT_TIME=? WHERE ID=?;" << std::time(nullptr) << id;
 
         spdlog::info("Event with id '{}' removed", id);
     }
@@ -395,10 +395,39 @@ std::vector<Event> Table_Events::get_all_events() const
 
 void Table_Events::update_event(const Event& event) const
 {
-    remove_event_by_name(event.get_name());
-    add_event(event);
+    try
+    {
+        std::cout << "Updating event:\n" << event << std::endl;
 
-    spdlog::info("Event '{}' updated", event.get_name());
+        *db_ << u"UPDATE EVENTS SET "
+                                        "NAME           = ?, "
+                                        "INFO           = ?, "
+                                        "ADDRESS        = ?, "
+                                        "DATE           = ?, "
+                                        "TIME           = ?, "
+                                        "OWNER          = ?, "
+                                        "ARCHIVED       = ?, "
+                                        "LAST_EDIT_TIME = ?  "
+                                                                "WHERE ID=?;"
+                                        << event.get_name()
+                                        << event.get_info()
+                                        << event.get_address()
+                                        << event.get_date()
+                                        << event.get_time()
+                                        << event.get_owner()
+                                        << event.get_archived()
+                                        << std::time(nullptr)
+                                        << event.get_id();
+
+
+        spdlog::info("Event '{}' updated", event.get_name());
+    }
+    catch (const sqlite::sqlite_exception& e) {
+
+        spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
+                                                __FILE__, __FUNCTION__, __LINE__);
+
+    }
 }
 
 
@@ -619,7 +648,7 @@ void Table_Users::remove_user_by_login(const std::string& login)  const
 {
     try
     {
-        *db_ << u"UPDATE USERS SET ARCHIVED=TRUE WHERE LOGIN=?;" << login;
+        *db_ << u"UPDATE USERS SET ARCHIVED=TRUE, LAST_EDIT_TIME=? WHERE LOGIN=?;" << std::time(nullptr) << login;
 
         spdlog::info("User '{}' removed", login);
     }
@@ -637,7 +666,7 @@ void Table_Users::remove_user_by_id(const int& id)  const
 {
     try
     {
-        *db_ << u"UPDATE USERS SET ARCHIVED=TRUE WHERE ID=?;" << id;
+        *db_ << u"UPDATE USERS SET ARCHIVED=TRUE, LAST_EDIT_TIME=? WHERE ID=?;" << std::time(nullptr) << id;
 
         spdlog::info("User with id '{}' removed", id);
     }
