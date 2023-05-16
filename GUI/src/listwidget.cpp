@@ -97,6 +97,11 @@ void ListWidget::renameItem()
     lw->insertItem(r, s_name);
     lw->setCurrentRow(r);
 
+    Event event = ClientData::get_instance().data_base.find_event_by_name(ev_name);
+    Event event_1 = event;
+    event_1.set_name(s_name.toStdString());
+
+    ClientData::get_instance().rename_event(event, event_1);
     ClientData::get_instance().data_base.rename_event(ev_name, s_name.toStdString());
   }
 }
@@ -116,6 +121,7 @@ void ListWidget::removeItem()
     delete item;
 
     ClientData::get_instance().data_base.remove_event_by_name(ev);
+    ClientData::get_instance().delete_event(ev);
   }
 }
 
