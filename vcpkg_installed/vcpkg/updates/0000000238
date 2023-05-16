@@ -1,0 +1,9 @@
+Package: boost-program-options
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-any, boost-bind, boost-build, boost-config, boost-core, boost-detail, boost-function, boost-iterator, boost-lexical-cast, boost-modular-build-helper, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-tokenizer, boost-type-traits, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 933d46e1c5f36c3f3a47ee2e67d57854f7f495d1bd07a7abad61a10dcafd119c
+Description: Boost program_options module
+Status: install ok half-installed

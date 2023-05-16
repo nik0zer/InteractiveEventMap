@@ -1,0 +1,9 @@
+Package: boost-coroutine
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-build, boost-config, boost-context, boost-core, boost-exception, boost-modular-build-helper, boost-move, boost-system, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: b5c8a3a8ce829e75ef358d65ff2b21a30f450981a3b6923c9a40d0d7468b5655
+Description: Boost coroutine module
+Status: install ok half-installed

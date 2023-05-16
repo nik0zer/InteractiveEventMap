@@ -1,0 +1,7 @@
+Package: boost-iostreams
+Feature: zlib
+Depends: zlib
+Architecture: x64-osx
+Multi-Arch: same
+Description: Support zlib filters
+Status: install ok half-installed

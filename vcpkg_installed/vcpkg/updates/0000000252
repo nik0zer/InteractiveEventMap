@@ -1,0 +1,9 @@
+Package: boost-pfr
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: a22d0d5e23d5efeae90e3e49522ee4a707b5a2d2acf45b1c7dea0d1ac5be99a9
+Description: Boost pfr module
+Status: install ok half-installed

@@ -1,0 +1,7 @@
+Package: boost-iostreams
+Feature: bzip2
+Depends: bzip2
+Architecture: x64-osx
+Multi-Arch: same
+Description: Support bzip2 filters
+Status: install ok half-installed

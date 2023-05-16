@@ -1,0 +1,9 @@
+Package: boost-heap
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-array, boost-assert, boost-bind, boost-concept-check, boost-config, boost-core, boost-intrusive, boost-iterator, boost-parameter, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 455985826bee0512f2a44b0db633dd38e490be417a6a7c2f2a7c063fa634ebe8
+Description: Boost heap module
+Status: install ok half-installed

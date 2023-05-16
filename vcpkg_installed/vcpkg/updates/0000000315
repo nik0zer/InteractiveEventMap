@@ -1,0 +1,9 @@
+Package: boost-dll
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-core, boost-filesystem, boost-function, boost-move, boost-predef, boost-smart-ptr, boost-spirit, boost-static-assert, boost-system, boost-throw-exception, boost-type-index, boost-type-traits, boost-vcpkg-helpers, boost-winapi
+Architecture: x64-osx
+Multi-Arch: same
+Abi: f11678d0fe41ef40e68286589475fb1457a8ec64592cd1d3c197bad0a1f8e727
+Description: Boost dll module
+Status: install ok installed

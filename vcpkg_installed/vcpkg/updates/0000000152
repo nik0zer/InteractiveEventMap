@@ -1,0 +1,9 @@
+Package: boost-uuid
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-container-hash, boost-core, boost-io, boost-move, boost-numeric-conversion, boost-predef, boost-random, boost-serialization, boost-static-assert, boost-throw-exception, boost-tti, boost-type-traits, boost-vcpkg-helpers, boost-winapi
+Architecture: x64-osx
+Multi-Arch: same
+Abi: b010510386cb58b51890116a662c9433cb6a310654cd99ac83fdd90b8ac7dfc6
+Description: Boost uuid module
+Status: install ok half-installed

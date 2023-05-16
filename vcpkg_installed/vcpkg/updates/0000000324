@@ -1,0 +1,9 @@
+Package: boost-compatibility
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 80f5d19baeb8d9b5370936ee7b33a65a8dd1b454dd079c62a9d3678ee5bd13b3
+Description: Boost compatibility module
+Status: install ok half-installed

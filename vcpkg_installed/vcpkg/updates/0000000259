@@ -1,0 +1,9 @@
+Package: boost-multi-array
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-array, boost-assert, boost-concept-check, boost-config, boost-core, boost-functional, boost-iterator, boost-mpl, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 2c12a108e9738096181d665f2b92c199d854712fd63a1ddc85d7e45ee9b29a3d
+Description: Boost multi_array module
+Status: install ok installed

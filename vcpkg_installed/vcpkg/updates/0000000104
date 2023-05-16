@@ -1,0 +1,9 @@
+Package: boost-algorithm
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-array, boost-assert, boost-bind, boost-concept-check, boost-config, boost-core, boost-exception, boost-function, boost-iterator, boost-mpl, boost-range, boost-regex, boost-static-assert, boost-throw-exception, boost-tuple, boost-type-traits, boost-unordered, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: bdec9ca58511057df791310e0c9bccd0079946551d2358e47465697c0bb3ebd2
+Description: Boost algorithm module
+Status: install ok half-installed

@@ -1,0 +1,9 @@
+Package: boost-coroutine2
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-context, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: e84cde9d588f2f4449f9b4499f0dfe79f313e9a68f4384f4bba5d5ae4d90b795
+Description: Boost coroutine2 module
+Status: install ok installed

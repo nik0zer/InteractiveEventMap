@@ -1,0 +1,9 @@
+Package: boost-polygon
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 251039786fa2dfa72c9b1d98d30ee3e850a2511fa7e52823abeeea1a33a1bac6
+Description: Boost polygon module
+Status: install ok half-installed

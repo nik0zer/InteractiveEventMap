@@ -1,0 +1,9 @@
+Package: boost-safe-numerics
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-concept-check, boost-config, boost-core, boost-integer, boost-logic, boost-mp11, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: f7d900a4e0ec268d437eb59bdaa7dfb222933f47e6297cdf634a9fe8cf7bb7bb
+Description: Boost safe_numerics module
+Status: install ok installed

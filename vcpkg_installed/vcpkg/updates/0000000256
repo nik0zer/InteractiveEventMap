@@ -1,0 +1,9 @@
+Package: boost-outcome
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-exception, boost-system, boost-throw-exception, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 198f086ea36602f84b19ad21025bf4dfac672f303f29a1a754136aa33f648917
+Description: Boost outcome module
+Status: install ok half-installed

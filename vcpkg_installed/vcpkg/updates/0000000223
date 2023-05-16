@@ -1,0 +1,9 @@
+Package: python3
+Version: 3.10.7
+Port-Version: 5
+Depends: bzip2, expat, gettext, libffi, libiconv, liblzma, openssl, python3, sqlite3, zlib
+Architecture: x64-osx
+Multi-Arch: same
+Abi: b8079718aa0d34afba2edb8e7e02994e5f1ca8143a140670ac9811265baca534
+Description: The Python programming language
+Status: install ok installed

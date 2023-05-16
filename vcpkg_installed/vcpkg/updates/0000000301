@@ -1,0 +1,9 @@
+Package: boost-hof
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: bd1341ce2fdaf54b3af9e23cfc62bbb25555d22a71859193fe08ee928e4d868b
+Description: Boost hof module
+Status: install ok installed

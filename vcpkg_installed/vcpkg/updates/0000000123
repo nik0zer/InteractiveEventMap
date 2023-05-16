@@ -1,0 +1,9 @@
+Package: boost-pool
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-integer, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers, boost-winapi
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 3cb6ae1ad70ac016a8fe8cf05948d02bb96fe062fd0b53051408320909066c33
+Description: Boost pool module
+Status: install ok installed

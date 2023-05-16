@@ -1,0 +1,9 @@
+Package: boost-flyweight
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-container-hash, boost-core, boost-detail, boost-interprocess, boost-mpl, boost-multi-index, boost-parameter, boost-preprocessor, boost-serialization, boost-smart-ptr, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 3c1023b5073d3175f2d8910bc8266ee7efec44b9a06bacb3eab49278f350d4da
+Description: Boost flyweight module
+Status: install ok half-installed

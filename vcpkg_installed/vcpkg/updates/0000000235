@@ -1,0 +1,9 @@
+Package: boost-circular-buffer
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-concept-check, boost-config, boost-core, boost-move, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: e5234ff74b4b945c3d59996fde47e55a98f2c5eb2d4d497b33840332a5a94a9a
+Description: Boost circular_buffer module
+Status: install ok installed

@@ -1,0 +1,9 @@
+Package: boost-json
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-align, boost-assert, boost-build, boost-config, boost-container, boost-core, boost-describe, boost-modular-build-helper, boost-mp11, boost-system, boost-throw-exception, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 4a9539894e3c38b0c16d3d2ead6b68328e277a29ea87a089f32225f8d4a8e381
+Description: Boost json module
+Status: install ok half-installed

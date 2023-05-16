@@ -1,0 +1,9 @@
+Package: boost-convert
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-core, boost-function-types, boost-lexical-cast, boost-math, boost-mpl, boost-optional, boost-parameter, boost-range, boost-spirit, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: ccc33f8f1ad98f88226ecdc7936e38076b1d30e6e5365549e96c278057bf0192
+Description: Boost convert module
+Status: install ok half-installed

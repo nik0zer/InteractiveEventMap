@@ -1,0 +1,9 @@
+Package: boost-parameter
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-core, boost-function, boost-fusion, boost-mp11, boost-mpl, boost-optional, boost-preprocessor, boost-type-traits, boost-utility, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 0afab3120de010de0560db793ab1471b063a5c988e091b61de5f6d4589cb5c20
+Description: Boost parameter module
+Status: install ok half-installed

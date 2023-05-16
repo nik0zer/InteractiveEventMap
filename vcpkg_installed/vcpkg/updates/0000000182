@@ -1,0 +1,9 @@
+Package: boost-static-string
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-container-hash, boost-static-assert, boost-throw-exception, boost-utility, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: f9a60120c3e63b7626fab1f3ba9e441b4237ada53ea27c3a16ff4cc2f3ffb220
+Description: Boost static_string module
+Status: install ok half-installed

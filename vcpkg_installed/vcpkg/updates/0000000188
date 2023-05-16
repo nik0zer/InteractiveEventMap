@@ -1,0 +1,9 @@
+Package: boost-sort
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-core, boost-range, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 291fbd212ea09f3d59b81aa8c079d91cfbcd164f02027dabd11c0ddde20cbc4d
+Description: Boost sort module
+Status: install ok half-installed

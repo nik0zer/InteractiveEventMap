@@ -1,0 +1,9 @@
+Package: boost-graph
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-algorithm, boost-any, boost-array, boost-assert, boost-bimap, boost-bind, boost-build, boost-concept-check, boost-config, boost-container-hash, boost-conversion, boost-core, boost-detail, boost-foreach, boost-function, boost-integer, boost-iterator, boost-lexical-cast, boost-math, boost-modular-build-helper, boost-move, boost-mpl, boost-multi-index, boost-optional, boost-parameter, boost-preprocessor, boost-property-map, boost-property-tree, boost-random, boost-range, boost-regex, boost-serialization, boost-smart-ptr, boost-spirit, boost-static-assert, boost-throw-exception, boost-tti, boost-tuple, boost-type-traits, boost-typeof, boost-unordered, boost-utility, boost-vcpkg-helpers, boost-xpressive, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 6f8eaff33e3d928aeebc8310da243e67e7c0a5df2b61121a7899d2db962ae937
+Description: Boost graph module
+Status: install ok half-installed

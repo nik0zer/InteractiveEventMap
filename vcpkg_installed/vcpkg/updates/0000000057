@@ -1,0 +1,9 @@
+Package: boost-winapi
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-predef, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 7d64d3d92645a2f6b62f123c0cfdce77e7027f55570559e832a4322e642221d3
+Description: Boost winapi module
+Status: install ok installed

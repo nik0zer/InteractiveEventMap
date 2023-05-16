@@ -1,0 +1,9 @@
+Package: boost-accumulators
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-array, boost-assert, boost-circular-buffer, boost-concept-check, boost-config, boost-core, boost-fusion, boost-iterator, boost-mpl, boost-numeric-conversion, boost-parameter, boost-preprocessor, boost-range, boost-serialization, boost-static-assert, boost-throw-exception, boost-tuple, boost-type-traits, boost-typeof, boost-ublas, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 21755dccfbeb620b20efbbf5d6cbf1d16440b45aafd32d632c00b66e63b8e184
+Description: Boost accumulators module
+Status: install ok half-installed

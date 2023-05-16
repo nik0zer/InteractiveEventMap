@@ -1,0 +1,9 @@
+Package: boost-throw-exception
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 8aefdf7934e00f0b6ed59f881e6ad9f8f01821f65421d17aaa93cb39653dde6f
+Description: Boost throw_exception module
+Status: install ok half-installed

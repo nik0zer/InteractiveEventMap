@@ -1,0 +1,9 @@
+Package: boost-predef
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 665c3b0c44a3c50cb95d05fd2b4959d13b2c060d4d6010fbb154d66ce6581739
+Description: Boost predef module
+Status: install ok half-installed

@@ -1,0 +1,9 @@
+Package: boost-nowide
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-build, boost-config, boost-filesystem, boost-modular-build-helper, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: bd773927f513c5927a25b7843bedc47ee8662ddcba1b1422ebed4dec40a9ac46
+Description: Boost nowide module
+Status: install ok half-installed

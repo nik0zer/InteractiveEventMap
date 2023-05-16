@@ -1,0 +1,9 @@
+Package: boost-parameter-python
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-mpl, boost-parameter, boost-preprocessor, boost-python, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 5715925cfd58e1c9546a86b31bf1e32d413182aa50696e4933d67931369d78ea
+Description: Boost parameter_python module
+Status: install ok installed

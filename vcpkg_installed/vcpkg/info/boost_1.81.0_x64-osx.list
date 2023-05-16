@@ -1,0 +1,5 @@
+x64-osx/
+x64-osx/share/
+x64-osx/share/boost/
+x64-osx/share/boost/vcpkg.spdx.json
+x64-osx/share/boost/vcpkg_abi_info.txt

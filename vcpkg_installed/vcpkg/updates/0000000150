@@ -1,0 +1,9 @@
+Package: boost-random
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-array, boost-assert, boost-build, boost-config, boost-core, boost-dynamic-bitset, boost-integer, boost-io, boost-modular-build-helper, boost-range, boost-static-assert, boost-system, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 074738ac714c7e3e4ec7ca6b2dd37b9d6c2c761121a0bd3752547e18e3772342
+Description: Boost random module
+Status: install ok half-installed

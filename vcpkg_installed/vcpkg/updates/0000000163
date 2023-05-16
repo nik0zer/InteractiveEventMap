@@ -1,0 +1,9 @@
+Package: boost-logic
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-core, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 849eda2a6126c51debe5abc4de681fc3e0f01b0c31b12684b89b7835c02a75cd
+Description: Boost logic module
+Status: install ok installed

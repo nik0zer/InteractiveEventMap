@@ -1,0 +1,13 @@
+prefix=${pcfiledir}/../..
+# See: man pkg-config
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: Python
+Description: Embed Python into an application
+Version: 3.10
+
+Libs: "-L${libdir}" -lpython3.10 -ldl -liconv -lintl -framework CoreFoundation
+Requires: 
+Cflags: "-I${includedir}/python3.10"

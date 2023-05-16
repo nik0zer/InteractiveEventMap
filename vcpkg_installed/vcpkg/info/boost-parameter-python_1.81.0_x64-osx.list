@@ -1,0 +1,15 @@
+x64-osx/
+x64-osx/include/
+x64-osx/include/boost/
+x64-osx/include/boost/parameter/
+x64-osx/include/boost/parameter/aux_/
+x64-osx/include/boost/parameter/aux_/python/
+x64-osx/include/boost/parameter/aux_/python/invoker.hpp
+x64-osx/include/boost/parameter/aux_/python/invoker_iterate.hpp
+x64-osx/include/boost/parameter/python.hpp
+x64-osx/share/
+x64-osx/share/boost-parameter-python/
+x64-osx/share/boost-parameter-python/copyright
+x64-osx/share/boost-parameter-python/usage
+x64-osx/share/boost-parameter-python/vcpkg.spdx.json
+x64-osx/share/boost-parameter-python/vcpkg_abi_info.txt

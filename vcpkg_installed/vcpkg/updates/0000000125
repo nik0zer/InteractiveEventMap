@@ -1,0 +1,9 @@
+Package: boost-phoenix
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-bind, boost-config, boost-core, boost-function, boost-fusion, boost-mpl, boost-predef, boost-preprocessor, boost-proto, boost-range, boost-smart-ptr, boost-type-traits, boost-utility, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 4fbe26ea3262b2e5bf359f9955132568d979262664a564a77e07f16cda3fca79
+Description: Boost phoenix module
+Status: install ok installed

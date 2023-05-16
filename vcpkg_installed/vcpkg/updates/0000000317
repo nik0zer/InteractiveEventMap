@@ -1,0 +1,9 @@
+Package: boost-crc
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-array, boost-config, boost-integer, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 5ce795bfaa5f94df3836675e8d17ac3558200dde01effbf33ba99730fec4bf3b
+Description: Boost crc module
+Status: install ok installed

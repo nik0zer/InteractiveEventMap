@@ -1,0 +1,9 @@
+Package: boost-lambda2
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 9651297bee7eaf82ac36e0e2ebe3b869f21e3b2070e645714846ea3588c2b43f
+Description: Boost lambda2 module
+Status: install ok installed

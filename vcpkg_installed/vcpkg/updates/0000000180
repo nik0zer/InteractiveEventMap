@@ -1,0 +1,9 @@
+Package: boost-stl-interfaces
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 702815d6d50129d14b75ff850e9d736fef20ae6b809ae9fedfc9757022eb6f53
+Description: Boost stl_interfaces module
+Status: install ok half-installed

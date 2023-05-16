@@ -30,6 +30,8 @@ class User
     std::string login_;
     std::string password_;
     time_t      last_edit_time_;
+    bool        archived_;
+
 
   public:
 
@@ -42,6 +44,7 @@ class User
     std::string get_login()          const      { return login_; }
     std::string get_password()       const      { return password_; }
     time_t      get_last_edit_time() const      { return last_edit_time_; }
+    bool        get_archived()       const      { return archived_; }
 
 
     // ---------------------------------------------------------------------------------------------------------------------
@@ -65,7 +68,7 @@ class User
     //!  @param time  - last edit time
     //----------------------------------------------------------------
 
-    User(int id, std::string login, std::string psw, time_t time): id_(id), login_(login), password_(psw), last_edit_time_(time){}
+    User(int id, std::string login, std::string psw, time_t time, bool archived): id_(id), login_(login), password_(psw), last_edit_time_(time), archived_(archived){}
 
 
     //----------------------------------------------------------------
@@ -76,7 +79,7 @@ class User
     //!  @param psw   - password
     //----------------------------------------------------------------
 
-    User(std::string login, std::string psw): User(-1, login, psw, std::time(nullptr)){}
+    User(std::string login, std::string psw): User(-1, login, psw, std::time(nullptr), false){}
 
 
     //----------------------------------------------------------------
@@ -124,6 +127,8 @@ class Event
     std::string time_;
     std::string owner_;
     time_t      last_edit_time_;
+    bool        archived_;
+
 
   public:
 
@@ -140,6 +145,8 @@ class Event
     std::string get_time()            const     { return time_; }
     std::string get_owner()           const     { return owner_; }
     time_t      get_last_edit_time()  const     { return last_edit_time_; }
+    bool        get_archived()        const     { return archived_; }
+
 
     void set_name(const std::string& new_name) { name_ = new_name; }
 
@@ -158,8 +165,8 @@ class Event
     //!  @brief Construct a new Event object FULL
     //----------------------------------------------------------------
     Event(int id, std::string name, std::string info, std::string address, std::string date, std::string time, 
-          std::string owner, time_t last_edit_time): id_(id), name_(name), info_(info), address_(address), date_(date),
-          time_(time), owner_(owner), last_edit_time_(last_edit_time){}
+          std::string owner, time_t last_edit_time, bool archived): id_(id), name_(name), info_(info), address_(address), date_(date),
+          time_(time), owner_(owner), last_edit_time_(last_edit_time), archived_(archived){}
 
       
     //----------------------------------------------------------------
@@ -169,7 +176,7 @@ class Event
     //!  @param date - date (in std::string format)
     //!  @param time - time (in std::string format)
     //----------------------------------------------------------------
-    Event(std::string name, std::string date, std::string time): Event(0, name, "", "", date, time, "", std::time(nullptr)){}
+    Event(std::string name, std::string date, std::string time): Event(0, name, "", "", date, time, "", std::time(nullptr), false){}
 
 
     //----------------------------------------------------------------
@@ -289,6 +296,15 @@ class Table_Events
 
 
     //----------------------------------------------------------------
+    //!  @brief Find event in database by id
+    //!  
+    //!  @param name 
+    //!  @return Event - object Event, wich was found
+    //----------------------------------------------------------------
+    Event              find_event_by_id   (const int& id)  const;
+
+
+    //----------------------------------------------------------------
     //!  @brief Remove event by name from database
     //!  
     //!  @param name 
@@ -296,6 +312,16 @@ class Table_Events
     //!  Question: why it should not be const?
     //----------------------------------------------------------------
     void    remove_event_by_name (const std::string& name)  const;
+
+
+    //----------------------------------------------------------------
+    //!  @brief Remove event from database by id
+    //!  
+    //!  @param name 
+    //! 
+    //!  Question: why it should not be const?
+    //----------------------------------------------------------------
+    void    remove_event_by_id (const int& id)  const;
 
 
     //----------------------------------------------------------------
@@ -389,11 +415,29 @@ class Table_Users
 
 
     //----------------------------------------------------------------
+    //!  @brief Find user by id in table Users
+    //!  
+    //!  @param login - the username we are looking for
+    //!  @return User(login, found_password)  on SUCCESS
+    //!  @return User("", "")                 if user NOT FOUND
+    //----------------------------------------------------------------
+    User               find_user_by_id(const int& id)     const;
+
+
+    //----------------------------------------------------------------
     //!  @brief Remove user from Users by login
     //!  
     //!  @param login 
     //----------------------------------------------------------------
     void               remove_user_by_login(const std::string& login)   const;
+
+
+    //----------------------------------------------------------------
+    //!  @brief Remove user from Users by login
+    //!  
+    //!  @param login 
+    //----------------------------------------------------------------
+    void               remove_user_by_id(const int& id)   const;
     
 
     //----------------------------------------------------------------
@@ -421,7 +465,7 @@ class Table_Users
 
 
     //----------------------------------------------------------------
-    //!  @brief Updating user password
+    //!  @brief Updating user password (find by name from user struct)
     //!  
     //!  @param user - class with login and new password
     //----------------------------------------------------------------
@@ -429,7 +473,7 @@ class Table_Users
 
 
     //----------------------------------------------------------------
-    //!  @brief Updationg user password
+    //!  @brief Updationg user password (fund by user_name)
     //!  
     //!  @param user_name 
     //!  @param new_password 

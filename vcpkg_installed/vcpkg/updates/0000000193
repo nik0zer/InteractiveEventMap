@@ -1,0 +1,9 @@
+Package: boost-signals2
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-bind, boost-config, boost-core, boost-function, boost-iterator, boost-mpl, boost-optional, boost-parameter, boost-predef, boost-preprocessor, boost-smart-ptr, boost-throw-exception, boost-tuple, boost-type-traits, boost-variant, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: de9ea18a212b927442999526c2fa2028f25f57afbf2226959dda04306ce30821
+Description: Boost signals2 module
+Status: install ok installed

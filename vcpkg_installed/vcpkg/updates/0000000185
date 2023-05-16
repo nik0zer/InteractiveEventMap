@@ -1,0 +1,9 @@
+Package: boost-statechart
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-bind, boost-config, boost-conversion, boost-core, boost-detail, boost-function, boost-mpl, boost-smart-ptr, boost-static-assert, boost-thread, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 67ae1f6ada4e6fe4469a533611b25091e1d8413550272aece7a4fa9522727ec4
+Description: Boost statechart module
+Status: install ok installed

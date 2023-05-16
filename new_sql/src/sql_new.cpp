@@ -24,6 +24,7 @@ User::operator std::string() const
     str += login_ + "\n";
     str += password_ + "\n";
     str += std::to_string(last_edit_time_) + "\n";
+    str += std::to_string(archived_) + "\n";
     return str;
 }
 
@@ -35,17 +36,18 @@ User::User(std::string msg)
     std::string temp;
     std::stringstream input_stream(msg);
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
     {
         std::getline(input_stream, temp);
         data_vector.push_back(temp);
         // spdlog::info("Readed part = '{}'", temp);
     }
 
-    id_ = std::atoi(data_vector[0].c_str());
-    login_ = data_vector[1];
-    password_ = data_vector[2];
+    id_             = std::atoi(data_vector[0].c_str());
+    login_          = data_vector[1];
+    password_       = data_vector[2];
     last_edit_time_ = std::atol(data_vector[3].c_str());
+    archived_       = std::atoi(data_vector[4].c_str());
 
 }
 
@@ -61,6 +63,7 @@ Event::operator std::string() const
     str += time_ + "\n";
     str += owner_ + "\n";
     str += std::to_string(last_edit_time_) + "\n";
+    str += std::to_string(archived_) + "\n";
     return str;
 }
 
@@ -72,7 +75,7 @@ Event::Event(std::string msg)
     std::string temp;
     std::stringstream input_stream(msg);
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 9; i++)
     {
         std::getline(input_stream, temp);
         data_vector.push_back(temp);
@@ -87,6 +90,7 @@ Event::Event(std::string msg)
     time_           = data_vector[5];
     owner_          = data_vector[6];
     last_edit_time_ = std::atol(data_vector[7].c_str());
+    archived_       = std::atoi(data_vector[8].c_str());
 }
 
 
@@ -99,7 +103,8 @@ Event::Event(std::string msg)
 
 std::ostream& operator<< (std::ostream &out, const User &User)
 {
-    out << User.id_ << "    " << User.login_ << "    " << User.password_ << "    " << User.last_edit_time_;
+    out << User.id_ << "    " << User.login_ << "    " << User.password_ << "    " << User.last_edit_time_ << "    " 
+        << User.archived_;
 
     return out;
 }
@@ -109,7 +114,8 @@ std::ostream& operator<< (std::ostream &out, const User &User)
 std::ostream& operator<< (std::ostream &out, const Event &event)
 {
     out << event.id_ << "    " << event.name_ << "    " << event.info_ << "    " << event.address_
-                     << "    " << event.date_ << "    " << event.time_ << "    " << event.owner_ << "    " << event.last_edit_time_;
+                     << "    " << event.date_ << "    " << event.time_ << "    " << event.owner_ 
+                     << "    " << event.last_edit_time_ << "    " << event.archived_;
 
     return out;
 }
@@ -165,7 +171,8 @@ void Table_Events::create_table_event(sqlite::database* db)
                     "DATE                      TEXT               , "
                     "TIME                      TEXT               , "
                     "OWNER                     TEXT               , "
-                    "LAST_EDIT_TIME            INT                );";
+                    "LAST_EDIT_TIME            INT                , "
+                    "ARCHIVED                  INT               );";
 
 
         spdlog::info("Table EVENTS created");
@@ -198,14 +205,15 @@ void Table_Events::add_event(const Event& event) const
         }
 
 
-        *db_ << u"INSERT INTO EVENTS (NAME,INFO,ADDRESS,DATE,TIME,OWNER,LAST_EDIT_TIME) VALUES (?,?,?,?,?,?,?);"
+        *db_ << u"INSERT INTO EVENTS (NAME,INFO,ADDRESS,DATE,TIME,OWNER,LAST_EDIT_TIME,ARCHIVED) VALUES (?,?,?,?,?,?,?,?);"
             << event.get_name()
             << event.get_info()
             << event.get_address()
             << event.get_date()
             << event.get_time()
             << event.get_owner()
-            << event.get_last_edit_time();
+            << event.get_last_edit_time()
+            << event.get_archived();
 
         spdlog::info("Event '{}' added", event.get_name());
     }
@@ -225,9 +233,9 @@ Event Table_Events::find_event_by_name(const std::string& name) const
     {
         std::vector<Event> events_vec;
         *db_ << u"SELECT * FROM EVENTS WHERE NAME=?" << name >> [&](int id, std::string name, std::string info, std::string address, 
-                std::string date, std::string time, std::string owner, size_t last_edit_time)
+                std::string date, std::string time, std::string owner, size_t last_edit_time, bool archived)
                 {
-                    Event temp(id, name, info, address, date, time, owner, last_edit_time);
+                    Event temp(id, name, info, address, date, time, owner, last_edit_time, archived);
                     events_vec.push_back(temp);
                 };
 
@@ -256,11 +264,49 @@ Event Table_Events::find_event_by_name(const std::string& name) const
 
 
 
+Event Table_Events::find_event_by_id(const int& id) const
+{
+    try
+    {
+        std::vector<Event> events_vec;
+        *db_ << u"SELECT * FROM EVENTS WHERE ID=?" << id >> [&](int id, std::string name, std::string info, std::string address, 
+                std::string date, std::string time, std::string owner, size_t last_edit_time, bool archived)
+                {
+                    Event temp(id, name, info, address, date, time, owner, last_edit_time, archived);
+                    events_vec.push_back(temp);
+                };
+
+        if (events_vec.size() > 1)
+        {
+            spdlog::critical("Found more than 1 event by name");
+            return events_vec[0];
+        }
+        if (events_vec.size() == 1)
+        {   
+            spdlog::info("Found event by id '{}'", id);
+            return events_vec[0];
+        }
+
+    }
+    catch (const sqlite::sqlite_exception& e) {
+
+        spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
+                                                __FILE__, __FUNCTION__, __LINE__);
+
+    }
+
+    spdlog::warn("No event found by id = '{}'", id);
+    return Event();
+}
+
+
+
 void Table_Events::remove_event_by_name(const std::string& name) const
 {
     try
     {
-        *db_ << u"DELETE FROM EVENTS WHERE NAME=?;" << name;
+        *db_ << u"UPDATE EVENTS SET ARCHIVED=TRUE WHERE NAME=?;" << name;
+
 
         spdlog::info("Event '{}' removed", name);
     }
@@ -274,16 +320,42 @@ void Table_Events::remove_event_by_name(const std::string& name) const
 
 
 
-void Table_Events::print_all_events() const
+void Table_Events::remove_event_by_id(const int& id) const
 {
     try
     {
-        std::cout << "Print all events:\n";
-        
-        *db_ << "SELECT NAME FROM EVENTS;" >> [&](std::string name) 
+        *db_ << u"UPDATE EVENTS SET ARCHIVED=TRUE WHERE ID=?;" << id;
+
+        spdlog::info("Event with id '{}' removed", id);
+    }
+    catch (const sqlite::sqlite_exception& e) {
+
+        spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
+                                                __FILE__, __FUNCTION__, __LINE__);
+
+    }
+}
+
+
+
+void Table_Events::print_all_events() const
+{
+    std::vector<Event> events_vec;
+    std::cout << "Print all events vector:\n";
+
+    try
+    {    
+        *db_ << "SELECT * FROM EVENTS;" >> [&](int id, std::string name, std::string info, std::string address, 
+                std::string date, std::string time, std::string owner, size_t last_edit_time, bool archived) 
         {
-            std::cout << name << std::endl;
+            Event temp(id, name, info, address, date, time, owner, last_edit_time, archived);
+            events_vec.push_back(temp);
         };
+
+        for (const auto& item : events_vec)
+        {
+            std::cout << item << std::endl;
+        }
     }
     catch (const sqlite::sqlite_exception& e) {
 
@@ -297,15 +369,14 @@ void Table_Events::print_all_events() const
 
 std::vector<Event> Table_Events::get_all_events() const
 {
-    std::cout << "Print all events:\n";
     std::vector<Event> events_vec;
 
     try
     {    
-        *db_ << "SELECT * FROM EVENTS;" >> [&](int id, std::string name, std::string info, std::string address, 
-                std::string date, std::string time, std::string owner, size_t last_edit_time) 
+        *db_ << "SELECT * FROM EVENTS WHERE ARCHIVED=FALSE;" >> [&](int id, std::string name, std::string info, std::string address, 
+                std::string date, std::string time, std::string owner, size_t last_edit_time, bool archived) 
         {
-            Event temp(id, name, info, address, date, time, owner, last_edit_time);
+            Event temp(id, name, info, address, date, time, owner, last_edit_time, archived);
             events_vec.push_back(temp);
         };
     }
@@ -379,9 +450,9 @@ std::vector<Event> Table_Events::get_events_to_sync(time_t time)    const
     try
     {
         *db_ << u"SELECT * FROM EVENTS WHERE LAST_EDIT_TIME >= ?;" << time >> [&](int id, std::string name, std::string info, std::string address, 
-                std::string date, std::string time, std::string owner, size_t last_edit_time) 
+                std::string date, std::string time, std::string owner, size_t last_edit_time, bool archived) 
         {
-            Event temp(id, name, info, address, date, time, owner, last_edit_time);
+            Event temp(id, name, info, address, date, time, owner, last_edit_time, archived);
             events_vec.push_back(temp);
         };
 
@@ -415,7 +486,8 @@ void Table_Users::create_table_users(sqlite::database* db)
                     "ID integer primary key autoincrement NOT NULL,"
                     "LOGIN                     TEXT       NOT NULL, "
                     "PASSWORD                  TEXT       NOT NULL, "
-                    "LAST_EDIT_TIME            INT                );";
+                    "LAST_EDIT_TIME            INT                , "
+                    "ARCHIVED                  INT                );";
 
         spdlog::info("Table USERS created");    
     }
@@ -471,9 +543,9 @@ User Table_Users::find_user_by_login(const std::string& login) const
     try
     {
         *db_ << u"SELECT * FROM USERS WHERE LOGIN=?" << login >> [&](int id, std::string login, std::string password,
-                                                                                                    size_t last_edit_time)
+                                                                     size_t last_edit_time, bool archived)
                 {
-                    User temp(id, login, password, last_edit_time);
+                    User temp(id, login, password, last_edit_time, archived);
                     users_vec.push_back(temp);
                 };
     }
@@ -503,13 +575,71 @@ User Table_Users::find_user_by_login(const std::string& login) const
 
 
 
+User Table_Users::find_user_by_id(const int& id) const
+{
+    std::vector<User> users_vec;
+
+
+    try
+    {
+        *db_ << u"SELECT * FROM USERS WHERE ID=?" << id >> [&](int id, std::string login, std::string password,
+                                                                     size_t last_edit_time, bool archived)
+                {
+                    User temp(id, login, password, last_edit_time, archived);
+                    users_vec.push_back(temp);
+                };
+    }
+    catch (const sqlite::sqlite_exception& e) {
+
+        spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
+                                                __FILE__, __FUNCTION__, __LINE__);
+
+    }
+
+
+    if (users_vec.size() > 1)
+    {
+        spdlog::critical("Found more than 1 user by id");
+        return User("", "");
+    }
+
+    if (users_vec.size() == 1)
+    {   
+        spdlog::info("Found user with id '{}'", id);
+        return users_vec[0];
+    }
+
+    spdlog::warn("No users found by id '{}'", id);
+    return User("", "");
+}
+
+
+
 void Table_Users::remove_user_by_login(const std::string& login)  const
 {
     try
     {
-        *db_ << u"DELETE FROM USERS WHERE LOGIN=?;" << login;
+        *db_ << u"UPDATE USERS SET ARCHIVED=TRUE WHERE LOGIN=?;" << login;
 
         spdlog::info("User '{}' removed", login);
+    }
+    catch (const sqlite::sqlite_exception& e) {
+
+        spdlog::error("{}: {} during {}\nFile = '{}', function = '{}', line = '{}'", e.get_code(), e.what(), e.get_sql(),
+                                                __FILE__, __FUNCTION__, __LINE__);
+
+    }
+}
+
+
+
+void Table_Users::remove_user_by_id(const int& id)  const
+{
+    try
+    {
+        *db_ << u"UPDATE USERS SET ARCHIVED=TRUE WHERE ID=?;" << id;
+
+        spdlog::info("User with id '{}' removed", id);
     }
     catch (const sqlite::sqlite_exception& e) {
 
@@ -544,15 +674,15 @@ void Table_Users::print_all_users() const
 
 std::vector<User> Table_Users::get_all_users() const
 {
-    std::cout << "Print all Users:\n";
     std::vector<User> users_vec;
     
 
     try
     {
-        *db_ << "SELECT * FROM USERS;" >> [&](int id, std::string login, std::string password, size_t last_edit_time) 
+        *db_ << "SELECT * FROM USERS;" >> [&](int id, std::string login, std::string password, size_t last_edit_time,
+                                              bool archived) 
         {
-            User temp(id, login, password, last_edit_time);
+            User temp(id, login, password, last_edit_time, archived);
             users_vec.push_back(temp);
         };
     }
@@ -575,9 +705,9 @@ bool Table_Users::verify_user(const User& user) const
     {
         std::vector<User> users_vec;
         *db_ << u"SELECT * FROM USERS WHERE LOGIN=? and PASSWORD=?" << user.get_login() << sha256(user.get_password()) >> 
-                                                [&](int id, std::string login, std::string password, size_t last_edit_time)
+                        [&](int id, std::string login, std::string password, size_t last_edit_time, bool archived)
                 {
-                    User temp(id, login, password, last_edit_time);
+                    User temp(id, login, password, last_edit_time, archived);
                     users_vec.push_back(temp);
                 };
 
@@ -666,9 +796,10 @@ std::vector<User> Table_Users::get_users_to_sync(time_t time) const
 
     try
     {
-        *db_ << u"SELECT * FROM USERS WHERE LAST_EDIT_TIME >= ?;" << time >> [&](int id, std::string login, std::string password, size_t last_edit_time) 
+        *db_ << u"SELECT * FROM USERS WHERE LAST_EDIT_TIME >= ?;" << time >> 
+                [&](int id, std::string login, std::string password, size_t last_edit_time, bool archived) 
         {
-            User temp(id, login, password, last_edit_time);
+            User temp(id, login, password, last_edit_time, archived);
             users_vec.push_back(temp);
         };
 

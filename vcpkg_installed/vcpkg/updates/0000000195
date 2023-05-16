@@ -1,0 +1,9 @@
+Package: boost-scope-exit
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-function, boost-preprocessor, boost-type-traits, boost-typeof, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: af85aac790831756f317a269cec1216b8f623bffbc055046cf45b3ca366bc18e
+Description: Boost scope_exit module
+Status: install ok installed

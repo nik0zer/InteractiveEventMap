@@ -1,0 +1,9 @@
+Package: boost-local-function
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-mpl, boost-preprocessor, boost-scope-exit, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 561ab3008207df011b18f696670f640d3b68e3541895bf1540979c4b5e612560
+Description: Boost local_function module
+Status: install ok installed

@@ -1,0 +1,9 @@
+Package: boost-leaf
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 128435d55253f9d50775ff06d46d851f89d784ca14fb917a68e0a9f3a1bc7206
+Description: Boost leaf module
+Status: install ok installed

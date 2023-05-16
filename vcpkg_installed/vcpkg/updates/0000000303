@@ -1,0 +1,9 @@
+Package: boost-histogram
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-core, boost-math, boost-mp11, boost-serialization, boost-throw-exception, boost-variant2, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 8466def771b20e3bba28743985d7c1d5d237f7a8a622580af159efc4717a2612
+Description: Boost histogram module
+Status: install ok installed

@@ -1,0 +1,9 @@
+Package: boost-fiber
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-algorithm, boost-assert, boost-build, boost-config, boost-context, boost-core, boost-filesystem, boost-format, boost-intrusive, boost-modular-build-helper, boost-predef, boost-smart-ptr, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: c206cc521a05d1dd64ba012d972a16bf7ed9f8c51ed92ac6631f2b7114d479b9
+Description: Boost fiber module
+Status: install ok installed

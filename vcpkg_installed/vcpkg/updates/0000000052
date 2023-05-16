@@ -1,0 +1,9 @@
+Package: boost-hana
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-core, boost-fusion, boost-mpl, boost-tuple, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: c6a65e62a5fa67b0f0b23c1352a7bd963c5c9206000a76de88e3066a6b8726c8
+Description: Boost hana module
+Status: install ok half-installed

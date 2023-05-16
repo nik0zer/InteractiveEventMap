@@ -1,0 +1,9 @@
+Package: boost-lambda
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-bind, boost-config, boost-core, boost-detail, boost-iterator, boost-mpl, boost-preprocessor, boost-tuple, boost-type-traits, boost-utility, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 451d5b6d7625e4c2558cd690b82f59c23c505a57f192d367e962998a97cecc08
+Description: Boost lambda module
+Status: install ok installed

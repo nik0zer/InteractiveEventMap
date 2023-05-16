@@ -1,0 +1,9 @@
+Package: boost-format
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-core, boost-optional, boost-smart-ptr, boost-throw-exception, boost-utility, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 46cbaf48bad2e81d35b9b0adb0bb414360fbc75abd5d3db5584a480aa8279e5d
+Description: Boost format module
+Status: install ok installed

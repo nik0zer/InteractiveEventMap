@@ -1,0 +1,9 @@
+Package: boost-system
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-build, boost-config, boost-modular-build-helper, boost-throw-exception, boost-variant2, boost-vcpkg-helpers, boost-winapi, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: fab1998e870acb966503622b3d037bf95c9d3e5a7b80367d99d9099261c3328b
+Description: Boost system module
+Status: install ok installed

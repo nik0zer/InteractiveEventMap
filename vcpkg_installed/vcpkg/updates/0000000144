@@ -1,0 +1,9 @@
+Package: boost-vmd
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-preprocessor, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: c4bfba232b40458b1ea69258d1d5c45b41baf71b95bb457f6846b3ac28e1805f
+Description: Boost vmd module
+Status: install ok half-installed

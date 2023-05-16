@@ -1,0 +1,9 @@
+Package: boost-property-map
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-any, boost-assert, boost-concept-check, boost-config, boost-core, boost-function, boost-iterator, boost-lexical-cast, boost-mpl, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-type-index, boost-type-traits, boost-utility, boost-vcpkg-helpers
+Architecture: x64-osx
+Multi-Arch: same
+Abi: b35dc69453af4cf8d4bfead8757349ab8e37a672c24d14a65c483d348dfad78a
+Description: Boost property_map module
+Status: install ok half-installed

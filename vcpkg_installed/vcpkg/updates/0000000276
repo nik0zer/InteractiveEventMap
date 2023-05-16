@@ -1,0 +1,9 @@
+Package: boost-locale
+Version: 1.81.0
+Port-Version: 3
+Depends: boost-assert, boost-build, boost-config, boost-core, boost-iterator, boost-modular-build-helper, boost-predef, boost-thread, boost-vcpkg-helpers, libiconv, vcpkg-cmake
+Architecture: x64-osx
+Multi-Arch: same
+Abi: 45d05fad62d2d459d589d6aedef7ee3f950570480af4bba33b0c64a67d9cafaa
+Description: Boost locale module
+Status: install ok half-installed
