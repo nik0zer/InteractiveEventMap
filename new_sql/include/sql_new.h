@@ -36,7 +36,7 @@ class User
   public:
 
     // ---------------------------------------------------------------------------------------------------------------------
-    // Getters:
+    // Getters and setters:
     // ---------------------------------------------------------------------------------------------------------------------
 
 
@@ -45,6 +45,13 @@ class User
     std::string get_password()       const      { return password_; }
     time_t      get_last_edit_time() const      { return last_edit_time_; }
     bool        get_archived()       const      { return archived_; }
+
+
+    void set_id(const int& id)                      { id_ = id; }
+    void set_login(const std::string& login)        { login_ = login; }
+    void set_password(const std::string& password)  { password_ = password; }
+    void set_last_edit_time(const time_t& time)     { last_edit_time_ = time; }
+    void set_archived(const bool& archived)         { archived_ = archived; }
 
 
     // ---------------------------------------------------------------------------------------------------------------------
@@ -148,7 +155,15 @@ class Event
     bool        get_archived()        const     { return archived_; }
 
 
-    void set_name(const std::string& new_name) { name_ = new_name; }
+    void set_id(const int& id)                      { id_ = id; }
+    void set_name(const std::string& name)          { name_ = name; }
+    void set_info(const std::string& info)          { info_ = info; }
+    void set_address(const std::string& address)    { address_ = address; }
+    void set_date(const std::string& date)          { date_ = date; }
+    void set_time(const std::string& time)          { time_ = time; }
+    void set_owner(const std::string& owner)        { owner_ = owner; }
+    void set_last_edit_time(const time_t& time)     { last_edit_time_ = time; }
+    void set_archived(const bool& archived)         { archived_ = archived; }
 
 
     // ---------------------------------------------------------------------------------------------------------------------
@@ -325,13 +340,13 @@ class Table_Events
 
 
     //----------------------------------------------------------------
-    //!  @brief Print in std::cout names of all events in database
+    //!  @brief Print in std::cout names of ALL events in database (archived too)
     //----------------------------------------------------------------
     void    print_all_events()                              const;
 
 
     //----------------------------------------------------------------
-    //!  @brief Get vector of all events from database
+    //!  @brief Get vector of all events from database (not archived)
     //!  
     //!  @return std::vector<Event> 
     //----------------------------------------------------------------
@@ -441,7 +456,7 @@ class Table_Users
     
 
     //----------------------------------------------------------------
-    //!  @brief Print logins to std::cout 
+    //!  @brief Print logins to std::cout
     //----------------------------------------------------------------
     void               print_all_users()                                const;
 
