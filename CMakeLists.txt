@@ -32,7 +32,7 @@ target_include_directories(InteractiveEventMap_client_sql PUBLIC "new_sql/includ
 
 
 
- target_link_libraries(InteractiveEventMap_client_sql PUBLIC Boost::boost Boost::thread unofficial::sqlite3::sqlite3 
+target_link_libraries(InteractiveEventMap_client_sql PUBLIC Boost::boost Boost::thread unofficial::sqlite3::sqlite3 
 spdlog::spdlog unofficial::sqlite3::sqlite3 spdlog::spdlog_header_only Qt6::Core Qt6::Widgets)
 target_link_libraries(InteractiveEventMap_server_sql PUBLIC Boost::boost Boost::thread unofficial::sqlite3::sqlite3 
 spdlog::spdlog spdlog::spdlog_header_only unofficial::sqlite3::sqlite3 Qt6::Core Qt6::Widgets)
