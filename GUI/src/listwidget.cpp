@@ -68,7 +68,7 @@ void ListWidget::addItem()
     QString c_time = QInputDialog::getText(this, "Event", "Enter new event time");
     QString s_time = c_time.simplified();
 
-    auto event = Event(1, s_name.toStdString(), s_info.toStdString(), s_address.toStdString(), s_date.toStdString(), s_time.toStdString(), "", std::time(nullptr));
+    auto event = Event(1, s_name.toStdString(), s_info.toStdString(), s_address.toStdString(), s_date.toStdString(), s_time.toStdString(), "", std::time(nullptr), 0);
     ClientData::get_instance().data_base.add_event(event);
     
     lw->addItem(s_name);
@@ -85,6 +85,8 @@ void ListWidget::renameItem()
   auto q_ev_name = curitem->text();
   auto ev_name = q_ev_name.toStdString();
 
+  auto events =  ClientData::get_instance().data_base.get_all_events();
+
   QString r_name = QInputDialog::getText(this, "Item", 
       "Enter new item", QLineEdit::Normal, q_ev_name);
   
@@ -97,7 +99,8 @@ void ListWidget::renameItem()
     lw->insertItem(r, s_name);
     lw->setCurrentRow(r);
 
-    Event event = ClientData::get_instance().data_base.find_event_by_name(ev_name);
+    int id = events[r].get_id();
+    Event event = ClientData::get_instance().data_base.find_event_by_id(id);
     Event event_1 = event;
     event_1.set_name(s_name.toStdString());
 
@@ -108,7 +111,6 @@ void ListWidget::renameItem()
 
 void ListWidget::removeItem() 
 {  
-  
   QListWidgetItem *curitem = lw->currentItem();
   int r = lw->row(curitem);
   auto q_ev_name = curitem->text();
@@ -132,7 +134,10 @@ void ListWidget::see()
   auto q_ev_name = curitem->text();
   auto ev_name = q_ev_name.toStdString();
 
-  auto event =  ClientData::get_instance().data_base.find_event_by_name(ev_name);
+  auto events = ClientData::get_instance().data_base.get_all_events();
+  int id = events[r].get_id();
+
+  auto event =  ClientData::get_instance().data_base.find_event_by_id(id);
 
   if (event.get_name() != "") 
   { 
