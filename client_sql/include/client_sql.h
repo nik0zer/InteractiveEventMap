@@ -30,8 +30,7 @@ class ClientData
     
     void add_server_connection_ptr(std::shared_ptr<ServerConnection> server_connection_ptr);
     void update_events();
-    void delete_event(Event event);
-    void rename_event(Event event, Event event_1);
+    void update_event(Event event);
 
     int verify_user();
     void registration(User user);

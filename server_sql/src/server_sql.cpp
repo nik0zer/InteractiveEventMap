@@ -10,13 +10,18 @@ void client_session(ClientConnection client_connection)
 void handler(ReadData read_data, ClientConnection* client_connection)
 {
     std::lock_guard<std::mutex> lock(data_base_mutex);
-    if(read_data.data_name() == "DELETE")
+    if(read_data.data_name() == "UPDATE EVENT")
     {
-        DataBase_Server::get_instance().remove_event_by_name(((Event)read_data.data_str()).get_name());
+        Event event = read_data.data_str();
+        event.set_time(std::to_string(std::time(NULL)));
+        DataBase_Server::get_instance().update_event(event);
         return;
     }
     if(read_data.data_name() == "EVENT")
     {
+        Event event = read_data.data_str();
+        event.set_time(std::to_string(std::time(NULL)));
+        DataBase_Server::get_instance().update_event(read_data.data_str());
         DataBase_Server::get_instance().add_event(read_data.data_str());
         return;
     }
