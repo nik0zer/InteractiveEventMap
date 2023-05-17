@@ -15,6 +15,7 @@ void handler(ReadData read_data, ServerConnection* server_connection)
     }
     if(read_data.data_name() == "EVENT")
     {
+        ClientData::get_instance().data_base.update_event(read_data.data_str());
         ClientData::get_instance().data_base.add_event(read_data.data_str());
         return;
     }
@@ -59,19 +60,14 @@ void ClientData::update_events()
 {
     server_connection_ptr->send_data("UPDATE EVENTS", std::to_string(synch_time));
     std::vector<Event> events = data_base.get_events_to_sync(synch_time);
+    synch_time = std::time(NULL);
     for(auto i : events)
     {
         server_connection_ptr->send_data("EVENT", i);
     }
 }
 
-void ClientData::delete_event(Event event)
+void ClientData::update_event(Event event)
 {
-    server_connection_ptr->send_data("DELETE", event);
-}
-
-void ClientData::rename_event(Event event, Event event_1)
-{
-    server_connection_ptr->send_data("DELETE", event);
-    server_connection_ptr->send_data("EVENT", event_1);
+    server_connection_ptr->send_data("UPDATE EVENT", event);
 }
