@@ -1,9 +1,9 @@
-Package: boost-random
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-array, boost-assert, boost-build, boost-config, boost-core, boost-dynamic-bitset, boost-integer, boost-io, boost-modular-build-helper, boost-range, boost-static-assert, boost-system, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-uuid
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-config, boost-container-hash, boost-core, boost-io, boost-move, boost-numeric-conversion, boost-predef, boost-random, boost-static-assert, boost-throw-exception, boost-tti, boost-type-traits, boost-vcpkg-helpers, boost-winapi
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 074738ac714c7e3e4ec7ca6b2dd37b9d6c2c761121a0bd3752547e18e3772342
-Description: Boost random module
+Abi: 7fd4715662730f015f2d60786c6163127031b221da44cf6bcc7bdd1525cd9270
+Description: Boost uuid module
 Status: install ok half-installed

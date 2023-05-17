@@ -1,10 +1,8 @@
-Package: boost-iostreams
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-build, boost-config, boost-core, boost-detail, boost-function, boost-integer, boost-iterator, boost-modular-build-helper, boost-mpl, boost-numeric-conversion, boost-preprocessor, boost-random, boost-range, boost-regex, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-osx
+Package: zstd
+Version: 1.5.5
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 53c1a27230dea8a6cb4f633764626bda4c89338905ff213ca64baf41a6138622
-Description: Boost iostreams module
-Default-Features: bzip2, lzma, zlib, zstd
+Abi: 67d2c438d3384a9188902000672624bac1d0079bca210cf3e769328a2671fb02
+Description: Zstandard - Fast real-time compression algorithm
 Status: install ok half-installed

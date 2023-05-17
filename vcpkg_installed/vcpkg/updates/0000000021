@@ -1,9 +1,9 @@
 Package: boost-describe
-Version: 1.81.0
-Port-Version: 2
+Version: 1.82.0
+Port-Version: 1
 Depends: boost-mp11, boost-vcpkg-helpers
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 47b59a66ed0b3d2a267015fe730ae73596e625ec701e29c1c35c19842a42b06d
+Abi: 8ce4e93328bbd7c17364d834c6d5a40ae4b91ae5e6ab83852262f205f12fbc91
 Description: Boost describe module
 Status: install ok installed

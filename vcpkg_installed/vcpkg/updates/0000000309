@@ -1,9 +1,9 @@
-Package: boost-geometry
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-algorithm, boost-any, boost-array, boost-assert, boost-concept-check, boost-config, boost-container, boost-core, boost-function-types, boost-fusion, boost-integer, boost-iterator, boost-lexical-cast, boost-math, boost-move, boost-mpl, boost-multiprecision, boost-numeric-conversion, boost-polygon, boost-qvm, boost-range, boost-rational, boost-serialization, boost-smart-ptr, boost-static-assert, boost-thread, boost-throw-exception, boost-tokenizer, boost-tuple, boost-type-traits, boost-utility, boost-variant, boost-variant2, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-gil
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-concept-check, boost-config, boost-container-hash, boost-core, boost-integer, boost-iterator, boost-mp11, boost-preprocessor, boost-type-traits, boost-variant2, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: f92b218cc7312fa0263261b7635ce9a5b7e2cfedef6da3cf22686a621d28aebb
-Description: Boost geometry module
+Abi: a95caa6f17c3c323d056854333a48f9578388478639eb8961279fba1bee3c0e5
+Description: Boost gil module
 Status: install ok installed

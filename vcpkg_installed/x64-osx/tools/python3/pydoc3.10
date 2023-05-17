@@ -1,5 +1,0 @@
-#!/Users/alex_mac/Desktop/mipt/InteractiveEventMap/build/vcpkg_installed/x64-osx/tools/python3/bin/python3.10
-
-import pydoc
-if __name__ == '__main__':
-    pydoc.cli()

@@ -1,9 +1,9 @@
-Package: boost-compatibility
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-contract
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-any, boost-assert, boost-build, boost-config, boost-core, boost-exception, boost-function, boost-function-types, boost-modular-build-helper, boost-mpl, boost-optional, boost-preprocessor, boost-smart-ptr, boost-static-assert, boost-thread, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 80f5d19baeb8d9b5370936ee7b33a65a8dd1b454dd079c62a9d3678ee5bd13b3
-Description: Boost compatibility module
+Abi: abb6687ed1a0691101febf0ac5738abd5d01100a39f25e05df5ff2625e43fa71
+Description: Boost contract module
 Status: install ok installed

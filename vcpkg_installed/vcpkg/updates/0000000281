@@ -1,9 +1,9 @@
-Package: boost-leaf
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-local-function
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-mpl, boost-preprocessor, boost-scope-exit, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 128435d55253f9d50775ff06d46d851f89d784ca14fb917a68e0a9f3a1bc7206
-Description: Boost leaf module
+Abi: 70885cdc77e445a14a613a209cb87402ee424e24562921503cbfc49d2e0e761d
+Description: Boost local_function module
 Status: install ok installed

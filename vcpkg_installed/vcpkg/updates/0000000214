@@ -1,8 +1,10 @@
-Package: gettext
-Version: 0.21.1
-Depends: libiconv
-Architecture: x64-osx
+Package: bzip2
+Version: 1.0.8
+Port-Version: 4
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
 Multi-Arch: same
-Abi: ae7574ff4f9c7c09122c83d3ceefe9b944bbec71d956ef102eb880f77e607472
-Description: GNU gettext provides libintl and a set of tools to help produce multi-lingual messages.
+Abi: d429106c975db3716c247a442d985a932231c8144899808c639b8b4545916713
+Description: bzip2 is a freely available, patent free, high-quality data compressor. It typically compresses files to within 10% to 15% of the best available techniques (the PPM family of statistical compressors), whilst being around twice as fast at compression and six times faster at decompression.
+Default-Features: tool
 Status: install ok half-installed

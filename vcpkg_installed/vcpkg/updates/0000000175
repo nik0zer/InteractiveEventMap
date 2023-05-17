@@ -1,9 +1,9 @@
-Package: boost-type-erasure
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-build, boost-config, boost-core, boost-fusion, boost-iterator, boost-modular-build-helper, boost-mp11, boost-mpl, boost-preprocessor, boost-smart-ptr, boost-thread, boost-throw-exception, boost-type-traits, boost-typeof, boost-vcpkg-helpers, boost-vmd, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-timer
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-build, boost-chrono, boost-config, boost-core, boost-io, boost-modular-build-helper, boost-predef, boost-system, boost-throw-exception, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: b99a3252e8c0310edda26c05d4faecf1dc277173e2bbdf578182717a9a6b9467
-Description: Boost type_erasure module
+Abi: e60a0a824d5adc72724afb69600aa34fff4a7e60d3adec2d0cac17ceb26c7191
+Description: Boost timer module
 Status: install ok installed

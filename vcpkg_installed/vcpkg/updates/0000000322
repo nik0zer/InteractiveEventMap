@@ -1,9 +1,9 @@
-Package: boost-contract
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-any, boost-assert, boost-build, boost-config, boost-core, boost-exception, boost-function, boost-function-types, boost-modular-build-helper, boost-mpl, boost-optional, boost-preprocessor, boost-smart-ptr, boost-static-assert, boost-thread, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-convert
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-core, boost-function-types, boost-lexical-cast, boost-math, boost-mpl, boost-optional, boost-parameter, boost-range, boost-spirit, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 01d26c816ac3596b3be6302858c713cdf8e0f062073e6ecc076407d01bd45ccb
-Description: Boost contract module
+Abi: 102eafa20f7ba1dd7f238c007790921d3ffefd2736e4d64e36d426b8414799ac
+Description: Boost convert module
 Status: install ok half-installed

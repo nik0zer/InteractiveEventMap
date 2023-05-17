@@ -1,9 +1,9 @@
-Package: boost-stacktrace
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-array, boost-build, boost-config, boost-container-hash, boost-core, boost-modular-build-helper, boost-predef, boost-static-assert, boost-type-traits, boost-vcpkg-helpers, boost-winapi, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-sort
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-core, boost-range, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: a3d04b8332f8dadc81c362fcf722dbf9d5ab55eaef12ca6d8e9f220d3b999dc2
-Description: Boost stacktrace module
+Abi: f684aef30180b5fde97065a0ad6c0a47d11c52d1607940df13cfd641eb9edc6d
+Description: Boost sort module
 Status: install ok installed

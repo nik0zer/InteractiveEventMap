@@ -1,8 +1,9 @@
-Package: spdlog
-Version: 1.11.0
-Depends: fmt, vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-osx
+Package: fmt
+Version: 9.1.0
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 076e795d9dd72b5768b54f1f8e172c89cf3d77fbf8e07ed2dc61a13d6470c3d0
-Description: Very fast, header only, C++ logging library
+Abi: d79c3676922b5ce672cbac929c7af5f251414497d48edb1e20386cc86d9063af
+Description: Formatting library for C++. It can be used as a safe alternative to printf or as a fast alternative to IOStreams.
 Status: install ok half-installed

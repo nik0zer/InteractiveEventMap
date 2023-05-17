@@ -1,0 +1,9 @@
+Package: sqlite-modern-cpp
+Version: 3.2-936cd0c8
+Port-Version: 2
+Depends: sqlite3
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 8aa562ee8e22dfa968d75687209cfee414c8a764dfa5605db0484a7291ff6dbe
+Description: The C++14 wrapper around sqlite library
+Status: install ok half-installed

@@ -1,9 +1,9 @@
-Package: boost-scope-exit
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-function, boost-preprocessor, boost-type-traits, boost-typeof, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-safe-numerics
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-concept-check, boost-config, boost-core, boost-integer, boost-logic, boost-mp11, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: af85aac790831756f317a269cec1216b8f623bffbc055046cf45b3ca366bc18e
-Description: Boost scope_exit module
+Abi: f728f4dada1c968ce27f4482449a106bf3485f76fc4269843208eaa30ffa36a2
+Description: Boost safe_numerics module
 Status: install ok installed

@@ -1,9 +1,9 @@
-Package: boost-coroutine2
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-config, boost-context, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-crc
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-array, boost-config, boost-integer, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: e84cde9d588f2f4449f9b4499f0dfe79f313e9a68f4384f4bba5d5ae4d90b795
-Description: Boost coroutine2 module
+Abi: 619634b39725b25bf2eb1c09f21dd36b02ad6a875eed80c895d0f3dbc46debd6
+Description: Boost crc module
 Status: install ok half-installed

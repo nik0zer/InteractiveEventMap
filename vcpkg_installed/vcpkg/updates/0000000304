@@ -1,9 +1,9 @@
-Package: boost-heap
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-array, boost-assert, boost-bind, boost-concept-check, boost-config, boost-core, boost-intrusive, boost-iterator, boost-parameter, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-histogram
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-core, boost-math, boost-mp11, boost-serialization, boost-throw-exception, boost-variant2, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 455985826bee0512f2a44b0db633dd38e490be417a6a7c2f2a7c063fa634ebe8
-Description: Boost heap module
+Abi: b30cfafa4d6a7363a4fb7924ca1e60744c7f7e649e72b074eeb1f4b41bedf220
+Description: Boost histogram module
 Status: install ok half-installed

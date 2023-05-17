@@ -1,9 +1,9 @@
-Package: boost-context
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-build, boost-config, boost-core, boost-modular-build-helper, boost-mp11, boost-pool, boost-predef, boost-smart-ptr, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-coroutine
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-build, boost-config, boost-context, boost-core, boost-exception, boost-modular-build-helper, boost-move, boost-system, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: ec8109336f3812ce82053581642a703092c9f7b0c4a3f86dacd888cf22370672
-Description: Boost context module
+Abi: ccb63a564d6ddf75445e987fdc892252462d4668c85c85d188ce59e17d7f1b7f
+Description: Boost coroutine module
 Status: install ok half-installed

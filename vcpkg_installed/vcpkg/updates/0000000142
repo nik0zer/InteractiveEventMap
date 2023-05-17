@@ -1,9 +1,9 @@
-Package: boost-wave
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-build, boost-concept-check, boost-config, boost-core, boost-filesystem, boost-format, boost-iterator, boost-lexical-cast, boost-modular-build-helper, boost-mpl, boost-multi-index, boost-optional, boost-pool, boost-preprocessor, boost-serialization, boost-smart-ptr, boost-spirit, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-vmd
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-preprocessor, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: a797aa0bff23b26d5ce26b7a3e87521db95d1172aa89c913fac8ad7e8d7ca2d4
-Description: Boost wave module
+Abi: ff24ddbb2ee96a42a24f7eec71b1135f4e2d5693a507534ec499a03cc4611fc4
+Description: Boost vmd module
 Status: install ok half-installed

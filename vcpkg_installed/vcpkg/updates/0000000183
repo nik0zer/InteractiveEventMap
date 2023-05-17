@@ -1,9 +1,9 @@
-Package: boost-static-string
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-container-hash, boost-static-assert, boost-throw-exception, boost-utility, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-statechart
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-bind, boost-config, boost-conversion, boost-core, boost-detail, boost-function, boost-mpl, boost-smart-ptr, boost-static-assert, boost-thread, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: f9a60120c3e63b7626fab1f3ba9e441b4237ada53ea27c3a16ff4cc2f3ffb220
-Description: Boost static_string module
+Abi: 441bbcdba3aaa8bbc45ed6d43204b7dd84e4e5dc04e68aecadddb4a8750ab7f1
+Description: Boost statechart module
 Status: install ok installed

@@ -1,9 +1,9 @@
 Package: boost-msm
-Version: 1.81.0
-Port-Version: 2
+Version: 1.82.0
+Port-Version: 1
 Depends: boost-any, boost-assert, boost-bind, boost-circular-buffer, boost-config, boost-core, boost-function, boost-fusion, boost-mpl, boost-parameter, boost-phoenix, boost-preprocessor, boost-proto, boost-serialization, boost-tuple, boost-type-traits, boost-typeof, boost-vcpkg-helpers
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 1679ac1a51b7b9bda202878cf1f864612e2edae84492d8e0a14415fc61f84428
+Abi: 809692e00b1b79cc8ef7f8176af9a3cfaa87db9abbb93a428c4934d2eae71daa
 Description: Boost msm module
 Status: install ok installed

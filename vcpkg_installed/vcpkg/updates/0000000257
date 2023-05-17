@@ -1,9 +1,9 @@
-Package: boost-outcome
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-exception, boost-system, boost-throw-exception, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-multi-array
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-array, boost-assert, boost-concept-check, boost-config, boost-core, boost-functional, boost-iterator, boost-mpl, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 198f086ea36602f84b19ad21025bf4dfac672f303f29a1a754136aa33f648917
-Description: Boost outcome module
+Abi: 0cc99429ce332aed6832450a3c93fcc6a8c4f046428011ec12edd9cca84f0a0c
+Description: Boost multi_array module
 Status: install ok installed

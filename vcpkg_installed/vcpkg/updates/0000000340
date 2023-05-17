@@ -1,9 +1,8 @@
-Package: sqlite-modern-cpp
-Version: 3.2-936cd0c8
-Port-Version: 1
-Depends: sqlite3
-Architecture: x64-osx
+Package: spdlog
+Version: 1.11.0
+Depends: fmt, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 89085cdecca1d1f80675c167f3f2d85a9e6f034e3b835f015f6dcf2088e091eb
-Description: The C++14 wrapper around sqlite library
+Abi: 62c031af951cd852ae97d31538b4f1b6a649965d0c4fa3ec254ce9b177df8377
+Description: Very fast, header only, C++ logging library
 Status: install ok half-installed

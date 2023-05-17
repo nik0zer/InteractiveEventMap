@@ -1,9 +1,9 @@
-Package: boost-units
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-config, boost-core, boost-integer, boost-io, boost-lambda, boost-math, boost-mpl, boost-preprocessor, boost-static-assert, boost-type-traits, boost-typeof, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-logic
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-core, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: f189e1b545b631576a10a98629bfc8741bf34bf09bc3b93453efaf686d85e909
-Description: Boost units module
+Abi: 25dae72ed61b1333ad7c1b31cc8902752b394f349211da6f1cadf7e5af7ed30b
+Description: Boost logic module
 Status: install ok installed

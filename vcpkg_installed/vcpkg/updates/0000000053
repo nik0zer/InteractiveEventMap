@@ -1,9 +1,9 @@
-Package: boost-hana
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-core, boost-fusion, boost-mpl, boost-tuple, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-yap
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-hana, boost-preprocessor, boost-type-index, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: c6a65e62a5fa67b0f0b23c1352a7bd963c5c9206000a76de88e3066a6b8726c8
-Description: Boost hana module
+Abi: e42b292375064d617c1313334baf374b233f8b5d39eb9475b799f5d8b1511017
+Description: Boost yap module
 Status: install ok installed

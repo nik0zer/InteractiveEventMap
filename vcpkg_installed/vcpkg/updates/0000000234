@@ -1,9 +1,9 @@
-Package: boost-circular-buffer
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-concept-check, boost-config, boost-core, boost-move, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-ptr-container
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-array, boost-assert, boost-circular-buffer, boost-config, boost-core, boost-iterator, boost-mpl, boost-range, boost-smart-ptr, boost-static-assert, boost-type-traits, boost-unordered, boost-utility, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: e5234ff74b4b945c3d59996fde47e55a98f2c5eb2d4d497b33840332a5a94a9a
-Description: Boost circular_buffer module
+Abi: a6300b69b68e33ad74973bce4ebc74c92a61f10d8f7035dd1aaeb3c674990fd0
+Description: Boost ptr_container module
 Status: install ok half-installed

@@ -1,9 +1,9 @@
-Package: boost-json
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-align, boost-assert, boost-build, boost-config, boost-container, boost-core, boost-describe, boost-modular-build-helper, boost-mp11, boost-system, boost-throw-exception, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-lambda2
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 4a9539894e3c38b0c16d3d2ead6b68328e277a29ea87a089f32225f8d4a8e381
-Description: Boost json module
+Abi: 8063a44c66ae33b379498ae27aee09ea5a9c86de16b7850c9195ce56c1a74f79
+Description: Boost lambda2 module
 Status: install ok half-installed

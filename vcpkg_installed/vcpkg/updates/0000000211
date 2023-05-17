@@ -1,7 +1,9 @@
-Package: libiconv
-Version: 1.17
-Architecture: x64-osx
+Package: libffi
+Version: 3.4.4
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 66233f231cfd1967fa7a1fff95578591b45e51390e3fd828c6a67be134e0f7a8
-Description: GNU Unicode text conversion
+Abi: 6e347107124fb2163f6d368a6a5fb607d61990d02762e6cc0a80df052f3733fe
+Description: Portable, high level programming interface to various calling conventions
 Status: install ok installed

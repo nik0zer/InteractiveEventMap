@@ -1,9 +1,9 @@
-Package: boost-bimap
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-concept-check, boost-config, boost-container-hash, boost-core, boost-iterator, boost-lambda, boost-mpl, boost-multi-index, boost-preprocessor, boost-serialization, boost-static-assert, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-graph
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-algorithm, boost-any, boost-array, boost-assert, boost-bimap, boost-bind, boost-build, boost-concept-check, boost-config, boost-container-hash, boost-conversion, boost-core, boost-detail, boost-foreach, boost-function, boost-integer, boost-iterator, boost-lexical-cast, boost-math, boost-modular-build-helper, boost-move, boost-mpl, boost-multi-index, boost-optional, boost-parameter, boost-preprocessor, boost-property-map, boost-property-tree, boost-random, boost-range, boost-regex, boost-serialization, boost-smart-ptr, boost-spirit, boost-static-assert, boost-throw-exception, boost-tti, boost-tuple, boost-type-traits, boost-typeof, boost-unordered, boost-utility, boost-vcpkg-helpers, boost-xpressive, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: b5926a5b0d15893f6d30f8d8bfc271afe89d5e4c8b6eb03475bd57ebc2c55008
-Description: Boost bimap module
+Abi: 1a2ba4cea9fb47df45944cff218370c661dfbe10df35c953b27ab9ef7cb7e607
+Description: Boost graph module
 Status: install ok installed

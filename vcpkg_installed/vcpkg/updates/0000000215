@@ -1,8 +1,6 @@
-Package: gettext
-Version: 0.21.1
-Depends: libiconv
-Architecture: x64-osx
+Package: bzip2
+Feature: tool
+Architecture: x64-linux
 Multi-Arch: same
-Abi: ae7574ff4f9c7c09122c83d3ceefe9b944bbec71d956ef102eb880f77e607472
-Description: GNU gettext provides libintl and a set of tools to help produce multi-lingual messages.
-Status: install ok installed
+Description: Builds bzip2 executable
+Status: install ok half-installed

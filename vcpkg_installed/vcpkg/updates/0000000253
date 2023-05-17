@@ -1,9 +1,9 @@
-Package: boost-pfr
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-parameter-python
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-mpl, boost-parameter, boost-preprocessor, boost-python, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: a22d0d5e23d5efeae90e3e49522ee4a707b5a2d2acf45b1c7dea0d1ac5be99a9
-Description: Boost pfr module
+Abi: de820084cbcf5e600c35a7dc8b55e661e140a597038bf678add66374595dd2cf
+Description: Boost parameter_python module
 Status: install ok installed

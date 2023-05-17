@@ -1,9 +1,9 @@
 Package: boost-multiprecision
-Version: 1.81.0
-Port-Version: 2
+Version: 1.82.0
+Port-Version: 1
 Depends: boost-assert, boost-config, boost-core, boost-integer, boost-lexical-cast, boost-math, boost-predef, boost-random, boost-throw-exception, boost-vcpkg-helpers
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: add5d7ae3924c54ab45fd6ec18b168645c9f3bdb735a3e7ba036bfb5dbb7ad53
+Abi: 6992c60596a5f3f80b1303b3f88e862bd748e348dde2c5bc70de8952046551d8
 Description: Boost multiprecision module
 Status: install ok installed

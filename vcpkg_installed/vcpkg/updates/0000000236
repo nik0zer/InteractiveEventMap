@@ -1,9 +1,9 @@
-Package: boost-ptr-container
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-array, boost-assert, boost-circular-buffer, boost-config, boost-core, boost-iterator, boost-mpl, boost-range, boost-serialization, boost-smart-ptr, boost-static-assert, boost-type-traits, boost-unordered, boost-utility, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-program-options
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-any, boost-bind, boost-build, boost-config, boost-core, boost-detail, boost-function, boost-iterator, boost-lexical-cast, boost-modular-build-helper, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-tokenizer, boost-type-traits, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: f33f2481d1461326984042d06a89cc282876ac2bbaab08572e5b52be16429c28
-Description: Boost ptr_container module
+Abi: 7258b8f39066dfa412701dcd6b217f8e165162dd36729886cb91aa2bcca4a0eb
+Description: Boost program_options module
 Status: install ok half-installed

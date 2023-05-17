@@ -1,9 +1,7 @@
-Package: boost-icl
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-concept-check, boost-config, boost-container, boost-core, boost-date-time, boost-detail, boost-iterator, boost-move, boost-mpl, boost-range, boost-rational, boost-static-assert, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-iostreams
+Feature: zstd
+Depends: zstd
+Architecture: x64-linux
 Multi-Arch: same
-Abi: bcaf25e088c865097daf160932625dd5ce65d457a76ad133b25a2f8f23d41a8f
-Description: Boost icl module
+Description: Support zstd filters
 Status: install ok installed

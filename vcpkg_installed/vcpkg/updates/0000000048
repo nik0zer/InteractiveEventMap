@@ -1,9 +1,9 @@
-Package: boost-functional
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-core, boost-function, boost-function-types, boost-mpl, boost-preprocessor, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-fusion
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-container-hash, boost-core, boost-function-types, boost-functional, boost-mpl, boost-preprocessor, boost-static-assert, boost-tuple, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 85e2fd4b65c4375a7ae7c0a399556eb0208a236a3fe46d517603b1a355aad3b3
-Description: Boost functional module
+Abi: 20dbe5cad9de97ab4a03c9b743cb1f87b9d57a2dcf174344a45656e1cc1b4d34
+Description: Boost fusion module
 Status: install ok half-installed

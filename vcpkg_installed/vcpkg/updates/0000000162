@@ -1,9 +1,9 @@
-Package: boost-logic
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-core, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-interval
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-detail, boost-logic, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 849eda2a6126c51debe5abc4de681fc3e0f01b0c31b12684b89b7835c02a75cd
-Description: Boost logic module
+Abi: a65bfd46e68a7d9941303db4e3fac8594955b266b125420db752809384cbae9e
+Description: Boost interval module
 Status: install ok half-installed

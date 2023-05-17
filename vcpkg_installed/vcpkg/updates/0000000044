@@ -1,9 +1,9 @@
-Package: boost-bind
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-core, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-function
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-bind, boost-config, boost-core, boost-preprocessor, boost-throw-exception, boost-type-traits, boost-typeof, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: ce46a71d5dd1df753917c647f32ae1dcced169ead9c8bdb8f5948e1672bdd620
-Description: Boost bind module
+Abi: 182aabfee8c8be232ad583753ad625e39d41ac674e891ea108359e38ee96e9a0
+Description: Boost function module
 Status: install ok half-installed

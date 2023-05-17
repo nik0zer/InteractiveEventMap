@@ -1,9 +1,9 @@
-Package: boost-stl-interfaces
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-config, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-static-string
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-config, boost-container-hash, boost-core, boost-static-assert, boost-throw-exception, boost-utility, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 702815d6d50129d14b75ff850e9d736fef20ae6b809ae9fedfc9757022eb6f53
-Description: Boost stl_interfaces module
+Abi: 49a7cab417d105738c79d56e6850d3374485c827c9c538e0fffefad92733c708
+Description: Boost static_string module
 Status: install ok half-installed

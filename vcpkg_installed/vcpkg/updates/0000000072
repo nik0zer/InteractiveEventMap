@@ -1,9 +1,9 @@
 Package: boost-build
-Version: 1.81.0
-Port-Version: 3
+Version: 1.82.0
+Port-Version: 1
 Depends: boost-uninstall
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: d26bffb9766847c76f4b5a6038a8cbbe3c0d31aece1d11e0074cd7f800791ab0
+Abi: dacab3d6cb2f937bbb862ab621c2cf64ed646ba763ccdd6c5f7b64ba7a98493a
 Description: Boost.Build
 Status: install ok half-installed

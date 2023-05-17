@@ -1,9 +1,9 @@
-Package: boost-program-options
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-any, boost-bind, boost-build, boost-config, boost-core, boost-detail, boost-function, boost-iterator, boost-lexical-cast, boost-modular-build-helper, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-tokenizer, boost-type-traits, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-context
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-build, boost-config, boost-core, boost-modular-build-helper, boost-mp11, boost-pool, boost-predef, boost-smart-ptr, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 933d46e1c5f36c3f3a47ee2e67d57854f7f495d1bd07a7abad61a10dcafd119c
-Description: Boost program_options module
+Abi: 08c3ca5446074d0b0c8b73c7342d57685b35c9e5474c2f045f1c27d2395d9b4c
+Description: Boost context module
 Status: install ok installed

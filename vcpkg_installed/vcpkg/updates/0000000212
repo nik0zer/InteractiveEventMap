@@ -1,9 +1,9 @@
-Package: libffi
-Version: 3.4.4
-Port-Version: 1
+Package: expat
+Version: 2.5.0
+Port-Version: 3
 Depends: vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 72a1056da85dcf7337fc2eace2ee298449fb984a198fd04e7e27cc5e35256cc1
-Description: Portable, high level programming interface to various calling conventions
+Abi: 754b1b16fd1504432583733018220ba783a74e6fa9fbfef62c1a2301ba525cab
+Description: XML parser library written in C
 Status: install ok half-installed

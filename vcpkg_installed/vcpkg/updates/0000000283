@@ -1,9 +1,9 @@
-Package: boost-lambda2
-Version: 1.81.0
-Port-Version: 2
+Package: boost-leaf
+Version: 1.82.0
+Port-Version: 1
 Depends: boost-vcpkg-helpers
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 9651297bee7eaf82ac36e0e2ebe3b869f21e3b2070e645714846ea3588c2b43f
-Description: Boost lambda2 module
+Abi: 26b9f657e25c800dcf69671df8bfa7b085324b16bcb4a1330f650d05da9f09b1
+Description: Boost leaf module
 Status: install ok installed

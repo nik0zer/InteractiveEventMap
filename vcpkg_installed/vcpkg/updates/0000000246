@@ -1,9 +1,9 @@
-Package: boost-process
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-algorithm, boost-asio, boost-config, boost-core, boost-filesystem, boost-fusion, boost-io, boost-iterator, boost-move, boost-optional, boost-system, boost-throw-exception, boost-tokenizer, boost-type-index, boost-utility, boost-vcpkg-helpers, boost-winapi
-Architecture: x64-osx
+Package: boost-polygon
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 2d11a2df74151aaa3d047cc7e4087141ae8597b1d26a0cf0fa28a36567003a7d
-Description: Boost process module
+Abi: 46ecf6a289947ac5852cf9f19ef5a2dd4a9b32725a0986264bf1e33b3ca8dd0b
+Description: Boost polygon module
 Status: install ok half-installed

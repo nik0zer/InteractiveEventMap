@@ -1,0 +1,12 @@
+x64-linux/
+x64-linux/include/
+x64-linux/include/boost/
+x64-linux/include/boost/lambda2.hpp
+x64-linux/include/boost/lambda2/
+x64-linux/include/boost/lambda2/lambda2.hpp
+x64-linux/share/
+x64-linux/share/boost-lambda2/
+x64-linux/share/boost-lambda2/copyright
+x64-linux/share/boost-lambda2/usage
+x64-linux/share/boost-lambda2/vcpkg.spdx.json
+x64-linux/share/boost-lambda2/vcpkg_abi_info.txt

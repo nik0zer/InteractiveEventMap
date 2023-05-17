@@ -1,7 +1,7 @@
 Package: boost-iostreams
-Feature: bzip2
-Depends: bzip2
-Architecture: x64-osx
+Feature: zstd
+Depends: zstd
+Architecture: x64-linux
 Multi-Arch: same
-Description: Support bzip2 filters
-Status: install ok installed
+Description: Support zstd filters
+Status: install ok half-installed

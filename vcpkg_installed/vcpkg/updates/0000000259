@@ -1,9 +1,9 @@
-Package: boost-multi-array
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-array, boost-assert, boost-concept-check, boost-config, boost-core, boost-functional, boost-iterator, boost-mpl, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-odeint
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-array, boost-assert, boost-bind, boost-compute, boost-config, boost-core, boost-function, boost-fusion, boost-iterator, boost-math, boost-mpl, boost-multi-array, boost-preprocessor, boost-range, boost-static-assert, boost-throw-exception, boost-type-traits, boost-ublas, boost-units, boost-utility, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 2c12a108e9738096181d665f2b92c199d854712fd63a1ddc85d7e45ee9b29a3d
-Description: Boost multi_array module
+Abi: 498f3899687c2033d44475743a5a9b7c1af6764568cdc097d17c30595e344256
+Description: Boost odeint module
 Status: install ok installed

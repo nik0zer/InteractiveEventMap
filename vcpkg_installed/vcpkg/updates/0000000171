@@ -1,9 +1,9 @@
-Package: boost-compute
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-algorithm, boost-array, boost-assert, boost-chrono, boost-config, boost-core, boost-filesystem, boost-function, boost-function-types, boost-fusion, boost-iterator, boost-lexical-cast, boost-mpl, boost-optional, boost-preprocessor, boost-property-tree, boost-proto, boost-range, boost-smart-ptr, boost-static-assert, boost-thread, boost-throw-exception, boost-tuple, boost-type-traits, boost-typeof, boost-utility, boost-uuid, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-ublas
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-compute, boost-concept-check, boost-config, boost-core, boost-interval, boost-iterator, boost-mpl, boost-range, boost-serialization, boost-smart-ptr, boost-static-assert, boost-type-traits, boost-typeof, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 812a199f2134bc44cf4ff3b19890ac165bdcdee7924ccf25b35d2d8cadf317b6
-Description: Boost compute module
+Abi: 887e8d6ed4479d6e3b44a48ab675076e639452b38d08141d26359297fdad4eff
+Description: Boost ublas module
 Status: install ok installed

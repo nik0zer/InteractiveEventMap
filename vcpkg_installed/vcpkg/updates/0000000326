@@ -1,9 +1,9 @@
-Package: boost-callable-traits
-Version: 1.81.0
-Port-Version: 2
+Package: boost-compatibility
+Version: 1.82.0
+Port-Version: 1
 Depends: boost-vcpkg-helpers
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: a6ed945e71ffee10b5f0d5860d825e033040a7ef6e9e9305a190ab158a298572
-Description: Boost callable_traits module
+Abi: a6c67c346a2114c318e170dbce7ca0a242f96fdc93b391f39cc198af403b6255
+Description: Boost compatibility module
 Status: install ok half-installed

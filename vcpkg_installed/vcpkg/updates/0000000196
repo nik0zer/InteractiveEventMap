@@ -1,9 +1,9 @@
-Package: boost-safe-numerics
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-concept-check, boost-config, boost-core, boost-integer, boost-logic, boost-mp11, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-qvm
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: f7d900a4e0ec268d437eb59bdaa7dfb222933f47e6297cdf634a9fe8cf7bb7bb
-Description: Boost safe_numerics module
+Abi: 43695d1c24c72ec3dd09bd22bc7729fb09882bf4a8e576627054f02eca2661e0
+Description: Boost qvm module
 Status: install ok half-installed

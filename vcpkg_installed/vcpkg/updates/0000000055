@@ -1,9 +1,9 @@
-Package: boost-yap
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-hana, boost-preprocessor, boost-type-index, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-move
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: b8d237c23c05e1125aeae505436adf6c18c2b2f86acf56257372b46ee608facc
-Description: Boost yap module
+Abi: 0e62083fd44d35ee741b00ab58d6a9f07ab3b5b72ff24fdb363a3fcd4e0dcd3d
+Description: Boost move module
 Status: install ok installed

@@ -1,9 +1,9 @@
-Package: boost-dynamic-bitset
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-config, boost-container-hash, boost-core, boost-integer, boost-move, boost-static-assert, boost-throw-exception, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-random
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-array, boost-assert, boost-build, boost-config, boost-core, boost-dynamic-bitset, boost-integer, boost-io, boost-modular-build-helper, boost-range, boost-static-assert, boost-system, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: c5a21becc68926c4e5f09f87e39748c13c3df510c5e721c10fd2e016642e9ca9
-Description: Boost dynamic_bitset module
+Abi: 2429c5886f023016f55e77cf89f35243e8878b83bd687f5cc685d629a3125710
+Description: Boost random module
 Status: install ok installed

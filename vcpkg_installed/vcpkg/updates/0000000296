@@ -1,7 +1,7 @@
 Package: boost-iostreams
-Feature: zlib
-Depends: zlib
-Architecture: x64-osx
+Feature: bzip2
+Depends: bzip2
+Architecture: x64-linux
 Multi-Arch: same
-Description: Support zlib filters
+Description: Support bzip2 filters
 Status: install ok installed

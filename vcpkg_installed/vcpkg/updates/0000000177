@@ -1,9 +1,9 @@
-Package: boost-timer
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-build, boost-chrono, boost-config, boost-core, boost-io, boost-modular-build-helper, boost-predef, boost-system, boost-throw-exception, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-osx
+Package: boost-test
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-algorithm, boost-assert, boost-bind, boost-build, boost-config, boost-core, boost-detail, boost-exception, boost-function, boost-io, boost-iterator, boost-modular-build-helper, boost-mpl, boost-numeric-conversion, boost-optional, boost-preprocessor, boost-smart-ptr, boost-static-assert, boost-type-traits, boost-utility, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: ec9eae582a7dbd9ba62a5f6294e8fdb398a7cfc4a1faf2613e494a1c1c021291
-Description: Boost timer module
+Abi: 069832f3eb0eb51b940ac6ce0713737628ad2af6722e3d858b5854de975bd745
+Description: Boost test module
 Status: install ok installed

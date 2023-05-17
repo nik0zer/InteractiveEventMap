@@ -1,9 +1,9 @@
-Package: boost-ublas
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-compute, boost-concept-check, boost-config, boost-core, boost-interval, boost-iterator, boost-mpl, boost-range, boost-serialization, boost-smart-ptr, boost-static-assert, boost-type-traits, boost-typeof, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-type-erasure
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-build, boost-config, boost-core, boost-fusion, boost-iterator, boost-modular-build-helper, boost-mp11, boost-mpl, boost-preprocessor, boost-smart-ptr, boost-thread, boost-throw-exception, boost-type-traits, boost-typeof, boost-vcpkg-helpers, boost-vmd, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 94916feeeb38da2974409f04029cffd6410d54c24753e89bebef4fbbe0dd0336
-Description: Boost ublas module
+Abi: 72e75b02ddcafdf79fa6a2296c267a978b333cdca5bbd4f02e28cdaafebbf76d
+Description: Boost type_erasure module
 Status: install ok half-installed

@@ -1,9 +1,9 @@
-Package: boost-asio
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-align, boost-array, boost-assert, boost-bind, boost-chrono, boost-config, boost-context, boost-core, boost-coroutine, boost-date-time, boost-exception, boost-function, boost-regex, boost-smart-ptr, boost-system, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-process
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-algorithm, boost-asio, boost-config, boost-core, boost-filesystem, boost-fusion, boost-io, boost-iterator, boost-move, boost-optional, boost-system, boost-throw-exception, boost-tokenizer, boost-type-index, boost-utility, boost-vcpkg-helpers, boost-winapi
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 7464a725c90583fc88661b2bfbde62b596fefa9de7f6226ac23caff6b7c8bf09
-Description: Boost asio module
+Abi: 8d5c1ad8d941d79ba2eef6ce892328e084560f6c4daaaed04ff7137e90423a40
+Description: Boost process module
 Status: install ok half-installed

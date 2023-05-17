@@ -1,9 +1,9 @@
-Package: boost-property-tree
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-any, boost-assert, boost-bind, boost-config, boost-core, boost-format, boost-iterator, boost-mpl, boost-multi-index, boost-optional, boost-range, boost-serialization, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-compute
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-algorithm, boost-array, boost-assert, boost-chrono, boost-config, boost-core, boost-filesystem, boost-function, boost-function-types, boost-fusion, boost-iterator, boost-lexical-cast, boost-mpl, boost-optional, boost-preprocessor, boost-property-tree, boost-proto, boost-range, boost-smart-ptr, boost-static-assert, boost-thread, boost-throw-exception, boost-tuple, boost-type-traits, boost-typeof, boost-utility, boost-uuid, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 9bba9d7cf4770037408f5c9b61c0601e6a86e030394face9d9bd9df244d4021e
-Description: Boost property_tree module
+Abi: fa783b990231f4f0b8b2469754a284c0571b3fd6a0d7c77f7a6fb06be9d76402
+Description: Boost compute module
 Status: install ok installed

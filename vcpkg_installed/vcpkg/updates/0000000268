@@ -1,9 +1,9 @@
 Package: boost-metaparse
-Version: 1.81.0
-Port-Version: 2
+Version: 1.82.0
+Port-Version: 1
 Depends: boost-config, boost-mpl, boost-predef, boost-preprocessor, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: ec90bdc74086f84cd38154047d7377c37677ad9f2141a63b4dc2a846ea83ab69
+Abi: 66c0be84a5c5896303128fa7ca3d841f35cb1017282ad776f28453ef6d63e984
 Description: Boost metaparse module
 Status: install ok half-installed

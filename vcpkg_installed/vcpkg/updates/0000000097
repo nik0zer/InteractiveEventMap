@@ -1,9 +1,9 @@
 Package: boost-container
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-build, boost-config, boost-core, boost-intrusive, boost-modular-build-helper, boost-move, boost-static-assert, boost-type-traits, boost-vcpkg-helpers, boost-winapi, vcpkg-cmake
-Architecture: x64-osx
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-build, boost-config, boost-intrusive, boost-modular-build-helper, boost-move, boost-static-assert, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: e89ee22d2d678370d16dc44a40358dfb883eeec8933aba019e0eda1f75705db7
+Abi: 8869f382123c7c5e1f755326a7ae55e0c989c076a5db01203d359d0ee279207c
 Description: Boost container module
 Status: install ok installed

@@ -1,7 +1,7 @@
 Package: boost-iostreams
-Feature: zstd
-Depends: zstd
-Architecture: x64-osx
+Feature: lzma
+Depends: liblzma
+Architecture: x64-linux
 Multi-Arch: same
-Description: Support zstd filters
+Description: Support LZMA/xz filters
 Status: install ok installed

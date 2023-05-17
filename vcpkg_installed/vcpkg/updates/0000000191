@@ -1,9 +1,9 @@
-Package: boost-parameter
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-core, boost-function, boost-fusion, boost-mp11, boost-mpl, boost-optional, boost-preprocessor, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-signals2
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-bind, boost-config, boost-core, boost-function, boost-iterator, boost-mpl, boost-optional, boost-parameter, boost-predef, boost-preprocessor, boost-smart-ptr, boost-throw-exception, boost-tuple, boost-type-traits, boost-variant, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 0afab3120de010de0560db793ab1471b063a5c988e091b61de5f6d4589cb5c20
-Description: Boost parameter module
+Abi: 5c964b2d96c51a36e964f7e7f86b9a209e2570051df15cffa99cb9507543d49e
+Description: Boost signals2 module
 Status: install ok installed

@@ -1,7 +1,8 @@
-Package: boost-iostreams
-Feature: bzip2
-Depends: bzip2
-Architecture: x64-osx
+Package: zstd
+Version: 1.5.5
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
 Multi-Arch: same
-Description: Support bzip2 filters
-Status: install ok half-installed
+Abi: 67d2c438d3384a9188902000672624bac1d0079bca210cf3e769328a2671fb02
+Description: Zstandard - Fast real-time compression algorithm
+Status: install ok installed

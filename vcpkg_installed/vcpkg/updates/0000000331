@@ -1,9 +1,9 @@
-Package: boost-assign
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-array, boost-config, boost-core, boost-move, boost-preprocessor, boost-ptr-container, boost-range, boost-static-assert, boost-throw-exception, boost-tuple, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-beast
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-asio, boost-assert, boost-bind, boost-config, boost-container, boost-container-hash, boost-core, boost-endian, boost-intrusive, boost-logic, boost-mp11, boost-optional, boost-preprocessor, boost-smart-ptr, boost-static-assert, boost-static-string, boost-system, boost-throw-exception, boost-type-index, boost-type-traits, boost-vcpkg-helpers, boost-winapi
+Architecture: x64-linux
 Multi-Arch: same
-Abi: e3dd8485292c80594805ae76a1b4f47e950d0f98c96791192685a07bffdde787
-Description: Boost assign module
+Abi: afee082208fdc17d1764485e136d0fcce3ec380dc97cb6365a7d3b2697f0f9db
+Description: Boost beast module
 Status: install ok installed

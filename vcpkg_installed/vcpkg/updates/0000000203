@@ -1,7 +1,9 @@
-Package: vcpkg-cmake-config
-Version: 2022-02-06
-Port-Version: 1
-Architecture: x64-osx
+Package: sqlite3
+Version: 3.40.1
+Port-Version: 3
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
 Multi-Arch: same
-Abi: cc228dadc1a6e2928810d504236b890fdb88f345a5508a9494116de9053878ac
+Abi: 984eda888f93bce5bea56fea7fb4f268a60810f09b0444dabb19cdebf2ef70f4
+Description: SQLite is a software library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine.
 Status: install ok installed

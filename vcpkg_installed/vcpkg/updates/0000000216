@@ -1,9 +1,10 @@
-Package: expat
-Version: 2.5.0
-Port-Version: 3
+Package: bzip2
+Version: 1.0.8
+Port-Version: 4
 Depends: vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-osx
+Architecture: x64-linux
 Multi-Arch: same
-Abi: 26413aff2104e9ba121534a4224e3ab66262e0eaf242fccaa5c3b72fd5dfbfdd
-Description: XML parser library written in C
-Status: install ok half-installed
+Abi: d429106c975db3716c247a442d985a932231c8144899808c639b8b4545916713
+Description: bzip2 is a freely available, patent free, high-quality data compressor. It typically compresses files to within 10% to 15% of the best available techniques (the PPM family of statistical compressors), whilst being around twice as fast at compression and six times faster at decompression.
+Default-Features: tool
+Status: install ok installed

@@ -1,8 +1,9 @@
-Package: zstd
-Version: 1.5.4
-Depends: vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-osx
+Package: boost-json
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-align, boost-assert, boost-build, boost-config, boost-container, boost-container-hash, boost-core, boost-describe, boost-modular-build-helper, boost-mp11, boost-system, boost-throw-exception, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: ceb123ad0fa8bb12ed3fe66d2ff3b93a84574d5a085011c558912e4c5a08fd44
-Description: Zstandard - Fast real-time compression algorithm
+Abi: 4a162fa7868dd8ab9a10bb4eef06ce0a6896cec3a6bfbe2faeb48c482bdc63a2
+Description: Boost json module
 Status: install ok half-installed

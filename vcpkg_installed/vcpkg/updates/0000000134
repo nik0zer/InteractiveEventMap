@@ -1,9 +1,9 @@
-Package: boost-foreach
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-core, boost-iterator, boost-mpl, boost-range, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-osx
+Package: boost-multi-index
+Version: 1.82.0
+Port-Version: 1
+Depends: boost-assert, boost-bind, boost-config, boost-container-hash, boost-core, boost-integer, boost-iterator, boost-move, boost-mpl, boost-preprocessor, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-tuple, boost-type-traits, boost-utility, boost-vcpkg-helpers
+Architecture: x64-linux
 Multi-Arch: same
-Abi: d9a84cae709e10c2edf6a3ffbfb1ca9fc423e5ff92eb1ecca0784f5b79040a19
-Description: Boost foreach module
+Abi: 04578b530ff9f2b7039d05b79d06c15d2d0af4de810d5eb059bf86dd53759da3
+Description: Boost multi_index module
 Status: install ok half-installed

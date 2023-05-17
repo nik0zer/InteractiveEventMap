@@ -1,9 +1,8 @@
-Package: boost-qvm
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-vcpkg-helpers
-Architecture: x64-osx
+Package: zlib
+Version: 1.2.13
+Depends: vcpkg-cmake
+Architecture: x64-linux
 Multi-Arch: same
-Abi: b35781be246f5748838b191143e084311f755a90b7271df1c05f53730b80d18f
-Description: Boost qvm module
+Abi: 347876bd3eccd2eacd6bad2148e866ff7bca2b58508526bde98196421b8715ac
+Description: A compression library
 Status: install ok half-installed
