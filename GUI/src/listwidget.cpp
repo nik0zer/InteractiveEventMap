@@ -90,22 +90,19 @@ void ListWidget::renameItem()
   QString r_name = QInputDialog::getText(this, "Item", 
       "Enter new item", QLineEdit::Normal, q_ev_name);
   
-  QString s_name= r_name.simplified();
+  QString s_name = r_name.simplified();
   
   if (!s_name.isEmpty()) 
   { 
     QListWidgetItem *item = lw->takeItem(r);
+    events[r].set_name(s_name.toStdString());
+
     delete item;
     lw->insertItem(r, s_name);
     lw->setCurrentRow(r);
 
-    int id = events[r].get_id();
-    Event event = ClientData::get_instance().data_base.find_event_by_id(id);
-    Event event_1 = event;
-    event_1.set_name(s_name.toStdString());
-
-    ClientData::get_instance().rename_event(event, event_1);
-    ClientData::get_instance().data_base.rename_event(ev_name, s_name.toStdString());
+    ClientData::get_instance().data_base.update_event(events[r]);
+    ClientData::get_instance().update_event(events[r]);
   }
 }
 
@@ -117,13 +114,16 @@ void ListWidget::removeItem()
   auto ev_name = q_ev_name.toStdString();
   auto ev = Event(ev_name, "", "");
 
+  auto events = ClientData::get_instance().data_base.get_all_events();
+
   if (r != -1) 
   {   
     QListWidgetItem *item = lw->takeItem(r);
     delete item;
 
-    ClientData::get_instance().data_base.remove_event_by_name(ev);
-    ClientData::get_instance().delete_event(ev);
+    events[r].set_archived(1);
+    ClientData::get_instance().data_base.update_event(events[r]);
+    ClientData::get_instance().update_event(events[r]);
   }
 }
 
