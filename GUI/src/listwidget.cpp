@@ -82,6 +82,9 @@ void ListWidget::renameItem()
 {
   QListWidgetItem *curitem = lw->currentItem();
   int r = lw->row(curitem);
+  
+  if (r == -1){return;}
+  
   auto q_ev_name = curitem->text();
   auto ev_name = q_ev_name.toStdString();
 
@@ -110,27 +113,28 @@ void ListWidget::removeItem()
 {  
   QListWidgetItem *curitem = lw->currentItem();
   int r = lw->row(curitem);
+  if (r == -1){return;}
   auto q_ev_name = curitem->text();
   auto ev_name = q_ev_name.toStdString();
   auto ev = Event(ev_name, "", "");
 
   auto events = ClientData::get_instance().data_base.get_all_events();
 
-  if (r != -1) 
-  {   
-    QListWidgetItem *item = lw->takeItem(r);
-    delete item;
+  QListWidgetItem *item = lw->takeItem(r);
+  delete item;
 
-    events[r].set_archived(1);
-    ClientData::get_instance().data_base.update_event(events[r]);
-    ClientData::get_instance().update_event(events[r]);
-  }
+  events[r].set_archived(1);
+  ClientData::get_instance().data_base.update_event(events[r]);
+  ClientData::get_instance().update_event(events[r]);
 }
 
 void ListWidget::see()
 {
   QListWidgetItem *curitem = lw->currentItem();
   int r = lw->row(curitem);
+
+  if (r == -1){return;}
+
   auto q_ev_name = curitem->text();
   auto ev_name = q_ev_name.toStdString();
 
