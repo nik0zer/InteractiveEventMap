@@ -17,7 +17,7 @@ void handler(ReadData read_data, ClientConnection* client_connection)
     }
     if(read_data.data_name() == "EVENT")
     {
-        DataBase_Server::get_instance().update_event(read_data.data_str());
+        DataBase_Server::get_instance().add_event(read_data.data_str());
         return;
     }
     if(read_data.data_name() == "USER")

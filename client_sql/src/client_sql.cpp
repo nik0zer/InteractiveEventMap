@@ -15,7 +15,7 @@ void handler(ReadData read_data, ServerConnection* server_connection)
     }
     if(read_data.data_name() == "EVENT")
     {
-        ClientData::get_instance().data_base.update_event(read_data.data_str());
+        ClientData::get_instance().data_base.add_event(read_data.data_str());
         return;
     }
 }
