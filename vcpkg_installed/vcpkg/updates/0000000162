@@ -1,9 +1,0 @@
-Package: boost-interval
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-config, boost-detail, boost-logic, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: a65bfd46e68a7d9941303db4e3fac8594955b266b125420db752809384cbae9e
-Description: Boost interval module
-Status: install ok half-installed

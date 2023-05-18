@@ -1,9 +1,0 @@
-Package: boost-move
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-config, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 0e62083fd44d35ee741b00ab58d6a9f07ab3b5b72ff24fdb363a3fcd4e0dcd3d
-Description: Boost move module
-Status: install ok half-installed

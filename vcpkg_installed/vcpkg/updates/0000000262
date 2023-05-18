@@ -1,9 +1,0 @@
-Package: boost-mysql
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-asio, boost-assert, boost-config, boost-core, boost-endian, boost-lexical-cast, boost-mp11, boost-system, boost-throw-exception, boost-variant2, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: cfc3b8d9b5df0c979186b3717ecbcec44aef71db3dc87c4972f0a8e885746eb4
-Description: Boost mysql module
-Status: install ok half-installed

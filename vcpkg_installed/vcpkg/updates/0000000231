@@ -1,7 +1,0 @@
-Package: boost-python
-Feature: python3
-Depends: python3
-Architecture: x64-linux
-Multi-Arch: same
-Description: Build with Python3 support
-Status: install ok installed

@@ -1,9 +1,0 @@
-Package: boost-functional
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-config, boost-core, boost-function, boost-function-types, boost-mpl, boost-preprocessor, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 014c27f0d1919ea1d2cc0b693464116a6bea8095d3274a867fefa93d4e1ced98
-Description: Boost functional module
-Status: install ok installed

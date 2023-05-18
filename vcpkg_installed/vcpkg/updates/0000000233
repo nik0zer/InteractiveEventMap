@@ -1,9 +1,0 @@
-Package: boost-circular-buffer
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-concept-check, boost-config, boost-core, boost-move, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: a7013ca43974a9c13ff35ca2cd95c9221af2ba3f1751f52ef1dd10df2c75dae6
-Description: Boost circular_buffer module
-Status: install ok installed

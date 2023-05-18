@@ -1,9 +1,0 @@
-Package: boost-preprocessor
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 3c1a991643f6c6d67b7dc6a4ffcb15f0fb183f9f33fc6370d04938889e4457f0
-Description: Boost preprocessor module
-Status: install ok half-installed

@@ -1,9 +1,0 @@
-Package: boost-xpressive
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-config, boost-conversion, boost-core, boost-exception, boost-fusion, boost-integer, boost-iterator, boost-lexical-cast, boost-mpl, boost-numeric-conversion, boost-optional, boost-preprocessor, boost-proto, boost-range, boost-smart-ptr, boost-spirit, boost-static-assert, boost-throw-exception, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 35c1c3837dbc44a3bc5d1700b5a0e7394a9a15121c852633eaa4ed3139704d15
-Description: Boost xpressive module
-Status: install ok half-installed

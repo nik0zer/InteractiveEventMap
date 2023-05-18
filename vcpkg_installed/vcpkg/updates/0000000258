@@ -1,9 +1,0 @@
-Package: boost-odeint
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-array, boost-assert, boost-bind, boost-compute, boost-config, boost-core, boost-function, boost-fusion, boost-iterator, boost-math, boost-mpl, boost-multi-array, boost-preprocessor, boost-range, boost-static-assert, boost-throw-exception, boost-type-traits, boost-ublas, boost-units, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 498f3899687c2033d44475743a5a9b7c1af6764568cdc097d17c30595e344256
-Description: Boost odeint module
-Status: install ok half-installed

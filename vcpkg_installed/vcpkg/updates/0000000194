@@ -1,9 +1,0 @@
-Package: boost-safe-numerics
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-concept-check, boost-config, boost-core, boost-integer, boost-logic, boost-mp11, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: f728f4dada1c968ce27f4482449a106bf3485f76fc4269843208eaa30ffa36a2
-Description: Boost safe_numerics module
-Status: install ok half-installed

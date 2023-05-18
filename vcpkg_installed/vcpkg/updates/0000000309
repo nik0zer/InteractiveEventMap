@@ -1,9 +1,0 @@
-Package: boost-gil
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-concept-check, boost-config, boost-container-hash, boost-core, boost-integer, boost-iterator, boost-mp11, boost-preprocessor, boost-type-traits, boost-variant2, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: a95caa6f17c3c323d056854333a48f9578388478639eb8961279fba1bee3c0e5
-Description: Boost gil module
-Status: install ok installed

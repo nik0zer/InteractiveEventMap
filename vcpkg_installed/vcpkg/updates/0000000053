@@ -1,9 +1,0 @@
-Package: boost-yap
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-hana, boost-preprocessor, boost-type-index, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: e42b292375064d617c1313334baf374b233f8b5d39eb9475b799f5d8b1511017
-Description: Boost yap module
-Status: install ok installed

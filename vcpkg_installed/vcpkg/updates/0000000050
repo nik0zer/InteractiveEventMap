@@ -1,9 +1,0 @@
-Package: boost-hana
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-config, boost-core, boost-fusion, boost-mpl, boost-tuple, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 8d736be797514f1ab3eeba54fee2d41ad4c7a6213ac54e8c4a96db20862ea3a9
-Description: Boost hana module
-Status: install ok half-installed

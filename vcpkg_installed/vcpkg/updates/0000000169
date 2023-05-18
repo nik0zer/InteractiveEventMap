@@ -1,9 +1,0 @@
-Package: boost-compute
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-algorithm, boost-array, boost-assert, boost-chrono, boost-config, boost-core, boost-filesystem, boost-function, boost-function-types, boost-fusion, boost-iterator, boost-lexical-cast, boost-mpl, boost-optional, boost-preprocessor, boost-property-tree, boost-proto, boost-range, boost-smart-ptr, boost-static-assert, boost-thread, boost-throw-exception, boost-tuple, boost-type-traits, boost-typeof, boost-utility, boost-uuid, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: fa783b990231f4f0b8b2469754a284c0571b3fd6a0d7c77f7a6fb06be9d76402
-Description: Boost compute module
-Status: install ok installed

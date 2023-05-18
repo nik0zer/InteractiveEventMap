@@ -1,9 +1,0 @@
-Package: boost-assign
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-array, boost-config, boost-core, boost-move, boost-preprocessor, boost-ptr-container, boost-range, boost-static-assert, boost-throw-exception, boost-tuple, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 0d40a383bbb4e542165d8bdfd116e766f761870ef08fe037925cbc3963718108
-Description: Boost assign module
-Status: install ok half-installed

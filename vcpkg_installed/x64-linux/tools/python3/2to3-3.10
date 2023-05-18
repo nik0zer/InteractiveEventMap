@@ -1,5 +1,0 @@
-#!/home/nikozer/KT_project_4sem/InteractiveEventMap/build/vcpkg_installed/x64-linux/tools/python3/bin/python3.10
-import sys
-from lib2to3.main import main
-
-sys.exit(main("lib2to3.fixes"))

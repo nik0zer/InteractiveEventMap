@@ -1,9 +1,0 @@
-Package: boost-align
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-config, boost-core, boost-static-assert, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: f5517fa4602d27c539744e109759895a7ad43c421a3ded994a778da7ee0f6dc1
-Description: Boost align module
-Status: install ok half-installed

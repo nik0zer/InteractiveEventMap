@@ -1,9 +1,0 @@
-Package: boost-any
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-config, boost-core, boost-static-assert, boost-throw-exception, boost-type-index, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 0caa2e8bd383982680c5ec6d5617ed49d765ef0d4b2ce7c2de544dd4133e75c1
-Description: Boost any module
-Status: install ok half-installed

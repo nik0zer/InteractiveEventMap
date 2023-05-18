@@ -1,9 +1,0 @@
-Package: boost-callable-traits
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 7edd864fc7476632ff8b6ca2a8a474851497e8a65ee9b9d8388c7834b3e19c6e
-Description: Boost callable_traits module
-Status: install ok installed

@@ -1,7 +1,0 @@
-Package: boost-iostreams
-Feature: zstd
-Depends: zstd
-Architecture: x64-linux
-Multi-Arch: same
-Description: Support zstd filters
-Status: install ok half-installed

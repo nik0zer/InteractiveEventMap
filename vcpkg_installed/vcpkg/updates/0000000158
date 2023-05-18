@@ -1,9 +1,0 @@
-Package: boost-units
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-config, boost-core, boost-integer, boost-io, boost-lambda, boost-math, boost-mpl, boost-preprocessor, boost-static-assert, boost-type-traits, boost-typeof, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 9ca206902cabd32593d6039bdac35c0b7736092e05d90eb06944dee8ec1362b5
-Description: Boost units module
-Status: install ok half-installed

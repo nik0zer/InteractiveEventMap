@@ -1,9 +1,0 @@
-Package: boost-compatibility
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: a6c67c346a2114c318e170dbce7ca0a242f96fdc93b391f39cc198af403b6255
-Description: Boost compatibility module
-Status: install ok installed

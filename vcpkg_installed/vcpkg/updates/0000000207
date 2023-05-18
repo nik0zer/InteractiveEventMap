@@ -1,9 +1,0 @@
-Package: libuuid
-Version: 1.0.3
-Port-Version: 13
-Depends: vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-linux
-Multi-Arch: same
-Abi: a64bd975448fc139de5ebdc147a77a14eb69e2f1080594cac8289c948552e28f
-Description: Universally unique id library
-Status: install ok installed

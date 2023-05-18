@@ -1,5 +1,0 @@
-#!/home/nikozer/KT_project_4sem/InteractiveEventMap/build/vcpkg_installed/x64-linux/tools/python3/bin/python3.10
-
-import pydoc
-if __name__ == '__main__':
-    pydoc.cli()

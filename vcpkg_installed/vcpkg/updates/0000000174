@@ -1,9 +1,0 @@
-Package: boost-timer
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-build, boost-chrono, boost-config, boost-core, boost-io, boost-modular-build-helper, boost-predef, boost-system, boost-throw-exception, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-linux
-Multi-Arch: same
-Abi: e60a0a824d5adc72724afb69600aa34fff4a7e60d3adec2d0cac17ceb26c7191
-Description: Boost timer module
-Status: install ok half-installed

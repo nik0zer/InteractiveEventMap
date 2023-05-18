@@ -1,9 +1,0 @@
-Package: boost-bimap
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-concept-check, boost-config, boost-container-hash, boost-core, boost-iterator, boost-lambda, boost-mpl, boost-multi-index, boost-preprocessor, boost-static-assert, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 1a9fe392d009357871e4236b28b6d8567b31ee895a34e8e1ab8691938134cefb
-Description: Boost bimap module
-Status: install ok half-installed

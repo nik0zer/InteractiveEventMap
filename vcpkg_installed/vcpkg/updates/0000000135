@@ -1,9 +1,0 @@
-Package: boost-multi-index
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-bind, boost-config, boost-container-hash, boost-core, boost-integer, boost-iterator, boost-move, boost-mpl, boost-preprocessor, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-tuple, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 04578b530ff9f2b7039d05b79d06c15d2d0af4de810d5eb059bf86dd53759da3
-Description: Boost multi_index module
-Status: install ok installed

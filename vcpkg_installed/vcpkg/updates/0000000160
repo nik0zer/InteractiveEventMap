@@ -1,9 +1,0 @@
-Package: boost-logic
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-config, boost-core, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 25dae72ed61b1333ad7c1b31cc8902752b394f349211da6f1cadf7e5af7ed30b
-Description: Boost logic module
-Status: install ok half-installed

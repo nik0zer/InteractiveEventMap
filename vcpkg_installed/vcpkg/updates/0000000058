@@ -1,9 +1,0 @@
-Package: boost-variant
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-bind, boost-config, boost-container-hash, boost-core, boost-detail, boost-integer, boost-move, boost-mpl, boost-preprocessor, boost-static-assert, boost-throw-exception, boost-type-index, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 8188e8b458f37ab9c23be809e55b4a4231dc967758008568a1c20361027000bf
-Description: Boost variant module
-Status: install ok half-installed

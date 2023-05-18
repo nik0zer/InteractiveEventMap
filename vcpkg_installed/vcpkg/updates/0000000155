@@ -1,9 +1,0 @@
-Package: boost-math
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-build, boost-concept-check, boost-config, boost-core, boost-integer, boost-lexical-cast, boost-modular-build-helper, boost-predef, boost-random, boost-static-assert, boost-throw-exception, boost-vcpkg-helpers, vcpkg-cmake
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 7c7903526f6e20f07f1a9217a8e9d0ca7e613610f02886db30e9e8c6838003d5
-Description: Boost math module
-Status: install ok installed

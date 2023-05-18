@@ -1,9 +1,0 @@
-Package: boost-lambda2
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 8063a44c66ae33b379498ae27aee09ea5a9c86de16b7850c9195ce56c1a74f79
-Description: Boost lambda2 module
-Status: install ok installed

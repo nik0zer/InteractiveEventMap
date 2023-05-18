@@ -1,9 +1,0 @@
-Package: boost-phoenix
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-bind, boost-config, boost-core, boost-function, boost-fusion, boost-mpl, boost-predef, boost-preprocessor, boost-proto, boost-range, boost-smart-ptr, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: c0cb3171bb23cdd1d55c19bbe9ef718788e53031b28f2fca0d4f4ec1ef17e158
-Description: Boost phoenix module
-Status: install ok half-installed

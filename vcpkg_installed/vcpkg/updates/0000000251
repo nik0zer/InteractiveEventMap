@@ -1,9 +1,0 @@
-Package: boost-pfr
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 6870ec6cc2ef861a2e4490f23b272180e848c7a46ef539b485fd20563cfedb07
-Description: Boost pfr module
-Status: install ok installed

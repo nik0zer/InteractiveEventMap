@@ -1,9 +1,0 @@
-Package: boost-format
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-config, boost-core, boost-optional, boost-smart-ptr, boost-throw-exception, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: c8efcad07dd0544aeb430d1758a5973e3d9a36503f40ef5d877cc356298793f8
-Description: Boost format module
-Status: install ok half-installed

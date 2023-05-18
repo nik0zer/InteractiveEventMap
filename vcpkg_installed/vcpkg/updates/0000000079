@@ -1,9 +1,0 @@
-Package: boost-optional
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-assert, boost-config, boost-core, boost-detail, boost-move, boost-predef, boost-static-assert, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: fcb95b2d8ae99d5e8b9fffe268f25e23042e622d310573a67c42b7894a29b2e0
-Description: Boost optional module
-Status: install ok installed

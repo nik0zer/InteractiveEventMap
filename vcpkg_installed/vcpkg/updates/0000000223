@@ -1,9 +1,0 @@
-Package: boost-foreach
-Version: 1.82.0
-Port-Version: 1
-Depends: boost-config, boost-core, boost-iterator, boost-mpl, boost-range, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 3986cdc1a71c7ea6f43874e3070b9e7e81678a4275b2cc92635450d295776a9a
-Description: Boost foreach module
-Status: install ok installed
