@@ -11,6 +11,6 @@
 ------------------------------------------------------------------------------------------------------------------------------------------
 # HOW TO BUILD AND RUN:
 ###### to build, launch the root cmake (the presence of the vcpkg submodule is required)
-###### to launch the client, launch InteractiveEventMap_client from the build folder or launch the InteractiveEventMap_client target from cmake
-###### to launch the server, launch InteractiveEventMap_server from the build folder or launch the InteractiveEventMap_server target from cmake
+###### to launch the client, launch InteractiveEventMap_client from the build folder or launch the InteractiveEventMap_client_sql target from cmake
+###### to launch the server, launch InteractiveEventMap_server from the build folder or launch the InteractiveEventMap_server_sql target from cmake
 ------------------------------------------------------------------------------------------------------------------------------------------
